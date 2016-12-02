@@ -1,0 +1,58 @@
+################################
+#      PEPS GROUPE 9           #
+#                              #
+# Lhuillery   Paul             #
+# Rattanatray Ayutaya          #
+# Voong       Kwan             #
+# Ruimy       Benjamin         #
+# Ibakuyumcu  Arnaud           #
+#                              #
+################################
+#                              #
+# Produit Multimonde           #
+#                              #
+################################
+
+---------------- Résumé -------------------
+
+Prix de vente du produit : 100 euros
+
+Ce produit consiste en un fond à formule sur un panier d'indice suivant : 
+Euro Stoxx50; S&P500; Nikkei225; HangSeing; FTSE100; S&P ASX200
+
+Le niveau initiale de ces indices sera pris au 1er octobre 2015.
+
+* Chaque année : 
+	- on regarde les performances de chaque indice par rapport à l'année précédente
+	- on garde la meilleur performance et on l'enregistre dans la limite des -15%;+15%
+	- on supprime l'indice de meilleur performance du panier.
+
+A l'échéance, le porteur de fond reçoit la somme des performances enregistrées.
+
+* Date d'observations : 
+	0) 1er octobre 2015 (valeur initiale)
+	1) 7 octobre 2016
+	2) 13 octobre 2017
+	3) 19 octobre 2018
+	4) 25 octobre 2019
+	5) 30 octobre 2020
+	6) 5 novembre 2021
+
+Le remboursement des porteurs est fixé au 18 novembre 2021
+
+---------------- Avantages / Inconvénients --------------
+
+(Pour le porteur)
+* Avantages : 
+	- A chaque date de constatation on enregistre seulement l'indice ayant le plus performé.
+	- Dans le cas où la meilleur performance a subit une perte de plus de 15% elle sera ramené à -15%
+	- Permet de laisser le temps aux indices ayant besoin de plus de temps pour performer grâce à cette selection 
+	  des meilleurs indices
+	  
+* Inconvénients :
+	- Le capital n'est pas garanti si la somme des performances retenues est négative (perte maximale TRA : -31.30%)
+	  (Allant jusqu'à -90% du capital) 
+	- Les performances positives sont plafonnées à 15%
+	- Le porteur ne bénéficie pas d'une éventuelle bonne performance d'un indice ayant déjà été relevé
+	- Le porteur ne bénéficie pas des dividendes des actions sous-jacents aux indices
+	- Seul les porteurs qui conservent leur part jusqu'à maturité bénéficie de la formule
