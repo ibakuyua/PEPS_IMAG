@@ -3,6 +3,7 @@
 
 
 #include "../SimulationModels/ModelGen.hpp"
+#include "pnl/pnl_matvect.h"
 
 // Pointeur vers une fonction payOff
 typedef double(*PayOffFunction)(PnlMat *path);
