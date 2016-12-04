@@ -7,13 +7,16 @@ find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 message(STATUS "Boost include directory ${Boost_INCLUDE_DIR}")
 
+message(${CMAKE_CURRENT_SOURCE_DIR})
 # Add math lib
 set(LIBS ${LIBS} m)
 
 # Add PNL lib
 include_directories(../../lib/pnlLib/build/include/)
-set(LIBS ${LIBS} ../../lib/pnlLib/build/lib/libpnl.dylib) # A modifier
-
+set(CMAKE_PREFIX_PATH ../../lib/pnlLib/build)
+find_package(Pnl REQUIRED)
+set(LIBS ${LIBS} ${PNL_LIBRARIES})
+include_directories(${PNL_INCLUDE_DIRS})
 # Flags for gcc
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
