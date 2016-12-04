@@ -10,7 +10,7 @@ message(STATUS "Boost include directory ${Boost_INCLUDE_DIR}")
 # Detect PNL
 find_package(Pnl REQUIRED)
 set(LIBS ${LIBS} ${PNL_LIBRARIES})
-include_directories(${PNL_INCLUDE_DIRS})
+include_directories(../../lib/pnlLib/build/include/)
 
 # Add math lib
 set(LIBS ${LIBS} m)
