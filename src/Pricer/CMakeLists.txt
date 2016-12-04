@@ -7,16 +7,17 @@ find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 message(STATUS "Boost include directory ${Boost_INCLUDE_DIR}")
 
-# Detect PNL
-find_package(Pnl REQUIRED)
-set(LIBS ${LIBS} ${PNL_LIBRARIES})
+# Add PNL lib
 include_directories(../../lib/pnlLib/build/include/)
+set(LIBS ${LIBS} ../../lib/pnlLib/build/lib/libpnl.1.7.3.dylib ../../lib/pnlLib/build/lib/libpnl.1.dylib ../../lib/pnlLib/build/lib/libpnl.dylib)
 
 # Add math lib
 set(LIBS ${LIBS} m)
 
+# Flags for gcc
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+# Add source files
 set(SOURCE_FILES test.cpp
         RateModels/ConstantRateModel.cpp RateModels/GamTauxRateModel.cpp RateModels/GamTauxRateModel.hpp
         SimulationModels/ModelGen.cpp
@@ -24,6 +25,8 @@ set(SOURCE_FILES test.cpp
         SimulationModels/SimuIndex/BlackScholesIndexModel.cpp
         Pricing/PricerGen.cpp Pricing/PricerGen.hpp Pricing/MonteCarloPricer.cpp Pricing/MonteCarloPricer.hpp
         Multimonde.cpp Multimonde.hpp Marche.cpp Marche.hpp)
+
+# Add executable
 add_executable(Pricer ${SOURCE_FILES})
 target_link_libraries(Pricer ${LIBS})
 

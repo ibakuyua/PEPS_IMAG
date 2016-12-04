@@ -26,7 +26,7 @@ public:
     /**
      * PayOff
      */
-    double payOff(PnlMat *path);
+    static double payOff(PnlMat *path);
 
 };
 
