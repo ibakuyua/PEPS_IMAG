@@ -9,8 +9,8 @@
 #define SPREAD_DEFAULT 0.02
 #define GAMMA_DEFAULT 0.01
 
-class GamTauxRateModel : RateModelGen {
-private:
+class GamTauxRateModel : public RateModelGen {
+public:
     /**
      * Members
      */
@@ -18,7 +18,6 @@ private:
     double r_inf;
     double spread;
     double gamma;
-public:
     /**
      * Constructor
      */

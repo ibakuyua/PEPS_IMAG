@@ -21,7 +21,7 @@ include_directories(${PNL_INCLUDE_DIRS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Add source files
-set(SOURCE_FILES test.cpp
+set(SOURCE_FILES Tests/Test.cpp
         RateModels/ConstantRateModel.cpp RateModels/GamTauxRateModel.cpp RateModels/GamTauxRateModel.hpp
         SimulationModels/ModelGen.cpp
         SimulationModels/SimuChange/BlackScholesChangeModel.cpp
@@ -29,7 +29,14 @@ set(SOURCE_FILES test.cpp
         Pricing/PricerGen.cpp Pricing/PricerGen.hpp Pricing/MonteCarloPricer.cpp Pricing/MonteCarloPricer.hpp
         Multimonde.cpp Multimonde.hpp Marche.cpp Marche.hpp)
 
-# Add executable
-add_executable(Pricer ${SOURCE_FILES})
-target_link_libraries(Pricer ${LIBS})
+set(RATE_SOURCE_FILES RateModels/ConstantRateModel.cpp RateModels/GamTauxRateModel.cpp)
+# Add executables
+#For RateModelTest
+add_executable(test_gamTauxRateModel.te Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})
+add_executable(test_constantRateModel.te Tests/RateModelsTest/testConstantRateModel.cpp ${RATE_SOURCE_FILES})
+target_link_libraries(test_constantRateModel.te ${LIBS})
+add_executable(CompileAll.te ${SOURCE_FILES})
+target_link_libraries(CompileAll.te ${LIBS})
+add_executable(test.te Tests/Test.cpp)
+target_link_libraries(test.te ${LIBS})
 

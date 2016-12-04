@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdexcept>
 #include "GamTauxRateModel.hpp"
 
 
@@ -14,6 +15,8 @@ double GamTauxRateModel::G1(double T) const {
 double GamTauxRateModel::G2(double T) const {
     double res = (1. - exp(-a * T));
     res *= res;
+    if (T == 0.)
+        throw std::domain_error("Maturité du taux doit être > 0");
     res /= 4 * a *T;
     return res;
 }

@@ -6,13 +6,12 @@
 
 #define FRR_DEFAULT 0.02
 
-class ConstantRateModel : RateModelGen {
-private:
+class ConstantRateModel : public RateModelGen {
+public:
     /**
      * Members
      */
     double parameter;
-public:
     /**
      * Constructors
      */
