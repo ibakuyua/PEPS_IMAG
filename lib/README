@@ -1,0 +1,9 @@
+Comment utiliser la librairie dans le projet ?
+
+---> Aller dans pnllib/build
+     Faire un rm -rf ./*
+     Faire cmake ..
+     Faire make install
+     Faire make
+
+---> Maintenant la librairie pnl apparait dans cLion et cmake compile sans mettre CMAKE_PREFIX_PATH dans les arguments
