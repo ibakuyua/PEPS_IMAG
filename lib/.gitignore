@@ -42,3 +42,4 @@ install_manifest.txt
 CMakeCache.txt
 build*
 .clang_complete
+pnllib/*
