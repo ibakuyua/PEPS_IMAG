@@ -5,6 +5,6 @@ using namespace std;
 
 int main(){
 
-    cout << "\nBonjour ça marche\n";
+    cout << "\nBonjour ça marche\n\n";
     return EXIT_SUCCESS;
 }
