@@ -1,7 +1,7 @@
 #include "PricerGen.hpp"
 
 
-PricerGen::PricerGen(ModelGen *simuIndex, ModelGen *simuChange)
-        : simuIndexModel(simuIndex), simuChangeModel(simuChange)
+PricerGen::PricerGen(double theMaturity, PayOffFunction thePayOff)
+        : maturity(theMaturity), payOff(thePayOff)
 {
 }

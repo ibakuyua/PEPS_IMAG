@@ -21,6 +21,11 @@ int main(){
     }
     assert(rateModel->GetRate(2) == 0.02);
     cout << "\n\n --> \033[1;34m [CHECK]\033[0m\n";
+    cout << "\n\n3) Intégrale de 2 à 4 : ";
+    double res = rateModel->GetIntegralRate(2,4);
+    cout << res;
+    assert(res == 2 * 0.02);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "\n\n##### FIN DU TEST #####\n\n";
     return EXIT_SUCCESS;
 }

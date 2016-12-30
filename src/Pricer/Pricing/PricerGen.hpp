@@ -13,19 +13,19 @@ public:
     /**
      * Members
      */
-    ModelGen *simuIndexModel;
-    ModelGen *simuChangeModel;
+    double maturity; /**< Maturity of the instrument to price */
+    PayOffFunction payOff; /**< The payOff of the instrument */
 
     /**
      * Constructor
      */
-    PricerGen(ModelGen *simuIndex, ModelGen *simuChange);
+    PricerGen(double maturity, PayOffFunction payOff);
 
     /**
      * Virtual methods
      */
-    virtual void price(double t, PnlMat *past, double &price, double &ic, PayOffFunction payOff) const = 0;
-    virtual void delta(double t, PnlMat *past, PnlVect *delta, PayOffFunction payOff) const = 0;
+    virtual void price(double t, PnlMat *past, double &price, double &ic) const = 0;
+    virtual void delta(double t, PnlMat *past, PnlVect *delta) const = 0;
 
 };
 

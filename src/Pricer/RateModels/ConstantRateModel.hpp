@@ -20,6 +20,8 @@ public:
      * Implement virtual function
      */
     double GetRate(double maturity) const;
+
+    virtual double GetIntegralRate(double t, double maturity) const;
 };
 
 

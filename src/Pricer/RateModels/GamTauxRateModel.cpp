@@ -24,3 +24,9 @@ double GamTauxRateModel::G2(double T) const {
 double GamTauxRateModel::GetRate(double maturity) const {
     return r_inf - spread * G1(maturity) + gamma * G2(maturity);
 }
+
+
+double GamTauxRateModel::GetIntegralRate(double t, double maturity) const {
+    // TODO calculer l'intégral et l'implémenter
+    return 0;
+}

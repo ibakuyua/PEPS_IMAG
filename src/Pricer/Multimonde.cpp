@@ -15,7 +15,7 @@ void Multimonde::PricePortfolio(double t, double &price) {
 void Multimonde::PriceMultimonde(double t, double &price, double &ic) {
     PnlMat *past;
     //past = Marche.GetPast(t);
-    pricer->price(t, past, price, ic, Multimonde::payOff);
+    pricer->price(t, past, price, ic);
 }
 
 void Multimonde::MAJPortfolio() {

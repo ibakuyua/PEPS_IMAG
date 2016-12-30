@@ -32,6 +32,8 @@ public:
      */
     double G1(double T) const;
     double G2(double T) const;
+
+    virtual double GetIntegralRate(double t, double maturity) const;
 };
 
 

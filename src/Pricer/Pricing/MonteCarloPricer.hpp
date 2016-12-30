@@ -5,24 +5,38 @@
 
 #define NB_SAMPLE_DEFAULT 40000
 
-class MonteCarloPricer : PricerGen{
+class MonteCarloPricer : public PricerGen{
 public:
     /**
      * Members
      */
-    int nbSample;
+    ModelGen *simuIndexModel; /**< To simulate Indexes */
+    ModelGen *simuChangeModel; /**< To simulate change */
+    int nbSample; /**< Number of sample for the monte carlo method */
 
     /**
      * Constructor
      */
-    MonteCarloPricer(ModelGen *simuIndex, ModelGen *simuChange, int nbSample = NB_SAMPLE_DEFAULT);
+    MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample = NB_SAMPLE_DEFAULT);
 
     /**
      * Overriding methods
      */
-    void price(double t, PnlMat *past, double &price, double &ic, PayOffFunction payOff) const;
+    void price(double t, PnlMat *past, double &price, double &ic) const;
 
-    void delta(double t, PnlMat *past, PnlVect *delta, PayOffFunction payOff) const;
+    void delta(double t, PnlMat *past, PnlVect *delta) const;
+
+    /**
+     * Private method
+     */
+private:
+    /**
+     * To simulate the payOff
+     *
+     * @param[in] past : the past values of underlying assets
+     * @pram[in] t : actual time
+     */
+    double payOffSimulation(PnlMat *past, double t) const;
 };
 
 

@@ -33,5 +33,5 @@ add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testCon
 target_link_libraries(test_constantRateModel.te ${LIBS})
 
 # Pour dégriser les fichiers.cpp
-add_executable(test.te src/Pricer/Tests/Test.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
-target_link_libraries(test.te ${LIBS})
+add_executable(testMultimonde.te src/Pricer/Tests/testMultimonde.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
+target_link_libraries(testMultimonde.te ${LIBS})
