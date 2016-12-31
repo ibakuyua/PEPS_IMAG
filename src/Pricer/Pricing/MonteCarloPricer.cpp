@@ -14,8 +14,8 @@ MonteCarloPricer::MonteCarloPricer(double maturity, PayOffFunction payOff, Model
 void MonteCarloPricer::price(double t, PnlMat *past, double &price, double &ic) const {
 
     // TODO : question si r est stochastique ?
-    double r_T = simuChangeModel->rateModel->GetRate(maturity);
-    double discountFactor = exp(-simuChangeModel->rateModel->GetIntegralRate(t,maturity));
+    double r_T = simuIndexModel->rateModel->GetRate(maturity);
+    double discountFactor = exp(-simuIndexModel->rateModel->GetIntegralRate(t,maturity));
 
     double estimation, espEstimation = 0, varEstimation = 0;
 

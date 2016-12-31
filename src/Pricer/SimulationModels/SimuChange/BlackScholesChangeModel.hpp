@@ -4,7 +4,7 @@
 
 #include "../ModelGen.hpp"
 
-class BlackScholesChangeModel : ModelGen{
+class BlackScholesChangeModel : public ModelGen{
     // TODO
 };
 

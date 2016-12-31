@@ -24,17 +24,18 @@ public:
     /**
      * Constructor
      */
-    ModelGen(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility);
+    ModelGen(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, RateModelGen *rateModel);
 
     /**
      * Virtual methods
      */
     virtual void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) = 0;
+    virtual void Simulate(double maturity, PnlMat *path, int stepNb) = 0;
 
     /**
      * Destructor
      */
-    ~ModelGen();
+    virtual ~ModelGen();
 };
 
 
