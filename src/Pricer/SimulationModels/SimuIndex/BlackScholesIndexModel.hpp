@@ -19,7 +19,7 @@ public:
     /**
      * Overriding virtual method
      */
-    void Simulate(double t, double maturity, PnlMat *path, PnlMat *past, int stepNb);
+    void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb);
 };
 
 

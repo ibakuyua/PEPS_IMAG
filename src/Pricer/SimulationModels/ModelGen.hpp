@@ -29,7 +29,7 @@ public:
     /**
      * Virtual methods
      */
-    virtual void Simulate(double t, double maturity, PnlMat *path, PnlMat *past, int stepNb) = 0;
+    virtual void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) = 0;
 
     /**
      * Destructor

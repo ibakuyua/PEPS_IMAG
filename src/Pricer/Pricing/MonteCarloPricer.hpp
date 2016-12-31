@@ -4,6 +4,7 @@
 #include "PricerGen.hpp"
 
 #define NB_SAMPLE_DEFAULT 40000
+#define NB_TIME_STEP_DEFAULT 10000
 
 class MonteCarloPricer : public PricerGen{
 public:
@@ -13,11 +14,14 @@ public:
     ModelGen *simuIndexModel; /**< To simulate Indexes */
     ModelGen *simuChangeModel; /**< To simulate change */
     int nbSample; /**< Number of sample for the monte carlo method */
+    int nbTimeStep; /**< Number of time step for the simulation*/
+    PnlMat *path; /**< path for simulation : allocated just one time */
 
     /**
-     * Constructor
+     * Constructor / Destructor
      */
-    MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample = NB_SAMPLE_DEFAULT);
+    MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample = NB_SAMPLE_DEFAULT, int nbTimeStep = NB_TIME_STEP_DEFAULT);
+    virtual ~MonteCarloPricer();
 
     /**
      * Overriding methods
@@ -26,17 +30,6 @@ public:
 
     void delta(double t, PnlMat *past, PnlVect *delta) const;
 
-    /**
-     * Private method
-     */
-private:
-    /**
-     * To simulate the payOff
-     *
-     * @param[in] past : the past values of underlying assets
-     * @pram[in] t : actual time
-     */
-    double payOffSimulation(PnlMat *past, double t) const;
 };
 
 

@@ -1,12 +1,14 @@
 #include "MonteCarloPricer.hpp"
 
 
-MonteCarloPricer::MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample)
+MonteCarloPricer::MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample, int nbTimeStep)
         : PricerGen(maturity, payOff)
 {
     this->nbSample = nbSample;
     this->simuChangeModel = simuChange;
     this->simuIndexModel = simuIndex;
+    this->nbTimeStep = nbTimeStep;
+    this->path = pnl_mat_create_from_zero(nbTimeStep+1,6);
 }
 
 void MonteCarloPricer::price(double t, PnlMat *past, double &price, double &ic) const {
@@ -18,7 +20,8 @@ void MonteCarloPricer::price(double t, PnlMat *past, double &price, double &ic) 
     double estimation, espEstimation = 0, varEstimation = 0;
 
     for (int m = 0; m < nbSample; ++m) {
-        estimation = payOffSimulation(past, t);
+        simuIndexModel->Simulate(t,maturity,path,past,nbTimeStep);
+        estimation = payOff(path);
         espEstimation += estimation;
         varEstimation += estimation * estimation;
     }
@@ -34,6 +37,6 @@ void MonteCarloPricer::delta(double t, PnlMat *past, PnlVect *delta) const {
     // TODO
 }
 
-double MonteCarloPricer::payOffSimulation(PnlMat *past, double t) const {
-    return 0;
+MonteCarloPricer::~MonteCarloPricer() {
+    pnl_mat_free(&path);
 }

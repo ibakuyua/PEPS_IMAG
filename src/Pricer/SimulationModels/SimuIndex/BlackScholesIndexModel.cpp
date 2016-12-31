@@ -7,7 +7,7 @@ BlackScholesIndexModel::BlackScholesIndexModel(int assetNb, PnlVect *spot, PnlVe
     this->choleskyCorr = choleskyCorr;
 }
 
-void BlackScholesIndexModel::Simulate(double t, double maturity, PnlMat *path, PnlMat *past, int stepNb) {
+void BlackScholesIndexModel::Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) {
 // TODO
 }
 

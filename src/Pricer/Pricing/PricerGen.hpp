@@ -17,9 +17,10 @@ public:
     PayOffFunction payOff; /**< The payOff of the instrument */
 
     /**
-     * Constructor
+     * Constructor / Destructor
      */
     PricerGen(double maturity, PayOffFunction payOff);
+    virtual ~PricerGen();
 
     /**
      * Virtual methods
