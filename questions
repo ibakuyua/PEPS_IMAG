@@ -1,5 +1,24 @@
 Questions : 
 
+pourquoi le prix est trop élevé ?
+###### TEST OF THE MULTIMONDE PRICER ######
+
+** Instance :  -->  [CHECK]
+
+
+
+--> Price : 134.203
+--> Ic : 0.225137
+
+** Delete :  -->  [CHECK]
+
+########################################
+
+
+real	7m0.110s
+user	6m31.844s
+sys	0m25.602s
+
 Partie Statistique :
 
 --> Estimation des rendements : quel modèle ? 
