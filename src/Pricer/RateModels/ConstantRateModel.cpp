@@ -12,3 +12,7 @@ double ConstantRateModel::GetRate(double maturity) const {
 double ConstantRateModel::GetIntegralRate(double t, double maturity) const {
     return (maturity - t) * parameter;
 }
+
+
+ConstantRateModel::~ConstantRateModel() {
+}

@@ -7,6 +7,7 @@ public:
     /**
      * Abstract methods
      */
+    virtual ~RateModelGen(){};
     /**
      * Permit to get the rate for a certain maturity
      *

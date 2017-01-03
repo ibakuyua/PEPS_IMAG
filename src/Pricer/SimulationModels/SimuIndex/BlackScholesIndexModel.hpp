@@ -17,7 +17,7 @@ public:
     /**
      * Constructor / Destructor
      */
-    BlackScholesIndexModel(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, PnlMat *choleskyCorr, RateModelGen *rateModel);
+    BlackScholesIndexModel(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, PnlMat *choleskyCorr, RateModelGen **rateModel);
     virtual ~BlackScholesIndexModel();
 
     /**

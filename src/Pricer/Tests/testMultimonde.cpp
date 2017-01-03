@@ -9,18 +9,18 @@
 
 using namespace std;
 
-void setParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat **choleskyCorr);
+void setParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat **choleskyCorr, RateModelGen ***rateModels);
+void freeParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat **choleskyCorr, RateModelGen ***rateModels);
 
 int main(){
 
     cout << "\n\n###### TEST OF THE MULTIMONDE PRICER ######\n\n";
     cout << "** Instance : ";
-    double frr = 0.03;
-    RateModelGen *constRate = new ConstantRateModel(frr);
+    RateModelGen **rateModels;
     PnlVect *spot, *trend, *volatility;
     PnlMat *choleskyCorr;
-    setParameters(&spot,&trend,&volatility,&choleskyCorr);
-    ModelGen *simuIndex = new BlackScholesIndexModel(6,spot, trend, volatility, choleskyCorr, constRate);
+    setParameters(&spot,&trend,&volatility,&choleskyCorr, &rateModels);
+    ModelGen *simuIndex = new BlackScholesIndexModel(6,spot, trend, volatility, choleskyCorr, rateModels);
     ModelGen *simuChange;
     int nbSample = 50000;
     int nbTimeStep = 100;
@@ -31,25 +31,26 @@ int main(){
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     double price, ic;
+    cout << "Computing price ...\n";
     multimonde->PriceMultimonde(0, price, ic);
-    cout << "\n\n--> Price : " << price;
+    cout << "\n--> Price : " << price;
     cout << "\n--> Ic : " << ic;
     // Free
     cout << "\n\n** Delete : ";
     delete multimonde;
     delete pricer;
-    pnl_vect_free(&spot);
-    pnl_vect_free(&trend);
-    pnl_vect_free(&volatility);
-    pnl_mat_free(&choleskyCorr);
+    freeParameters(&spot,&trend,&volatility,&choleskyCorr,&rateModels);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     cout << "########################################\n\n";
     return EXIT_SUCCESS;
 }
 
-void setParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat **choleskyCorr){
+void setParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat **choleskyCorr, RateModelGen ***rateModels){
     // TODO : Peut être faire des méthodes venant de multimonde
+    *rateModels = (RateModelGen**) malloc(6* sizeof(RateModelGen*));
+    for (int d = 0; d < 6; ++d)
+        (*rateModels)[d] = new ConstantRateModel(0.03);
     *spot = pnl_vect_create(6);
     PNL_SET(*spot,0,SPOT_FTSE);
     PNL_SET(*spot,1,SPOT_P500);
@@ -89,4 +90,14 @@ void setParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat
                 PNL_MSET(*choleskyCorr, j, i, PNL_MGET(*choleskyCorr, i, j));
         }
     pnl_mat_chol(*choleskyCorr);
+}
+void freeParameters(PnlVect **spot, PnlVect **trend, PnlVect **volatility, PnlMat **choleskyCorr, RateModelGen ***rateModels){
+    pnl_vect_free(spot);
+    pnl_vect_free(trend);
+    pnl_vect_free(volatility);
+    pnl_mat_free(choleskyCorr);
+    for (int i = 0; i < 6; ++i) {
+        delete (*rateModels)[i];
+    }
+    delete *rateModels;
 }

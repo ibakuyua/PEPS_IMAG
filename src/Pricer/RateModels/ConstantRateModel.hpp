@@ -13,9 +13,10 @@ public:
      */
     double parameter;
     /**
-     * Constructors
+     * Constructors / Destructor
      */
     ConstantRateModel(double theFRR = FRR_DEFAULT);
+    ~ConstantRateModel();
     /**
      * Implement virtual function
      */
