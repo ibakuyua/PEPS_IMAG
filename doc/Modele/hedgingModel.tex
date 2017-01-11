@@ -148,7 +148,7 @@ Dans l'univers risque neutre les sous-jacents ont la dynamique suivante :
 \end{itemize}
 Où on pose : 
 \begin{itemize}[label=$\bullet$]
-\item $B$ un MB de dimension $6$ sous la proba risque neutre
+\item $B$ un MB de dimension $12$ sous la proba risque neutre
 \item $r_i$ la courbe de taux sans risque dans la devise $i$
 \item $\lambda_i$ la prime de risque dans l'économie $i$
 \end{itemize}
@@ -156,12 +156,12 @@ Où on pose :
 \underline{Pour les $r_i$ :} il faut trouver un modèle déterministe pour la courbe des taux et estimer les paramètres de ce modèles. \\
 
 \underline{Pour les $\sigma$ :} on utilise les log-rendements historiques. \\
-En effet, posons $\sigma$ la matrice de volatilité du marché. Les modèles mis en place entrainent que le prix d'un sous-jacent est de la forme (proba historique) : 
+En effet, posons $\sigma$ la matrice $12x12$ de volatilité du marché. Les modèles mis en place entrainent que le prix d'un sous-jacent est de la forme (proba historique) : 
 \begin{center}
-$I_i(t+1)=I_i(t)e^{\int\limits_t^{t+1}\mu_i(s)ds - \frac{\sigma_i^2}{2} + \sigma_i.\varepsilon(t)}$ où $\varepsilon\sim(iid)\mathcal{N}_6(0,1)$
+$Z_i(t+1)=Z_i(t)e^{\int\limits_t^{t+1}\mu_i(s)ds - \frac{\sigma_i^2}{2} + \sigma_i.\varepsilon(t)}$ où $\varepsilon\sim(iid)\mathcal{N}_{12}(0,1)$
 \end{center}
-Le log-rendement entre deux périodes est donc : $R_i(t)=ln\left[\frac{I_i(t+1)}{I_i(t)}\right] = \int\limits_t^{t+1}\mu_i(s)ds - \frac{\sigma_i^2}{2} + \sigma_i.\varepsilon(t)$ \\[2mm]
-Avec $\sigma_i$ est la $i$-ème ligne de $\sigma$ et $\sigma_i^2=\sum\limits_{k=1}^6\sigma_{ik}^2$ \\[2mm]
+Le log-rendement entre deux périodes est donc : $R_i(t)=ln\left[\frac{Z_i(t+1)}{Z_i(t)}\right] = \int\limits_t^{t+1}\mu_i(s)ds - \frac{\sigma_i^2}{2} + \sigma_i.\varepsilon(t)$ \\[2mm]
+Avec $\sigma_i$ est la $i$-ème ligne de $\sigma$ et $\sigma_i^2=\sum\limits_{k=1}^{12}\sigma_{ik}^2$ \\[2mm]
 $\Rightarrow$ En particulier on tire 
 \begin{center}
 $CoVar[R_i(t),R_j(t)] = (\sigma\sigma^T)_{ij}$
@@ -224,10 +224,11 @@ Dans l'univers risque neutre les sous-jacents ont la dynamique suivante :
 \end{itemize}
 Où on pose : 
 \begin{itemize}[label=$\bullet$]
-\item $B$ un MB de dimension $6$ sous la proba risque neutre
+\item $B$ un MB de dimension $12$ sous la proba risque neutre
 \item $r_i$ la courbe de taux sans risque dans la devise $i$
 \item $\lambda_i$ la prime de risque dans l'économie $i$
 \end{itemize}
+L'intérêt de ce modèle est que tout est simulé en proba risque neutre domestique.
 \subsubsection{Estimation des paramètres}
 Les paramètres s'estiment de la même façon. Bien evidemment on estimera directement $\sigma_i$ plutôt que $\sigma^X_i$ et $\sigma^I_i$ séparément. 
 \subsection{Portefeuille de couverture}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.4)  11 JAN 2017 16:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2016.1.4)  11 JAN 2017 16:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -731,12 +731,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 156--157
  []
 
 [2] [3] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 266.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 267.
  [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 266.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 267.
  (./hedgingModel.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 266.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 266.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 267.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 267.
 Package rerunfilecheck Info: File `hedgingModel.out' has not changed.
 (rerunfilecheck)             Checksum: 9051E6CCAA0612C736B65F670EA51C15;1199.
  ) 
@@ -761,7 +761,7 @@ ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
 l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 /texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on hedgingModel.pdf (6 pages, 211074 bytes).
+Output written on hedgingModel.pdf (6 pages, 211522 bytes).
 PDF statistics:
  174 PDF objects out of 1000 (max. 8388607)
  149 compressed objects within 2 object streams
