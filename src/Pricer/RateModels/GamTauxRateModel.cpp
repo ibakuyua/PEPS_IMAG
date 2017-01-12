@@ -30,3 +30,7 @@ double GamTauxRateModel::GetIntegralRate(double t, double maturity) const {
     // TODO calculer l'intégral et l'implémenter
     return 0;
 }
+
+
+GamTauxRateModel::~GamTauxRateModel() {
+}

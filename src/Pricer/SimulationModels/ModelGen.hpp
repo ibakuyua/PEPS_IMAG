@@ -19,12 +19,12 @@ public:
     PnlVect *volatility;
     PnlRng *rng;
 
-    RateModelGen *rateModel;
+    RateModelGen **rateModels; // List of rateModel (one for each asset)
 
     /**
      * Constructor
      */
-    ModelGen(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, RateModelGen *rateModel);
+    ModelGen(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, RateModelGen **rateModel);
 
     /**
      * Virtual methods

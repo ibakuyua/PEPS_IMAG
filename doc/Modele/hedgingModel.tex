@@ -1,0 +1,267 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX Generator 
+
+% Créé par Arnaud Ibakuyumcu
+% ENSIMAG 2A IF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ \documentclass[a4paper,12pt]{article}
+
+ %---Package Generique ---% 
+
+ \usepackage[francais]{babel}
+ \usepackage[utf8]{inputenc}
+ \usepackage[babel=true]{csquotes}
+ \usepackage{amsmath}
+ \usepackage{amssymb}
+ \usepackage{hyperref}
+ \usepackage{float}
+ \usepackage{graphicx}
+ \usepackage{enumitem} %% Pour changer les puces des enum
+ \graphicspath{{}}
+
+ \usepackage{fancybox} %% Pour les encadrés : Usage \shadowbox{}
+ \usepackage{fancyhdr} %% Pour les en-tetes et pieds
+ \usepackage{array,multirow,makecell} %% Pour les tableaux à lignes fusionnées
+ \setcellgapes{1pt}
+ \makegapedcells
+
+ %--- Partie Page de Code ---%
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+%--- Definir les reglages ---%
+\lstset{frame=tb,
+language=C++,
+aboveskip=3mm,
+belowskip=3mm,
+showstringspaces=false,
+columns=flexible,
+basicstyle={\small\ttfamily},
+numbers=none,
+numberstyle=\tiny\color{gray},
+keywordstyle=\color{blue},
+commentstyle=\color{dkgreen},
+stringstyle=\color{mauve},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=3
+}
+
+ %--- Structure de la page ---%
+
+ \topmargin -1.5 cm
+ \textwidth 18 cm
+ \textheight 25 cm
+ \oddsidemargin -1 cm
+ \marginparwidth -1 cm
+ \evensidemargin -1 cm
+ \parindent 0 cm
+
+ \pagestyle{fancy}
+ \renewcommand{\headrulewidth}{1pt}
+ \fancyhead[C]{}
+ \fancyhead[R]{Ibakuyumcu Arnaud}
+ \fancyhead[L]{PEPS : Multimonde21}
+
+ \renewcommand{\footrulewidth}{1pt}
+ \fancyfoot[C]{ENSIMAG}
+ \fancyfoot[L]{}
+ \fancyfoot[R]{\textbf{Page : \thepage}}
+
+ %---Raccourci Commande---%
+
+ \newcommand{\R}{\mathbb{R}}
+ \newcommand{\N}{\mathbb{N}}
+ \newcommand{\A}{\mathbf{A}}
+ \newcommand{\B}{\mathbf{B}}
+ \newcommand{\C}{\mathbf{C}}
+ \newcommand{\D}{\mathbf{D}}
+ \newcommand{\ub}{\mathbf{u}}
+ \newcommand{\vs}{{\bf : } \vspace*{3mm} \\}
+ \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} %% Pour la page de garde
+
+ %--- Debut du document ---% 
+
+ \begin{document}
+
+\begin{titlepage}
+\begin{center}
+
+\includegraphics[width=0.35\textwidth]{logo}~\\[2.5cm] %% Modifier les réglages
+
+\textsc{\LARGE ENSIMAG}\\[1.5cm]
+\textsc{\Large }\\[0.5cm]
+
+%Title
+\HRule \\[0.4cm]
+
+{\huge \bfseries PEPS : Multimonde21\\[0.5cm]
+Modèles Mathématiques\\[0.4cm] }
+
+\HRule \\[1.5cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{center} \large
+\emph{IF MeQA}\\[2cm]
+Ibakuyumcu Arnaud
+\end{center}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\end{minipage}
+
+\vfill
+
+\large {09/01/2017 }
+
+\end{center}
+
+\end{titlepage}
+ \newpage
+
+ %---Sommaire---%
+
+ \tableofcontents %Compiler deux fois pour avoir la table des matières
+ \newpage
+
+ %--- Commencer a ecrire ici ---% 
+
+\section{Modèle 1 : simulation inter-économie}
+Ce premier modèle consiste à ne pas se préoccuper du changement de devise lors du calcul du prix. \\
+En effet, le pay-off du produit multi-monde ne fait intervenir que les performances d'indice, supprimant l'unité de devise étrangère pour chaque indice.
+\subsection{Sous-jacents et simulation}
+\subsubsection{Les sous-jacents}
+Les sous jacents pour ce modèle sont : 
+\begin{itemize}[label=$\star$]
+\item Les indices dans leur devise $I_1,\ldots,I_6$
+\item Les taux de change vers euro de chaque indice $X_1,\ldots,X_6$
+\end{itemize}
+Par convention $i=1$ correspond à la devise euro (donc à l'indice Euronext) et $X_1=1$
+\subsubsection{Modèle de simulation}
+Dans l'univers risque neutre les sous-jacents ont la dynamique suivante : 
+\begin{itemize}[label=$\star$]
+\item $\left(\forall i\in\{1,\ldots,6\}\right) \frac{dI_i(t)}{I_i(t)}=r_i(t)dt + \sigma_i.dB(t)$
+\item $\left(\forall i\in\{1,\ldots,6\}\right) \frac{dX_i(t)}{X_i(t)}=((r_1(t)-r_i(t))dt+\sigma^X_i.dB(t)$ avec $\sigma^X_i= \lambda_1-\lambda_i$
+\end{itemize}
+Où on pose : 
+\begin{itemize}[label=$\bullet$]
+\item $B$ un MB de dimension $12$ sous la proba risque neutre
+\item $r_i$ la courbe de taux sans risque dans la devise $i$
+\item $\lambda_i$ la prime de risque dans l'économie $i$
+\end{itemize}
+\subsubsection{Estimation des paramètres}
+\underline{Pour les $r_i$ :} il faut trouver un modèle déterministe pour la courbe des taux et estimer les paramètres de ce modèles. \\
+
+\underline{Pour les $\sigma$ :} on utilise les log-rendements historiques. \\
+En effet, posons $\sigma$ la matrice $12x12$ de volatilité du marché. Les modèles mis en place entrainent que le prix d'un sous-jacent est de la forme (proba historique) : 
+\begin{center}
+$Z_i(t+1)=Z_i(t)e^{\int\limits_t^{t+1}\mu_i(s)ds - \frac{\sigma_i^2}{2} + \sigma_i.\varepsilon(t)}$ où $\varepsilon\sim(iid)\mathcal{N}_{12}(0,1)$
+\end{center}
+Le log-rendement entre deux périodes est donc : $R_i(t)=ln\left[\frac{Z_i(t+1)}{Z_i(t)}\right] = \int\limits_t^{t+1}\mu_i(s)ds - \frac{\sigma_i^2}{2} + \sigma_i.\varepsilon(t)$ \\[2mm]
+Avec $\sigma_i$ est la $i$-ème ligne de $\sigma$ et $\sigma_i^2=\sum\limits_{k=1}^{12}\sigma_{ik}^2$ \\[2mm]
+$\Rightarrow$ En particulier on tire 
+\begin{center}
+$CoVar[R_i(t),R_j(t)] = (\sigma\sigma^T)_{ij}$
+\end{center}
+\newpage
+Un estimateur classique de $(\sigma\sigma^T)_{ij}$ est donc
+\begin{center}
+ $\overset{\wedge}{C}_{ij}=\frac{1}{T-1}\sum\limits_{t=1}^T\left(\left(R_i(t)-\overline{R}_i\right)\left(R_j(t)-\overline{R}_j\right)\right)$ où $\overline{R}_i=\frac{1}{T}\sum\limits_{t=1}^TR_i(t)$
+ \end{center}
+ On obtient alors qu'un estimateur de $\sigma$ est $Cholesky(\overset{\wedge}{C})$.
+\subsection{Portefeuille de couverture}
+On note dans la suite $B_i$ l'actif sans risque de l'économie $i$ (c'est à dire le zéro-coupon de maturité $T$) \\[1mm]
+La composition (et le prix en euro) du portefeuille de couverture est : 
+\begin{center}
+$P_{couv}=X_1(\Delta_{I_1}I_1)+\ldots+X_6(\Delta_{I_6}I_6)+\Delta_{B_1}(X_1B_1)+\ldots+\Delta_{B_6}(X_6B_6)$
+\end{center}
+\subsection{Prix du produit}
+Comme évoqué plus haut, le prix ne dépend pas des devises utilisées dans l'économie de l'indice étudié. \\
+Le prix est donc : 
+\begin{center}
+$Prix^{euro}=f(I_1(t),\ldots,I_6(t);t)$
+\end{center}
+\subsection{Calcul des deltas}
+La couverture demande $\nabla P_{couv}=\nabla f$ soit $\left(\forall i\in\{1,\ldots,6\}\right)$ : 
+\begin{center}
+\begin{tabular}{cl}
+& $ \begin{cases}
+\frac{\partial P_{couv}}{\partial I_i} = \frac{\partial f}{\partial I_i} \\
+\frac{\partial P_{couv}}{\partial X_i} = 0
+\end{cases}
+$ \\[2mm]
+$\Leftrightarrow$ & $ \begin{cases}
+X_i\Delta_{I_i} = \frac{\partial f}{\partial I_i} \\
+\Delta_{I_i}I_i+B_i\Delta_{B_i} = 0
+\end{cases}
+$ \\[1mm]
+$\Leftrightarrow$ & $ \begin{cases}
+\Delta_{I_i} = \frac{1}{X_i}\frac{\partial f}{\partial I_i} \\
+\Delta_{B_i} = -\frac{\Delta_{I_i}I_i}{B_i}
+\end{cases}
+$
+\end{tabular}
+\end{center}
+\newpage
+\section{Modèle 2 : simulation globale}
+Pour ce modèle, on utilisera la simulation des indices en devise domestique (euro). 
+\subsection{Sous-jacents et simulation}
+\subsubsection{Les sous-jacents}
+Les sous jacents pour ce modèle sont : 
+\begin{itemize}[label=$\star$]
+\item Les indices dans la devise euro $Y_1=X_1I_1,\ldots,Y_6=X_6I_6$
+\item Les taux de change vers euro de chaque économie $X_1,\ldots,X_6$
+\end{itemize}
+Par convention $i=1$ correspond à la devise euro (donc à l'indice Euronext) et $X_1=1$
+\subsubsection{Modèle de simulation}
+Dans l'univers risque neutre les sous-jacents ont la dynamique suivante : 
+\begin{itemize}[label=$\star$]
+\item $\left(\forall i\in\{1,\ldots,6\}\right) \frac{dY_i(t)}{Y_i(t)}=r_1(t)dt + \sigma_i.dB(t)$ avec $\sigma_i=\sigma^X_i+\sigma^I_i$
+\item $\left(\forall i\in\{1,\ldots,6\}\right) \frac{dX_i(t)}{X_i(t)}=((r_1(t)-r_i(t))dt+\sigma^X_i.dB(t)$ avec $\sigma^X_i= \lambda_1-\lambda_i$
+\end{itemize}
+Où on pose : 
+\begin{itemize}[label=$\bullet$]
+\item $B$ un MB de dimension $12$ sous la proba risque neutre
+\item $r_i$ la courbe de taux sans risque dans la devise $i$
+\item $\lambda_i$ la prime de risque dans l'économie $i$
+\end{itemize}
+L'intérêt de ce modèle est que tout est simulé en proba risque neutre domestique.
+\subsubsection{Estimation des paramètres}
+Les paramètres s'estiment de la même façon. Bien evidemment on estimera directement $\sigma_i$ plutôt que $\sigma^X_i$ et $\sigma^I_i$ séparément. 
+\subsection{Portefeuille de couverture}
+Le portefeuille de couverture est bien evidemment constitué des mêmes quantités de sois-jacent que précédemment.
+\subsection{Prix du produit}
+Ici, le prix du produit fait intervenir les devises étrangères. Pour calculer le pay-off avec les simulations de $Y_i=X_iI_i$ on use de la formule suivante pour les performances : 
+\begin{center}
+$\frac{I_n-I_0}{I_0}=\frac{\frac{Y_n}{X_n}-\frac{Y_0}{X_0}}{\frac{Y_0}{X_0}}=\frac{\frac{X_0}{X_n}Y_n-Y_0}{Y_0}$
+\end{center}
+Ainsi, le prix est donc fonction des devises aussi : 
+\begin{center}
+$Prix = g(Y_1(t),\ldots,Y_n(t)\;;\;X_1(t),\ldots,X_n(t)\;;\;t)$
+\end{center}
+\newpage
+\subsection{Calcul des deltas}
+La couverture demande toujours $\nabla P_{couv}=\nabla f$ soit $\left(\forall i\in\{1,\ldots,6\}\right)$ : 
+\begin{center}
+\begin{tabular}{cl}
+& $ \begin{cases}
+\frac{\partial P_{couv}}{\partial Y_i} = \frac{\partial g}{\partial y_i} \\
+\frac{\partial P_{couv}}{\partial X_i} = \frac{\partial g}{\partial x_i}
+\end{cases}
+$ \\[2mm]
+$\Leftrightarrow$ & $ \begin{cases}
+\Delta_{I_i} = \frac{\partial g}{\partial y_i} \\
+\Delta_{I_i}I_i+B_i\Delta_{B_i} = \frac{\partial g}{\partial x_i}
+\end{cases}
+$ \\[1mm]
+$\Leftrightarrow$ & $ \begin{cases}
+\Delta_{I_i} = \frac{\partial g}{\partial y_i} \\
+\Delta_{B_i} = \frac{\frac{\partial g}{\partial x_i}-\Delta_{I_i}I_i}{B_i}
+\end{cases}
+$
+\end{tabular}
+\end{center}
+ \end{document}
