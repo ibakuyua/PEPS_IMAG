@@ -2,3 +2,4 @@
 build/*
 lib/*
 lib/pnlLib/build/*
+.DS_Store
