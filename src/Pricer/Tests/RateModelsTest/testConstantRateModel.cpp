@@ -7,7 +7,7 @@ using namespace std;
 int main(){
     cout << "\n\n###### TEST OF CONSTANT RATE MODEL ######\n\n";
     cout << "1) Instance : ";
-    RateModelGen *rateModel = new ConstantRateModel();
+    RateModelGen *rateModel = new ConstantRateModel(Devise::EUR);
     assert(rateModel != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << " == Paramètres : r = " << ((ConstantRateModel*)rateModel)->parameter << "\n\n";

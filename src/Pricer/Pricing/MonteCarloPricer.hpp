@@ -11,8 +11,7 @@ public:
     /**
      * Members
      */
-    ModelGen *simuIndexModel; /**< To simulate Indexes */
-    ModelGen *simuChangeModel; /**< To simulate change */
+    ModelGen *simuModel; /**< To simulate underlying asset */
     int nbSample; /**< Number of sample for the monte carlo method */
     int nbTimeStep; /**< Number of time step for the simulation*/
     PnlMat *path; /**< path for simulation : allocated just one time */
@@ -20,7 +19,8 @@ public:
     /**
      * Constructor / Destructor
      */
-    MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample = NB_SAMPLE_DEFAULT, int nbTimeStep = NB_TIME_STEP_DEFAULT);
+    MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample = NB_SAMPLE_DEFAULT,
+                     int nbTimeStep = NB_TIME_STEP_DEFAULT, PayOffFunction payOffFunction = NULL);
     virtual ~MonteCarloPricer();
 
     /**

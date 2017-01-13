@@ -2,11 +2,15 @@
 #define PRICING_RATEMODELGEN_HPP
 
 
+#include "../Produit/Asset.hpp"
+
 class RateModelGen {
 public:
+    Devise devise;
     /**
      * Abstract methods
      */
+    RateModelGen(Devise devise);
     virtual ~RateModelGen(){};
     /**
      * Permit to get the rate for a certain maturity

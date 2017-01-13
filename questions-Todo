@@ -1,5 +1,7 @@
 TODO : 
 
+Comment faire pour lors de la simulation ou les deltas on est la connaissance de la devise ? on en a besoin ?
+
 Simuler un marché : en risque neutre, en proba historique 
 Un marché contient des actifs (chacun contient les calibrations pour le modèle)
 Une simulation entraine un pnlmat sur tous les sous jacents

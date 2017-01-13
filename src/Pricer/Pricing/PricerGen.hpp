@@ -19,9 +19,13 @@ public:
     /**
      * Constructor / Destructor
      */
-    PricerGen(double maturity, PayOffFunction payOff);
+    PricerGen(double maturity, PayOffFunction payOff = NULL);
     virtual ~PricerGen();
 
+    /**
+     * Public method
+     */
+    void setPayOff(PayOffFunction payOffFunction);
     /**
      * Virtual methods
      */

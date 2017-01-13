@@ -1,7 +1,9 @@
 #include "ConstantRateModel.hpp"
 
 
-ConstantRateModel::ConstantRateModel(double theFRR) :parameter(theFRR){
+ConstantRateModel::ConstantRateModel(Devise devise, double theFRR)
+        : RateModelGen(devise), parameter(theFRR)
+{
 }
 
 double ConstantRateModel::GetRate(double maturity) const {

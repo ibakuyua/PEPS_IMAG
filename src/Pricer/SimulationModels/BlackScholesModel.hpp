@@ -2,9 +2,9 @@
 #define PRICING_BLACKSCHOLESINDEXMODEL_HPP
 
 
-#include "../ModelGen.hpp"
+#include "ModelGen.hpp"
 
-class BlackScholesIndexModel : public ModelGen {
+class BlackScholesModel : public ModelGen {
 public:
     /**
      * Members
@@ -17,8 +17,8 @@ public:
     /**
      * Constructor / Destructor
      */
-    BlackScholesIndexModel(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, PnlMat *choleskyCorr, RateModelGen **rateModel);
-    virtual ~BlackScholesIndexModel();
+    BlackScholesModel(int assetNb, Asset **assets, PnlMat *choleskyCorr, RateModelGen **rateModel);
+    virtual ~BlackScholesModel();
 
     /**
      * Overriding virtual method

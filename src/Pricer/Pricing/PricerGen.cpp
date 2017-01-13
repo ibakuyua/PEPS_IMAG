@@ -8,3 +8,8 @@ PricerGen::PricerGen(double theMaturity, PayOffFunction thePayOff)
 
 PricerGen::~PricerGen() {
 }
+
+
+void PricerGen::setPayOff(PayOffFunction payOffFunction) {
+    payOff = payOffFunction;
+}

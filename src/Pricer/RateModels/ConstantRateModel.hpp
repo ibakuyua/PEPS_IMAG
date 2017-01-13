@@ -15,7 +15,7 @@ public:
     /**
      * Constructors / Destructor
      */
-    ConstantRateModel(double theFRR = FRR_DEFAULT);
+    ConstantRateModel(Devise devise, double theFRR = FRR_DEFAULT);
     ~ConstantRateModel();
     /**
      * Implement virtual function

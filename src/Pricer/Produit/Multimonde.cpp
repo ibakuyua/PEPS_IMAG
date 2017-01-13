@@ -1,10 +1,7 @@
 #include "Multimonde.hpp"
 
-//TODO
-
-
-Multimonde::Multimonde(PricerGen *pricer)
-        : pricer(pricer)
+Multimonde::Multimonde(PricerGen *pricer, Asset **assets, int size)
+        : ProductGen(pricer, assets, size, NB_DAYS_TO_MATURITY)
 {
 }
 
@@ -12,7 +9,7 @@ void Multimonde::PricePortfolio(double t, double &price) {
 
 }
 
-void Multimonde::PriceMultimonde(double t, double &price, double &ic) {
+void Multimonde::PriceProduct(double t, double &price, double &ic) {
     PnlMat *past = NULL;
     //past = Marche.GetPast(t);
     pricer->price(t, past, price, ic);
@@ -65,3 +62,4 @@ double Multimonde::payOff(PnlMat *path) {
 
     return NOMINAL * (1 + constatedPerf);
 }
+

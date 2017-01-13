@@ -1,29 +1,26 @@
 #ifndef PRICING_MULTIMONDE_HPP
 #define PRICING_MULTIMONDE_HPP
 
-#include "infoMultimonde.hpp"
+#include "../infoMultimonde.hpp"
+#include "ProductGen.hpp"
 
-#include "Pricing/PricerGen.hpp"
-
-class Multimonde {
+class Multimonde : public ProductGen {
 public:
     /**
      * Members
      */
     static constexpr double maturity = NB_DAYS_TO_MATURITY/(double)BASE;
-    PnlVect *composition;
-    PricerGen *pricer;
 
     /**
      * Constructor
      */
-    Multimonde(PricerGen *price);
+    Multimonde(PricerGen *price, Asset **assets, int size);
 
     /**
      * Methods
      */
     void PricePortfolio(double t, double &price);
-    void PriceMultimonde(double t, double &price, double &ic);
+    void PriceProduct(double t, double &price, double &ic);
     void MAJPortfolio();
     /**
      * PayOff

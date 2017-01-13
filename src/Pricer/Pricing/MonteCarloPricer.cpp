@@ -1,27 +1,26 @@
 #include "MonteCarloPricer.hpp"
 
 
-MonteCarloPricer::MonteCarloPricer(double maturity, PayOffFunction payOff, ModelGen *simuIndex, ModelGen *simuChange, int nbSample, int nbTimeStep)
-        : PricerGen(maturity, payOff)
+MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample, int nbTimeStep, PayOffFunction payOffFunction)
+        : PricerGen(maturity, payOffFunction)
 {
     this->nbSample = nbSample;
-    this->simuChangeModel = simuChange;
-    this->simuIndexModel = simuIndex;
+    this->simuModel = simuModel;
     this->nbTimeStep = nbTimeStep;
-    this->path = pnl_mat_create_from_zero(nbTimeStep+1,6);
+    this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
 }
 
 void MonteCarloPricer::price(double t, PnlMat *past, double &price, double &ic) const {
 
     // TODO : question si r est stochastique ?
     // European free interest rate
-    double r_T = simuIndexModel->rateModels[5]->GetRate(maturity);
-    double discountFactor = exp(-simuIndexModel->rateModels[5]->GetIntegralRate(t, maturity));
+    double r_T = simuModel->rateModels[5]->GetRate(maturity);
+    double discountFactor = exp(-simuModel->rateModels[5]->GetIntegralRate(t, maturity));
 
     double estimation, espEstimation = 0, varEstimation = 0;
 
     for (int m = 0; m < nbSample; ++m) {
-        simuIndexModel->Simulate(t,maturity,path,past,nbTimeStep);
+        simuModel->Simulate(t, maturity, path, past, nbTimeStep);
         estimation = payOff(path);
         espEstimation += estimation;
         varEstimation += estimation * estimation;

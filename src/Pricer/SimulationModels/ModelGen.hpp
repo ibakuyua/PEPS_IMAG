@@ -6,6 +6,7 @@
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 #include "../RateModels/RateModelGen.hpp"
+#include "../Produit/Asset.hpp"
 
 class ModelGen {
 public:
@@ -19,12 +20,12 @@ public:
     PnlVect *volatility;
     PnlRng *rng;
 
-    RateModelGen **rateModels; // List of rateModel (one for each asset)
+    RateModelGen **rateModels; // List of rateModel (one for each economy)
 
     /**
      * Constructor
      */
-    ModelGen(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility, RateModelGen **rateModel);
+    ModelGen(int assetNb, Asset **assets, RateModelGen **rateModel);
 
     /**
      * Virtual methods

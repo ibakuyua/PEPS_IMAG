@@ -3,8 +3,8 @@
 #include "GamTauxRateModel.hpp"
 
 
-GamTauxRateModel::GamTauxRateModel(double r_inf, double spread, double gamma, double a)
-        : r_inf(r_inf), spread(spread), gamma(gamma), a(a)
+GamTauxRateModel::GamTauxRateModel(Devise devise, double r_inf, double spread, double gamma, double a)
+        : RateModelGen(devise), r_inf(r_inf), spread(spread), gamma(gamma), a(a)
 {
 }
 

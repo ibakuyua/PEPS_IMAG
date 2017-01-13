@@ -1,16 +1,15 @@
-#include "BlackScholesIndexModel.hpp"
+#include "BlackScholesModel.hpp"
 
 
-BlackScholesIndexModel::BlackScholesIndexModel(int assetNb, PnlVect *spot, PnlVect *trend, PnlVect *volatility,
-                                               PnlMat *choleskyCorr, RateModelGen **rateModel)
-        : ModelGen(assetNb, spot, trend, volatility, rateModel){
+BlackScholesModel::BlackScholesModel(int assetNb, Asset **assets,PnlMat *choleskyCorr, RateModelGen **rateModel)
+        : ModelGen(assetNb, assets, rateModel){
     this->choleskyCorr = choleskyCorr;
     this->Gi_ = pnl_vect_new();
     this->LGi_ = pnl_vect_new();
     this->St = pnl_vect_new();
 }
 
-void BlackScholesIndexModel::Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) {
+void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) {
 // Simple case of t == 0
     if (t==0. || past == NULL) {
         Simulate(maturity, path, stepNb);
@@ -80,7 +79,7 @@ void BlackScholesIndexModel::Simulate(double t, double maturity, PnlMat *path, c
 }
 
 
-void BlackScholesIndexModel::Simulate(double maturity, PnlMat *path, int stepNb) {
+void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
     // Step initialisation
     double step = maturity/(double)stepNb;
     double sqrtStep = sqrt(step);
@@ -107,7 +106,7 @@ void BlackScholesIndexModel::Simulate(double maturity, PnlMat *path, int stepNb)
     }
 }
 
-BlackScholesIndexModel::~BlackScholesIndexModel() {
+BlackScholesModel::~BlackScholesModel() {
     pnl_vect_free(&Gi_);
     pnl_vect_free(&LGi_);
     pnl_vect_free(&St);
