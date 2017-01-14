@@ -1,0 +1,60 @@
+//
+// Created by Ruimy Benjamin Mac on 13/01/2017.
+//
+#include "pnl/pnl_vector.h"
+#include "pnl/pnl_matrix.h"
+#include "pnl/pnl_array.h"
+#include <cmath>
+#include "../../Stats/StatsFactory.h"
+#include <iostream>
+
+int main(){
+
+    PnlMat* quotes = pnl_mat_create_from_zero(4,3);
+
+    MLET(quotes,0,0) = 2.0;
+    MLET(quotes,0,1) = 5.2;
+    MLET(quotes,0,2) = 3.1;
+    MLET(quotes,1,0) = 3.2;
+    MLET(quotes,1,1) = 6.8;
+    MLET(quotes,1,2) = 3.1;
+    MLET(quotes,2,0) = 1.5;
+    MLET(quotes,2,1) = 5.9;
+    MLET(quotes,2,2) = 3.2;
+    MLET(quotes,3,0) = 2.8;
+    MLET(quotes,3,1) = 3.1;
+    MLET(quotes,3,2) = 3.4;
+
+
+    StatsFactory* statsFactory1 = new StatsFactory(quotes);
+
+    std::cout << "Matrice of quotes : " << std::endl;
+    pnl_mat_print(statsFactory1->quotes_);
+
+    std::cout << std::endl << "Matrice of returns : " << std::endl;
+    pnl_mat_print(statsFactory1->returns_);
+
+
+    std::cout << std::endl << "Matrice of Covariance : " << std::endl;
+    pnl_mat_print(statsFactory1->covar_);
+
+    std::cout << std::endl << "Vector of Volatility : " << std::endl;
+    pnl_vect_print(statsFactory1->vol_);
+
+    std::cout << std::endl << "Vector of Mean : " << std::endl;
+    pnl_vect_print(statsFactory1->mean_);
+
+
+    std::cout << std::endl << "Matrice of Correlation : " << std::endl;
+    pnl_mat_print(statsFactory1->correl_);
+
+
+
+
+    pnl_mat_free(&quotes);
+
+
+
+    return EXIT_SUCCESS;
+}
+

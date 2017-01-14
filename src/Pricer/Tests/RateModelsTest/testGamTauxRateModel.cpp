@@ -1,5 +1,6 @@
 #include <iostream>
 #include <assert.h>
+#include <stdexcept>
 #include "../../RateModels/GamTauxRateModel.hpp"
 
 using namespace std;
