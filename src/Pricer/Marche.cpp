@@ -1,4 +1,5 @@
 #include "Marche.hpp"
+#include "Pricing/MonteCarloPricer.hpp"
 
 double Marche::t = 0;
 Marche *Marche::instance = NULL;
@@ -11,7 +12,17 @@ Marche *Marche::Instance(ProductGen *product) {
 }
 
 void Marche::ImportCotations(CotationTypes type) {
-    // TODO
+    // TODO faire les autres
+    switch (type)
+    {
+        case CotationTypes::Simulated :
+            product->pricer->simuModel->SimulateMarket(
+                    cours,product->pricer->maturity,product->hedgingDateNb
+                    );
+            break;
+        default:
+            break;
+    }
 }
 
 

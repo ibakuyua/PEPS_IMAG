@@ -17,13 +17,16 @@ public:
     /**
      * Constructor / Destructor
      */
-    BlackScholesModel(int assetNb, Asset **assets, PnlMat *choleskyCorr, RateModelGen **rateModel);
+    BlackScholesModel(int assetNb, Asset **assets, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel);
     virtual ~BlackScholesModel();
 
     /**
      * Overriding virtual method
      */
     void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb);
+
+    void SimulateMarket(PnlMat *path, double maturity, int stepNb);
+
     void Simulate(double maturity, PnlMat *path, int stepNb);
 };
 

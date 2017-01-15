@@ -1,7 +1,7 @@
 #ifndef PRICING_MARCHE_HPP
 #define PRICING_MARCHE_HPP
 
-#include "Produit/ProductGen.hpp"
+#include "FinancialProducts/ProductGen.hpp"
 
 typedef enum {
     Real = 0,

@@ -3,10 +3,9 @@
 #include <assert.h>
 #include "../Pricing/PricerGen.hpp"
 #include "../Pricing/MonteCarloPricer.hpp"
-#include "../Produit/Multimonde.hpp"
+#include "../FinancialProducts/Multimonde.hpp"
 #include "../SimulationModels/BlackScholesModel.hpp"
 #include "../RateModels/ConstantRateModel.hpp"
-#include "../Produit/Asset.hpp"
 
 using namespace std;
 
@@ -21,11 +20,11 @@ int main(){
     Asset **assets;
     PnlMat *choleskyCorr;
     setParameters(&choleskyCorr, &rateModels, &assets);
-    ModelGen *simuIndex = new BlackScholesModel(6, assets,choleskyCorr,rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(6, assets,choleskyCorr,6,rateModels);
     int nbSample = 10000;
     int nbTimeStep = 2228;
     PricerGen * pricer = new MonteCarloPricer(
-            Multimonde::maturity,simuIndex,nbSample,nbTimeStep,Multimonde::payOff);
+            Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
     assert(pricer != NULL);
     Multimonde *multimonde = new Multimonde(pricer,assets,6);
     assert(multimonde != NULL);
@@ -50,14 +49,14 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
     // TODO : Peut être faire des méthodes venant de multimonde
     *rateModels = (RateModelGen**) malloc(6* sizeof(RateModelGen*));
     for (int d = 0; d < 6; ++d)
-        (*rateModels)[d] = new ConstantRateModel((Devise)d,0.03);
+        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03);
     *assets = (Asset**) malloc(6 * sizeof(Asset*));
-    (*assets)[0] = new Asset(string("FTSE"), string("FTSE"),Devise::GBP,TREND_FTSE,SPOT_FTSE,VOL_FTSE);
-    (*assets)[1] = new Asset(string("P500"), string("P500"),Devise::USD,TREND_P500,SPOT_P500,VOL_P500);
-    (*assets)[2] = new Asset(string("HANGSENG"), string("HANGSENG"),Devise::HKD,TREND_HANGSENG,SPOT_HANGSENG,VOL_HANGSENG);
-    (*assets)[3] = new Asset(string("NIKKEI"), string("NIKKEI"),Devise::JPY ,TREND_NIKKEI,SPOT_NIKKEI,VOL_NIKKEI);
-    (*assets)[4] = new Asset(string("SPASX200"), string("SPASX200"),Devise::AUD,TREND_SPASX200,SPOT_SPASX200,VOL_SPASX200);
-    (*assets)[5] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"),Devise::EUR,TREND_EUROSTOCK50,SPOT_EUROSTOCK50,VOL_EUROSTOCK50);
+    (*assets)[0] = new Asset(string("FTSE"), string("FTSE"), Change::GBP, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
+    (*assets)[1] = new Asset(string("P500"), string("P500"), Change::USD, TREND_P500, SPOT_P500, VOL_P500);
+    (*assets)[2] = new Asset(string("HANGSENG"), string("HANGSENG"), Change::HKD, TREND_HANGSENG, SPOT_HANGSENG, VOL_HANGSENG);
+    (*assets)[3] = new Asset(string("NIKKEI"), string("NIKKEI"), Change::JPY , TREND_NIKKEI, SPOT_NIKKEI, VOL_NIKKEI);
+    (*assets)[4] = new Asset(string("SPASX200"), string("SPASX200"), Change::AUD, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[5] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, TREND_EUROSTOCK50, SPOT_EUROSTOCK50, VOL_EUROSTOCK50);
     *choleskyCorr = pnl_mat_create(6,6);
     PNL_MSET(*choleskyCorr,0,1,COR_FTSE_P500);
     PNL_MSET(*choleskyCorr,0,2,COR_FTSE_HANGSENG);

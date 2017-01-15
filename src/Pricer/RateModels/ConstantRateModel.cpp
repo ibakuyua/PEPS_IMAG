@@ -1,7 +1,7 @@
 #include "ConstantRateModel.hpp"
 
 
-ConstantRateModel::ConstantRateModel(Devise devise, double theFRR)
+ConstantRateModel::ConstantRateModel(Change devise, double theFRR)
         : RateModelGen(devise), parameter(theFRR)
 {
 }

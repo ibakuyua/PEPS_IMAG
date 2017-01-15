@@ -12,21 +12,14 @@ public:
     static constexpr double maturity = NB_DAYS_TO_MATURITY/(double)BASE;
 
     /**
-     * Constructor
+     * Constructor (the payOff is initialized in the cpp)
      */
     Multimonde(PricerGen *price, Asset **assets, int size);
 
     /**
-     * Methods
+     * Overriding Methods
      */
-    void PricePortfolio(double t, double &price);
-    void PriceProduct(double t, double &price, double &ic);
     void MAJPortfolio();
-    /**
-     * PayOff
-     */
-    static double payOff(PnlMat *path);
-
 };
 
 

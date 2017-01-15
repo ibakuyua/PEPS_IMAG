@@ -1,8 +1,8 @@
 #include "PricerGen.hpp"
 
 
-PricerGen::PricerGen(double theMaturity, PayOffFunction thePayOff)
-        : maturity(theMaturity), payOff(thePayOff)
+PricerGen::PricerGen(double theMaturity, ModelGen *simuModel)
+        : maturity(theMaturity), simuModel(simuModel)
 {
 }
 
@@ -10,6 +10,3 @@ PricerGen::~PricerGen() {
 }
 
 
-void PricerGen::setPayOff(PayOffFunction payOffFunction) {
-    payOff = payOffFunction;
-}

@@ -21,7 +21,7 @@ public:
     /**
      * Constructor / Destructor
      */
-    GamTauxRateModel(Devise devise, double r_inf = R_LONG_DEFAULT, double spread = SPREAD_DEFAULT,
+    GamTauxRateModel(Change devise, double r_inf = R_LONG_DEFAULT, double spread = SPREAD_DEFAULT,
                      double gamma = GAMMA_DEFAULT, double a = A_DEFAULT);
     ~GamTauxRateModel();
     /**

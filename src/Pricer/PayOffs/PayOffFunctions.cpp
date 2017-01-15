@@ -1,25 +1,7 @@
-#include "Multimonde.hpp"
+#include "PayOffFunctions.hpp"
 
-Multimonde::Multimonde(PricerGen *pricer, Asset **assets, int size)
-        : ProductGen(pricer, assets, size, NB_DAYS_TO_MATURITY)
-{
-}
-
-void Multimonde::PricePortfolio(double t, double &price) {
-
-}
-
-void Multimonde::PriceProduct(double t, double &price, double &ic) {
-    PnlMat *past = NULL;
-    //past = Marche.GetPast(t);
-    pricer->price(t, past, price, ic);
-}
-
-void Multimonde::MAJPortfolio() {
-
-}
-
-double Multimonde::payOff(PnlMat *path) {
+#include "../infoMultimonde.hpp"
+double payOffMultimonde21(PnlMat *path, PnlVect *parameters) {
     int nbTimeStep = path->m;
     bool isConstated[6] = {false, false, false, false,false,false};
     int constatationIndexes[6] =
@@ -63,3 +45,8 @@ double Multimonde::payOff(PnlMat *path) {
     return NOMINAL * (1 + constatedPerf);
 }
 
+double payOffCall(PnlMat *path, PnlVect *parameters) {
+    double S_TminusK = MGET(path,path->m-1,0)-GET(parameters,0);
+
+    return (S_TminusK > 0.) ? S_TminusK : 0.;
+}

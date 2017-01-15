@@ -22,17 +22,27 @@ set(LIBS ${LIBS} ${PNL_LIBRARIES})
 set(RATE_SOURCE_FILES src/Pricer/RateModels/RateModelGen.cpp src/Pricer/RateModels/ConstantRateModel.cpp src/Pricer/RateModels/GamTauxRateModel.cpp)
 set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/MonteCarloPricer.cpp ${SIMULATION_SOURCE_FILE})
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
-set(BASE_SOURCE_FILES src/Pricer/Marche.cpp src/Pricer/Produit/Multimonde.cpp src/Pricer/Produit/ProductGen.cpp src/Pricer/Produit/Asset.cpp)
+set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp
+        src/Pricer/FinancialProducts/Asset.cpp src/Pricer/PayOffs/PayOffFunctions.cpp)
+set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp ${STATS_SOURCE_FILES})
 
 # Add executables
+#Test for rate model
 add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_gamTauxRateModel.te ${LIBS})
 add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testConstantRateModel.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_constantRateModel.te ${LIBS})
+#Test for pricer
+add_executable(test_pricerMC.te src/Pricer/Tests/PricerTest/testMonteCarlo.cpp src/Pricer/FinancialProducts/Call.cpp
+        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES})
+target_link_libraries(test_pricerMC.te ${LIBS})
+#Test for stats
 add_executable(test_stats.te src/Pricer/Tests/StatsFactoryTests/testStats.cpp ${STATS_SOURCE_FILES})
 target_link_libraries(test_stats.te ${LIBS})
 
-# Pour dégriser les fichiers.cpp
-add_executable(testMultimonde.te src/Pricer/Tests/testMultimonde.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
-target_link_libraries(testMultimonde.te ${LIBS})
+# Global executable
+add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
+        ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} ${BASE_SOURCE_FILES})
+target_link_libraries(test_multimonde.te ${LIBS})

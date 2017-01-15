@@ -12,7 +12,7 @@ typedef enum{
     HKD = 3,
     JPY = 4,
     AUD = 5
-}Devise;
+} Change;
 
 using namespace std;
 
@@ -27,13 +27,13 @@ class Asset {
 public:
     string id;
     string name;
-    Devise devise;
+    Change change;
     double trend;
     double spot;
     double volatility; // sqrt(Sum_k sigma_(i,k)^2)
 
 
-    Asset(string id, string name, Devise devise, double trend, double spot , double volatility);
+    Asset(string id, string name, Change change, double trend, double spot , double volatility);
     ~Asset();
 };
 

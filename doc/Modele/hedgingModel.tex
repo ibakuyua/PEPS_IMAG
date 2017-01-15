@@ -130,16 +130,16 @@ Ibakuyumcu Arnaud
  %--- Commencer a ecrire ici ---% 
 
 \section{Modèle 1 : simulation inter-économie}
-Ce premier modèle consiste à ne pas se préoccuper du changement de devise lors du calcul du prix. \\
-En effet, le pay-off du produit multi-monde ne fait intervenir que les performances d'indice, supprimant l'unité de devise étrangère pour chaque indice.
+Ce premier modèle consiste à ne pas se préoccuper du changement de change lors du calcul du prix. \\
+En effet, le pay-off du produit multi-monde ne fait intervenir que les performances d'indice, supprimant l'unité de change étrangère pour chaque indice.
 \subsection{Sous-jacents et simulation}
 \subsubsection{Les sous-jacents}
 Les sous jacents pour ce modèle sont : 
 \begin{itemize}[label=$\star$]
-\item Les indices dans leur devise $I_1,\ldots,I_6$
+\item Les indices dans leur change $I_1,\ldots,I_6$
 \item Les taux de change vers euro de chaque indice $X_1,\ldots,X_6$
 \end{itemize}
-Par convention $i=1$ correspond à la devise euro (donc à l'indice Euronext) et $X_1=1$
+Par convention $i=1$ correspond à la change euro (donc à l'indice Euronext) et $X_1=1$
 \subsubsection{Modèle de simulation}
 Dans l'univers risque neutre les sous-jacents ont la dynamique suivante : 
 \begin{itemize}[label=$\star$]
@@ -149,7 +149,7 @@ Dans l'univers risque neutre les sous-jacents ont la dynamique suivante :
 Où on pose : 
 \begin{itemize}[label=$\bullet$]
 \item $B$ un MB de dimension $12$ sous la proba risque neutre
-\item $r_i$ la courbe de taux sans risque dans la devise $i$
+\item $r_i$ la courbe de taux sans risque dans la change $i$
 \item $\lambda_i$ la prime de risque dans l'économie $i$
 \end{itemize}
 \subsubsection{Estimation des paramètres}
@@ -207,15 +207,15 @@ $
 \end{center}
 \newpage
 \section{Modèle 2 : simulation globale}
-Pour ce modèle, on utilisera la simulation des indices en devise domestique (euro). 
+Pour ce modèle, on utilisera la simulation des indices en change domestique (euro).
 \subsection{Sous-jacents et simulation}
 \subsubsection{Les sous-jacents}
 Les sous jacents pour ce modèle sont : 
 \begin{itemize}[label=$\star$]
-\item Les indices dans la devise euro $Y_1=X_1I_1,\ldots,Y_6=X_6I_6$
+\item Les indices dans la change euro $Y_1=X_1I_1,\ldots,Y_6=X_6I_6$
 \item Les taux de change vers euro de chaque économie $X_1,\ldots,X_6$
 \end{itemize}
-Par convention $i=1$ correspond à la devise euro (donc à l'indice Euronext) et $X_1=1$
+Par convention $i=1$ correspond à la change euro (donc à l'indice Euronext) et $X_1=1$
 \subsubsection{Modèle de simulation}
 Dans l'univers risque neutre les sous-jacents ont la dynamique suivante : 
 \begin{itemize}[label=$\star$]
@@ -225,7 +225,7 @@ Dans l'univers risque neutre les sous-jacents ont la dynamique suivante :
 Où on pose : 
 \begin{itemize}[label=$\bullet$]
 \item $B$ un MB de dimension $12$ sous la proba risque neutre
-\item $r_i$ la courbe de taux sans risque dans la devise $i$
+\item $r_i$ la courbe de taux sans risque dans la change $i$
 \item $\lambda_i$ la prime de risque dans l'économie $i$
 \end{itemize}
 L'intérêt de ce modèle est que tout est simulé en proba risque neutre domestique.

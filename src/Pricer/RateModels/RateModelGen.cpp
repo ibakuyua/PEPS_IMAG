@@ -1,7 +1,6 @@
 #include "RateModelGen.hpp"
-#include "../Produit/Asset.hpp"
 
-RateModelGen::RateModelGen(Devise devise)
-        : devise(devise)
+RateModelGen::RateModelGen(Change change)
+        : change(change)
 {
 }

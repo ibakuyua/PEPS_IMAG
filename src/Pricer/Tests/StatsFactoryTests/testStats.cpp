@@ -1,6 +1,3 @@
-//
-// Created by Ruimy Benjamin Mac on 13/01/2017.
-//
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 #include "pnl/pnl_array.h"

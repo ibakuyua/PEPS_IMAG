@@ -8,7 +8,7 @@ using namespace std;
 int main(){
     cout << "\n\n###### TEST OF CONSTANT RATE MODEL ######\n\n";
     cout << "1) Instance : ";
-    GamTauxRateModel *rateModel = new GamTauxRateModel(Devise::EUR,0.03, 0.01);
+    GamTauxRateModel *rateModel = new GamTauxRateModel(Change::EUR, 0.03, 0.01);
     assert(rateModel != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << " == Paramètres : \n";
