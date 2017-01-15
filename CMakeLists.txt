@@ -21,11 +21,9 @@ set(LIBS ${LIBS} ${PNL_LIBRARIES})
 #Source files
 set(RATE_SOURCE_FILES src/Pricer/RateModels/RateModelGen.cpp src/Pricer/RateModels/ConstantRateModel.cpp src/Pricer/RateModels/GamTauxRateModel.cpp)
 set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/MonteCarloPricer.cpp ${SIMULATION_SOURCE_FILE})
-set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp
-        src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
+set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp src/Pricer/Produit/Multimonde.cpp src/Pricer/Produit/ProductGen.cpp src/Pricer/Produit/Asset.cpp)
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp ${STATS_SOURCE_FILES})
-set(BASE_SOURCE_FILES src/Pricer/Marche.cpp src/Pricer/Multimonde.cpp)
 
 # Add executables
 add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})
