@@ -4,11 +4,14 @@
 #include <cmath>
 #include "../../Stats/StatsFactory.h"
 #include <iostream>
-
+#include "../../Parser/ParseCSV.h"
 int main(){
 
     PnlMat* quotes = pnl_mat_create_from_zero(4,3);
+    ParseCSV*  parser = new ParseCSV("Parser/testPEPS.csv");
 
+
+    std::cout << "Test avec les données en dur :" << std::endl;
     MLET(quotes,0,0) = 2.0;
     MLET(quotes,0,1) = 5.2;
     MLET(quotes,0,2) = 3.1;
@@ -24,6 +27,7 @@ int main(){
 
 
     StatsFactory* statsFactory1 = new StatsFactory(quotes);
+    StatsFactory* statsFactory2 = new StatsFactory(parser->inputData);
 
     std::cout << "Matrice of quotes : " << std::endl;
     pnl_mat_print(statsFactory1->quotes_);
@@ -46,8 +50,34 @@ int main(){
     pnl_mat_print(statsFactory1->correl_);
 
 
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Test avec un fichier CSV en entrée !!!! " << std::endl;
 
 
+    std::cout << "Matrice of quotes : " << std::endl;
+    pnl_mat_print(statsFactory2->quotes_);
+
+    std::cout << std::endl << "Matrice of returns : " << std::endl;
+    pnl_mat_print(statsFactory2->returns_);
+
+
+    std::cout << std::endl << "Matrice of Covariance : " << std::endl;
+    pnl_mat_print(statsFactory2->covar_);
+
+    std::cout << std::endl << "Vector of Volatility : " << std::endl;
+    pnl_vect_print(statsFactory2->vol_);
+
+    std::cout << std::endl << "Vector of Mean : " << std::endl;
+    pnl_vect_print(statsFactory2->mean_);
+
+
+    std::cout << std::endl << "Matrice of Correlation : " << std::endl;
+    pnl_mat_print(statsFactory2->correl_);
+    std::cout << std::endl;
+
+    delete parser;
     pnl_mat_free(&quotes);
 
 

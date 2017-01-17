@@ -98,7 +98,6 @@ void StatsFactory::getCorrelFromCovar(){
     for(int i = 0; i < correl_->m; i++){
         for(int j = 0; j <= i; j++){
             MLET(correl_,i,j) = MGET(covar_,i,j) / GET(vol_,i) / GET(vol_,j);
-            std::cout << "La valeur est pour i :  "  << i << ", j : " << j << " :" << MGET(correl_,i,j) << std::endl;
         }
     }
     for(int i = 0; i < correl_->m; i++){

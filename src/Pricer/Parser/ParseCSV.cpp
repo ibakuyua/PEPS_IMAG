@@ -25,10 +25,10 @@ ParseCSV::ParseCSV(string path) {
         while(getline(FILE,line))
             m++;
 
-        pnl_mat_resize(inputData,n,m);
+        pnl_mat_resize(inputData,m,n);
+
         FILE.clear();
         FILE.seekg(FILE.beg);
-
         double tmpDouble;
         char tmpChar;
         getline(FILE,line);
