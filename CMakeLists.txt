@@ -24,9 +24,9 @@ set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/Mon
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
 set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp
         src/Pricer/FinancialProducts/Asset.cpp src/Pricer/PayOffs/PayOffFunctions.cpp)
-set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
+set(BASE_SOURCE_FILES src/Pricer/Marche.cpp src/Pricer/Parser/ParseCSV.cpp src/Pricer/Parser/ParseCSV.h src/Pricer/Tests/Parser/testParseCSV.cpp)
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp ${STATS_SOURCE_FILES})
-
+set(STATS_SOURCE_FILES src/Pricer/Parser/ParseCSV.cpp ${STATS_SOURCE_FILES})
 # Add executables
 #Test for rate model
 add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})
@@ -40,6 +40,9 @@ target_link_libraries(test_pricerMC.te ${LIBS})
 #Test for stats
 add_executable(test_stats.te src/Pricer/Tests/StatsFactoryTests/testStats.cpp ${STATS_SOURCE_FILES})
 target_link_libraries(test_stats.te ${LIBS})
+#Test for parsingCSV
+add_executable(test_parseCSV.te src/Pricer/Tests/Parser/testParseCSV.cpp ${STATS_SOURCE_FILES})
+target_link_libraries(test_parseCSV.te ${LIBS})
 
 # Global executable
 add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
