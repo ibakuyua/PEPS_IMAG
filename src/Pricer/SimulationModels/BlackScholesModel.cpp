@@ -119,7 +119,7 @@ BlackScholesModel::~BlackScholesModel() {
     // Base destructor is called here
 }
 
-void BlackScholesModel::SimulateMarket(PnlMat *path, double maturity, int stepNb) {
+void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb) {
     // Step Initialisation
     double step = maturity/(double)stepNb;
     double sqrtStep = sqrt(step);

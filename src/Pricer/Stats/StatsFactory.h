@@ -1,7 +1,3 @@
-//
-// Created by Ruimy Benjamin Mac on 13/01/2017.
-//
-
 #ifndef PEPS_IMAG_STATSFACTORY_H
 #define PEPS_IMAG_STATSFACTORY_H
 
@@ -10,14 +6,18 @@
 #include "pnl/pnl_array.h"
 #include <cmath>
 
+/**
+ * StatsFactory
+ *
+ * Factory to statistics functions
+ */
 class StatsFactory {
+    // TODO mettre tout en static
 
 public:
 
 
     PnlMat *quotes_;
-
-
     PnlMat *returns_;
     PnlMat *covar_;
     PnlMat *correl_;

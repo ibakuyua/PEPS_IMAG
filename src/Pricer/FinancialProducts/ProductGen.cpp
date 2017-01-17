@@ -18,5 +18,5 @@ void ProductGen::PricePortfolio(double t, double &price) const {
 void ProductGen::PriceProduct(double t, double &price, double &ic) const {
     PnlMat *past = NULL;
     //past = Marche.GetPast(t);
-    pricer->price(t, past, price, ic,payOff, parameters);
+    pricer->Price(t, past, price, ic, payOff, parameters);
 }

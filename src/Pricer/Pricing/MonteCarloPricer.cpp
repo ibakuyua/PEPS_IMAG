@@ -10,10 +10,11 @@ MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbS
     this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
 }
 
-void MonteCarloPricer::price(double t, PnlMat *past, double &price, double &ic,
+void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
                              PayOffFunction payOff, PnlVect *parameters) const {
 
     // TODO : question si r est stochastique ?
+    // TODO : faire monte carlo avec reduction de variance
     // European free interest rate
     double discountFactor = exp(-simuModel->rateModels[Change::EUR]->GetIntegralRate(t, maturity));
 
@@ -33,7 +34,7 @@ void MonteCarloPricer::price(double t, PnlMat *past, double &price, double &ic,
     ic = 3.92 * discountFactor * sqrt(varEstimation / (double)nbSample);
 }
 
-void MonteCarloPricer::delta(double t, PnlMat *past, PnlVect *delta,
+void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
                              PayOffFunction payOff, PnlVect *parameters) const {
     // TODO
 }

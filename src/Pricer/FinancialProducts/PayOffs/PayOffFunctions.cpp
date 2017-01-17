@@ -1,7 +1,7 @@
 #include "PayOffFunctions.hpp"
 
-#include "../infoMultimonde.hpp"
-double payOffMultimonde21(PnlMat *path, PnlVect *parameters) {
+#include "../../infoMultimonde.hpp"
+double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters) {
     int nbTimeStep = path->m;
     bool isConstated[6] = {false, false, false, false,false,false};
     int constatationIndexes[6] =

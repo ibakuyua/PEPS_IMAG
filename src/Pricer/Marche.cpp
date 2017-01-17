@@ -13,12 +13,11 @@ Marche *Marche::Instance(ProductGen *product) {
 
 void Marche::ImportCotations(CotationTypes type) {
     // TODO faire les autres
+    this->type = type;
     switch (type)
     {
         case CotationTypes::Simulated :
-            product->pricer->simuModel->SimulateMarket(
-                    cours,product->pricer->maturity,product->hedgingDateNb
-                    );
+            product->pricer->simuModel->SimulateMarket(product->pricer->maturity, cours, product->hedgingDateNb);
             break;
         default:
             break;
@@ -26,10 +25,9 @@ void Marche::ImportCotations(CotationTypes type) {
 }
 
 
-PnlVect *Marche::GetCotations(double t) {
+void Marche::GetCotations(double t, PnlVect* cotations) {
     // TODO mettre à jours cours_t pour qu'il contienne la bonne ligne de
     // TODO cours i.e. trouver le bon indice en fonction de t
-    return cours_t;
 }
 
 Marche::Marche(ProductGen *product)

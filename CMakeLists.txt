@@ -23,7 +23,7 @@ set(RATE_SOURCE_FILES src/Pricer/RateModels/RateModelGen.cpp src/Pricer/RateMode
 set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/MonteCarloPricer.cpp ${SIMULATION_SOURCE_FILE})
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
 set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp
-        src/Pricer/FinancialProducts/Asset.cpp src/Pricer/PayOffs/PayOffFunctions.cpp)
+        src/Pricer/FinancialProducts/Asset.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp)
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp ${STATS_SOURCE_FILES})
 

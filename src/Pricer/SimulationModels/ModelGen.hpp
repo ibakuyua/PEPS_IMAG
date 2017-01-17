@@ -10,12 +10,17 @@
 #include <map>
 #include <vector>
 
+/**
+ * ModelGen [abstract]
+ *
+ * Class which permit to simulate a path of a list of asset
+ */
 class ModelGen {
 public:
     /**
      * Members
      */
-    int assetNb;
+    int assetNb; /// Nb of asset
 
     PnlVect *spot; /// List of underlying asset spots
     PnlVect *trend; /// List of underlying trend spots
@@ -28,15 +33,40 @@ public:
 
     /**
      * Constructor
+     *
+     * @param[in] assetNb : Number of asset for the model
+     * @param[in] assets : the list of Asset
+     * @param[in] economyNb : Number of different change in the model
+     * @param[in] rateModels : list of rate model (one for each change)
      */
-    ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModel);
+    ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels);
 
     /**
      * Virtual methods
      */
+    /**
+     * Simulate : permit to simulate at the date t a path for each asset.
+     *
+     * @param[in] t : the date to simulate
+     * @param[in] maturity : the maturity for the simulation
+     * @param[out] path : the result of the simulation
+     * @param[in] past : the past values (the last is S(t) the spot at the date t)
+     * @param[in] stepNb : the number of step of constatation
+     *
+     */
     virtual void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) = 0;
+    /**
+     * Simulate : permit to simulate at the date 0 a path for each asset
+     */
     virtual void Simulate(double maturity, PnlMat *path, int stepNb) = 0;
-    virtual void SimulateMarket(PnlMat *path, double maturity, int stepNb) = 0;
+    /**
+     * SimulateMarket : permit to simulate a market
+     *
+     * @param[in] maturity : the maturity for the simulation
+     * @param[out] path : the result of the simulation
+     * @param[in] stepNb : the number of step of constatation
+     */
+    virtual void SimulateMarket(double maturity, PnlMat *path, int stepNb) = 0;
 
     /**
      * Destructor
