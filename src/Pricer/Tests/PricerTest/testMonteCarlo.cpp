@@ -36,17 +36,17 @@ int main(){
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     double price0, price1, ic;
-    cout << "** Computing price at t = 0 ...\n";
+    cout << "** Computing Price at t = 0 ...\n";
     call->PriceProduct(0,price0,ic);
     price1 = pnl_bs_call(spot,strike,maturity,FRR,0.,vol);
     assert(fabs(price0-price1) <= ic);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "--> Price : " << price0;
-    cout << "\n--> Closed formule price : " << price1;
+    cout << "\n--> Closed formule Price : " << price1;
     cout << "\n--> Ic : " << ic;
 
     /*double t = maturity / 2.;
-    cout << "** Computing price at t = " << t << "\n";
+    cout << "** Computing Price at t = " << t << "\n";
     cout << "\nMarché : \n\n";
     pnl_mat_print(marche->cours);*/
 

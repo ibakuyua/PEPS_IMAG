@@ -2,7 +2,7 @@
 #include "ModelGen.hpp"
 
 
-ModelGen::ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModel)
+ModelGen::ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels)
         :assetNb(assetNb)
 {
     spot = pnl_vect_create(assetNb);
@@ -16,7 +16,7 @@ ModelGen::ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **ra
         associatedChanges[d] = assets[d]->change;
     }
     for (int e = 0; e < economyNb; ++e)
-        rateModels[rateModel[e]->change] = rateModel[e];
+        rateModels[rateModels[e]->change] = rateModels[e];
 
     rng = pnl_rng_create(PNL_RNG_MERSENNE);
     pnl_rng_sseed(rng, time(NULL));

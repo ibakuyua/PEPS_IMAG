@@ -14,6 +14,8 @@ void freeParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***
 
 int main(){
 
+    //TODO : faire les const dans toutes les fonctions là où ça va bien
+
     cout << "\n\n###### TEST OF THE MULTIMONDE PRICER ######\n\n";
     cout << "** Instance : ";
     RateModelGen **rateModels;
@@ -30,7 +32,7 @@ int main(){
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     double price, ic;
-    cout << "Computing price ...\n";
+    cout << "Computing Price ...\n";
     multimonde->PriceProduct(0, price, ic);
     cout << "\n--> Price : " << price;
     cout << "\n--> Ic : " << ic;
