@@ -32,9 +32,9 @@ target_link_libraries(test_gamTauxRateModel.te ${LIBS})
 add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testConstantRateModel.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_constantRateModel.te ${LIBS})
 #Test for pricer
-add_executable(test_pricerMC.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp
+add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp
         ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
-target_link_libraries(test_pricerMC.te ${LIBS})
+target_link_libraries(test_pricerCall-MCBS.te ${LIBS})
 #Test for stats
 add_executable(test_stats.te src/Pricer/Tests/StatsFactoryTests/testStats.cpp ${STATS_SOURCE_FILES})
 target_link_libraries(test_stats.te ${LIBS})
