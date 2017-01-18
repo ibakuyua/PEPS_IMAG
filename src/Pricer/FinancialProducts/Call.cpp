@@ -13,3 +13,10 @@ Call::~Call() {
 void Call::MAJPortfolio() {
     //TODO pour tester la couverture ?
 }
+
+
+void Call::PrintProduct() const {
+    ProductGen::PrintProduct();
+    cout << "\nStrike : " << GET(this->parameters,0);
+    cout << "\n******************************************";
+}

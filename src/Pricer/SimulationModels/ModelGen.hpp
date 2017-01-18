@@ -21,6 +21,7 @@ public:
      * Members
      */
     int assetNb; /// Nb of asset
+    string name; /// The name of the model
 
     PnlVect *spot; /// List of underlying asset spots
     PnlVect *trend; /// List of underlying trend spots
@@ -38,11 +39,20 @@ public:
      * @param[in] assets : the list of Asset
      * @param[in] economyNb : Number of different change in the model
      * @param[in] rateModels : list of rate model (one for each change)
+     * @param[in] name : the name of the model
      */
-    ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels);
+    ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels, string name);
 
     /**
      * Virtual methods
+     */
+    /**
+     * PrintModel : permit to print the model information
+     */
+    virtual void PrintModel();
+
+    /**
+     * Virtual methods [Pur]
      */
     /**
      * Simulate : permit to simulate at the date t a path for each asset.

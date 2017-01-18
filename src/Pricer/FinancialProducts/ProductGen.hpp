@@ -65,6 +65,10 @@ public:
      * @param[out] ic : width of the confidence interval
      */
     virtual void PriceProduct(double t, double &price, double &ic) const;
+    /**
+     * PrintProduct : permit to show the information of the product
+     */
+    virtual void PrintProduct() const;
 
     /*
      * Virtual pur method

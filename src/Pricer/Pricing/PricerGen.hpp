@@ -19,6 +19,7 @@ public:
      * Members
      */
     ModelGen *simuModel; /**< To simulate underlying asset */
+    string name; /**< Name of the type of pricer*/
     double maturity; /**< Maturity of the instrument to Price */
 
     /**
@@ -26,12 +27,21 @@ public:
      *
      * @param[in] maturity : the maturity of the products you want to Price
      * @param[in] simuModel : the simulation model
+     * @param[in] name : the name of the pricer
      */
-    PricerGen(double maturity, ModelGen *simuModel);
+    PricerGen(double maturity, ModelGen *simuModel, string name);
     virtual ~PricerGen();
 
     /**
-     * Virtual methods
+     * Virtual Methods
+     */
+    /**
+     * PrintPricer : permit to print the pricer information
+     */
+    virtual void PrintPricer();
+
+    /**
+     * Virtual methods[pur]
      */
     /**
      * Price : permit to valuate at the date t product which give a payOff flux at maturity

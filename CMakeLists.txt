@@ -24,9 +24,7 @@ set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/Mon
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
 set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/Asset.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp)
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
-
-set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp ${STATS_SOURCE_FILES})
-set(STATS_SOURCE_FILES src/Pricer/Parser/ParseCSV.cpp ${STATS_SOURCE_FILES})
+set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Parser/ParseCSV.cpp)
 # Add executables
 #Test for rate model
 add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})
@@ -35,7 +33,7 @@ add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testCon
 target_link_libraries(test_constantRateModel.te ${LIBS})
 #Test for pricer
 add_executable(test_pricerMC.te src/Pricer/Tests/PricerTest/testMonteCarlo.cpp src/Pricer/FinancialProducts/Call.cpp
-        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES})
+        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
 target_link_libraries(test_pricerMC.te ${LIBS})
 #Test for stats
 add_executable(test_stats.te src/Pricer/Tests/StatsFactoryTests/testStats.cpp ${STATS_SOURCE_FILES})

@@ -28,12 +28,23 @@ using namespace std;
 
 class Asset {
 public:
+    /**
+     * Members
+     */
     string id; /// Id of the asset
     string name; /// Complet name if the asset
     Change change; /// Economy of the asset
     double trend; /// Trend (mu) of the asset
     double spot; /// Spot (t=0) of the asset
     double volatility; /// volatility of the model (sqrt(Sum_k sigma_(i,k)^2) for classic B&S)
+
+    /**
+     * Methods
+     */
+    /**
+     * PrintAsset : permit to print asset information
+     */
+    void PrintAsset();
 
 
     /**

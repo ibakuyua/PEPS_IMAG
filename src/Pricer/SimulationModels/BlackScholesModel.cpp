@@ -2,7 +2,7 @@
 
 
 BlackScholesModel::BlackScholesModel(int assetNb, Asset **assets,PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel)
-        : ModelGen(assetNb, assets, economyNb,rateModel){
+        : ModelGen(assetNb, assets, economyNb,rateModel, "Black Scholes"){
     this->choleskyCorr = choleskyCorr;
     this->Gi_ = pnl_vect_new();
     this->LGi_ = pnl_vect_new();

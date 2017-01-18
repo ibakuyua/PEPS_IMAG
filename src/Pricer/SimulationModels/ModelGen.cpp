@@ -2,8 +2,8 @@
 #include "ModelGen.hpp"
 
 
-ModelGen::ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels)
-        :assetNb(assetNb)
+ModelGen::ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels, string name)
+        :assetNb(assetNb), name(name)
 {
     spot = pnl_vect_create(assetNb);
     trend = pnl_vect_create(assetNb);
@@ -16,12 +16,16 @@ ModelGen::ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **ra
         associatedChanges[d] = assets[d]->change;
     }
     for (int e = 0; e < economyNb; ++e)
-        rateModels[rateModels[e]->change] = rateModels[e];
+        this->rateModels[rateModels[e]->change] = rateModels[e];
 
     rng = pnl_rng_create(PNL_RNG_MERSENNE);
     pnl_rng_sseed(rng, time(NULL));
 }
 
+
+void ModelGen::PrintModel() {
+    cout << this->name;
+}
 
 ModelGen::~ModelGen() {
     pnl_vect_free(&spot);

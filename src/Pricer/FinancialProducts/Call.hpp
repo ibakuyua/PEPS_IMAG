@@ -28,6 +28,11 @@ public:
      * Implementation of virtual pure method
      */
     virtual void MAJPortfolio();
+
+    /**
+     * Virtual methods overrided
+     */
+    void PrintProduct() const;
 };
 
 

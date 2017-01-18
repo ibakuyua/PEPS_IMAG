@@ -2,7 +2,7 @@
 
 
 MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample, int nbTimeStep)
-        : PricerGen(maturity, simuModel)
+        : PricerGen(maturity, simuModel, "Monte Carlo")
 {
     this->nbSample = nbSample;
     this->simuModel = simuModel;

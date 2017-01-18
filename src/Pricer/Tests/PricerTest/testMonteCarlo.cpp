@@ -27,28 +27,44 @@ int main(){
     assert(rateModels != NULL && rateModels[0] != NULL);
     ModelGen *modelBS = new BlackScholesModel(1,assets,choleskyCorr,1,rateModels);
     assert(modelBS != NULL);
-    PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,50000,100);
+    PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,50000,(int)maturity);
     assert(pricerMC != NULL);
-    ProductGen *call = new Call(pricerMC,assets,1,100,strike);
+    ProductGen *call = new Call(pricerMC,assets,1,(int)maturity,strike);
     assert(call != NULL);
-    /*Marche *marche = Marche::Instance(call);
-    assert(marche != NULL);*/
+    Marche *marche = Marche::Instance(call);
+    assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+
+    call->PrintProduct();
 
     double price0, price1, ic;
-    cout << "** Computing Price at t = 0 ...\n";
+    cout << "\n\n** Computing Price at t = 0 ... ";
     call->PriceProduct(0,price0,ic);
     price1 = pnl_bs_call(spot,strike,maturity,FRR,0.,vol);
-    assert(fabs(price0-price1) <= ic);
-    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+    cout << " \033[1;34m [CHECK]\033[0m\n\n";
     cout << "--> Price : " << price0;
-    cout << "\n--> Closed formule Price : " << price1;
     cout << "\n--> Ic : " << ic;
+    cout << "\n--> Closed formula Price : " << price1;
+    assert(fabs(price0-price1) <= ic);
 
-    /*double t = maturity / 2.;
-    cout << "** Computing Price at t = " << t << "\n";
-    cout << "\nMarché : \n\n";
-    pnl_mat_print(marche->cours);*/
+    // TODO : problème si t tombe sur un pas de constatation !
+    double t = maturity / 2. + 0.2;
+    cout << "\n\n** Computing Price at t = " << t << "\n";
+    marche->ImportCotations(CotationTypes::Simulated);
+    cout << "\nMarché (past) : \n\n";
+    PnlMat subCoursMat = pnl_mat_wrap_mat_rows(marche->cours,0,(int)t);
+    PnlMat *past = pnl_mat_copy(&subCoursMat);
+    pnl_mat_print(past);
+    spot = MGET(past,(int)t,0);
+    cout << "Spot at t : " << spot;
+    // TODO change with PriceProduct when marcheGetPast will be done
+    call->pricer->Price(t,past,price0,ic,call->payOff,call->parameters);
+    price1 = pnl_bs_call(spot,strike,maturity-t,FRR,0,vol);
+    cout << "\n\n--> Price : " << price0;
+    cout << "\n--> Ic : " << ic;
+    cout << "\n--> Closed formula Price : " << price1;
+    assert(fabs(price0-price1) <= ic);
+    cout << " \n\033[1;34m [CHECK]\033[0m\n\n";
 
     cout << "\n\n** Delete : ";
     delete call;

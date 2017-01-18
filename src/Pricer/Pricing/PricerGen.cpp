@@ -1,9 +1,14 @@
 #include "PricerGen.hpp"
 
 
-PricerGen::PricerGen(double theMaturity, ModelGen *simuModel)
-        : maturity(theMaturity), simuModel(simuModel)
+PricerGen::PricerGen(double theMaturity, ModelGen *simuModel, string name)
+        : maturity(theMaturity), simuModel(simuModel), name(name)
 {
+}
+
+
+void PricerGen::PrintPricer() {
+    cout << this->name << " with the model : " ; this->simuModel->PrintModel();
 }
 
 PricerGen::~PricerGen() {
