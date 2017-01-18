@@ -1,9 +1,14 @@
 #include "Multimonde.hpp"
 
-Multimonde::Multimonde(PricerGen *pricer, Asset **assets, int size)
-        : ProductGen("Multimonde21", pricer, assets, size, NB_DAYS_TO_MATURITY, payOffMultimonde21_simple)
+
+Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, Asset **assets)
+    : ProductGen("Multimonde21", pricer, 11, hedgingDateNb, payOffMultimonde21,assets)
 {
 }
+
+Multimonde::~Multimonde() {
+}
+
 
 void Multimonde::MAJPortfolio() {
     // TODO with market

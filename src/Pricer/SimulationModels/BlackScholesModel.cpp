@@ -1,8 +1,8 @@
 #include "BlackScholesModel.hpp"
 
 
-BlackScholesModel::BlackScholesModel(int assetNb, Asset **assets,PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel)
-        : ModelGen(assetNb, assets, economyNb,rateModel, "Black Scholes"){
+BlackScholesModel::BlackScholesModel(int assetNb, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel, Asset **assets)
+        : ModelGen(assetNb, economyNb,rateModel, "Black Scholes",assets){
     this->choleskyCorr = choleskyCorr;
     this->Gi_ = pnl_vect_new();
     this->LGi_ = pnl_vect_new();

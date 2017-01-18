@@ -22,7 +22,7 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
 
     for (int m = 0; m < nbSample; ++m) {
         simuModel->Simulate(t, maturity, path, past, nbTimeStep);
-        estimation = payOff(path,parameters);
+        estimation = payOff(path,parameters,simuModel->rateModels);
         espEstimation += estimation;
         varEstimation += estimation * estimation;
     }

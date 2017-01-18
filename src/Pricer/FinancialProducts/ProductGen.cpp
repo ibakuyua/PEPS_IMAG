@@ -1,9 +1,12 @@
 #include "ProductGen.hpp"
 
 
-ProductGen::ProductGen(string nom, PricerGen *pricer, Asset **assets, int size, int hedgingDateNb, PayOffFunction payOff)
-    : nom(nom), pricer(pricer), assets(assets), size(size), hedgingDateNb(hedgingDateNb), payOff(payOff)
+ProductGen::ProductGen(string nom, PricerGen *pricer, int size, int hedgingDateNb, PayOffFunction payOff,
+                        Asset **assets, PnlVect* parameters)
+    : nom(nom), pricer(pricer), assets(assets), size(size), hedgingDateNb(hedgingDateNb)
+        , payOff(payOff), parameters(parameters)
 {
+    this->pricer->simuModel->SetAssets(assets); // Obligation to do this
 }
 
 ProductGen::~ProductGen() {

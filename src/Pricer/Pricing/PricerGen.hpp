@@ -6,7 +6,7 @@
 #include "pnl/pnl_matvect.h"
 
 /// Definition of a payOffFunction handle
-typedef double(*PayOffFunction)(PnlMat *path, PnlVect *parameters);
+typedef double(*PayOffFunction)(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels);
 
 /**
  * PricerGen[abstract]

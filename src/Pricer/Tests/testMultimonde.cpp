@@ -22,13 +22,13 @@ int main(){
     Asset **assets;
     PnlMat *choleskyCorr;
     setParameters(&choleskyCorr, &rateModels, &assets);
-    ModelGen *simuIndex = new BlackScholesModel(6, assets,choleskyCorr,6,rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(6, choleskyCorr,6,rateModels, assets);
     int nbSample = 10000;
     int nbTimeStep = 2228;
     PricerGen * pricer = new MonteCarloPricer(
             Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
     assert(pricer != NULL);
-    Multimonde *multimonde = new Multimonde(pricer,assets,6);
+    Multimonde *multimonde = new Multimonde(pricer,100,assets);
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     double price, ic;
@@ -53,13 +53,14 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
     for (int d = 0; d < 6; ++d)
         (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03);
     *assets = (Asset**) malloc(6 * sizeof(Asset*));
-    (*assets)[0] = new Asset(string("FTSE"), string("FTSE"), Change::GBP, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
-    (*assets)[1] = new Asset(string("P500"), string("P500"), Change::USD, TREND_P500, SPOT_P500, VOL_P500);
-    (*assets)[2] = new Asset(string("HANGSENG"), string("HANGSENG"), Change::HKD, TREND_HANGSENG, SPOT_HANGSENG, VOL_HANGSENG);
-    (*assets)[3] = new Asset(string("NIKKEI"), string("NIKKEI"), Change::JPY , TREND_NIKKEI, SPOT_NIKKEI, VOL_NIKKEI);
-    (*assets)[4] = new Asset(string("SPASX200"), string("SPASX200"), Change::AUD, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
-    (*assets)[5] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, TREND_EUROSTOCK50, SPOT_EUROSTOCK50, VOL_EUROSTOCK50);
+    (*assets)[1] = new Asset(string("FTSE"), string("FTSE"), Change::GBP, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
+    (*assets)[2] = new Asset(string("P500"), string("P500"), Change::USD, TREND_P500, SPOT_P500, VOL_P500);
+    (*assets)[3] = new Asset(string("HANGSENG"), string("HANGSENG"), Change::HKD, TREND_HANGSENG, SPOT_HANGSENG, VOL_HANGSENG);
+    (*assets)[4] = new Asset(string("NIKKEI"), string("NIKKEI"), Change::JPY , TREND_NIKKEI, SPOT_NIKKEI, VOL_NIKKEI);
+    (*assets)[5] = new Asset(string("SPASX200"), string("SPASX200"), Change::AUD, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[0] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, TREND_EUROSTOCK50, SPOT_EUROSTOCK50, VOL_EUROSTOCK50);
     *choleskyCorr = pnl_mat_create(6,6);
+    // TODO : changer l'ordre
     PNL_MSET(*choleskyCorr,0,1,COR_FTSE_P500);
     PNL_MSET(*choleskyCorr,0,2,COR_FTSE_HANGSENG);
     PNL_MSET(*choleskyCorr,0,3,COR_FTSE_NIKKEI);

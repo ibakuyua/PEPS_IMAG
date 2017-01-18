@@ -37,12 +37,14 @@ public:
      *
      * @param[in] nom : the name of the product
      * @param[in] pricer : a pricer for the product valuation
-     * @param[in] assets : list of underlying assets
      * @param[in] size : the number of assets
      * @param[in] hedgingDateNb : the number of hedging dates
      * @param[in] payOff : the payOff function
+     * @param[in] parameters : list of parameters for the payOff(optionnal)
+     * @param[in] assets : list of underlying assets (optionnal)
      */
-    ProductGen(string nom, PricerGen *pricer, Asset **assets, int size, int hedgingDateNb, PayOffFunction payOff);
+    ProductGen(string nom, PricerGen *pricer, int size, int hedgingDateNb, PayOffFunction payOff,
+               Asset **assets, PnlVect* parameters = NULL);
     virtual ~ProductGen();
 
     /*

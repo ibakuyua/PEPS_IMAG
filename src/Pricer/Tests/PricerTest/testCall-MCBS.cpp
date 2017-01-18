@@ -25,11 +25,11 @@ int main(){
     RateModelGen **rateModels = (RateModelGen**) malloc(1 * sizeof(RateModelGen*));
     rateModels[0] = new ConstantRateModel(Change::EUR,FRR);
     assert(rateModels != NULL && rateModels[0] != NULL);
-    ModelGen *modelBS = new BlackScholesModel(1,assets,choleskyCorr,1,rateModels);
+    ModelGen *modelBS = new BlackScholesModel(1,choleskyCorr,1,rateModels, assets);
     assert(modelBS != NULL);
     PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,50000,(int)maturity);
     assert(pricerMC != NULL);
-    ProductGen *call = new Call(pricerMC,assets,1,(int)maturity,strike);
+    ProductGen *call = new Call(pricerMC,assets,(int)maturity,strike);
     assert(call != NULL);
     Marche *marche = Marche::Instance(call);
     assert(marche != NULL);

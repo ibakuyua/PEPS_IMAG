@@ -1,7 +1,7 @@
 #include "Call.hpp"
 
-Call::Call(PricerGen *pricer, Asset **assets, int size, int hedgingDateNb, double strike)
-        : ProductGen("Call", pricer, assets, size, hedgingDateNb, payOffCall)
+Call::Call(PricerGen *pricer, Asset **asset, int hedgingDateNb, double strike)
+        : ProductGen("Call", pricer, 1 , hedgingDateNb, payOffCall, asset)
 {
     parameters = pnl_vect_create_from_scalar(1,strike);
 }

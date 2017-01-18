@@ -36,16 +36,22 @@ public:
      * Constructor
      *
      * @param[in] assetNb : Number of asset for the model
-     * @param[in] assets : the list of Asset
      * @param[in] economyNb : Number of different change in the model
      * @param[in] rateModels : list of rate model (one for each change)
      * @param[in] name : the name of the model
+     * @param[in] assets : the list of underlying asset
      */
-    ModelGen(int assetNb, Asset **assets, int economyNb, RateModelGen **rateModels, string name);
+    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name, Asset **assets);
 
     /**
      * Virtual methods
      */
+    /**
+     * SetAssets : Permit to set properly the list of asset
+     *
+     * @param[in] assets : the list of assets
+     */
+    virtual void SetAssets(Asset **assets);
     /**
      * PrintModel : permit to print the model information
      */

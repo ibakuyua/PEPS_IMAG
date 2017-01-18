@@ -21,8 +21,14 @@ public:
 
     /**
      * Constructor / Destructor
+     *
+     * @param[in] assetNb : the number of assets
+     * @param[in] choleskyCorr : the volatility matrix in the order of list of assets
+     * @param[in] economyNb : the number of economy
+     * @param[in] rateModel : the list of rate models for each economy
+     * @param[in] assets : the list of assets
      */
-    BlackScholesModel(int assetNb, Asset **assets, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel);
+    BlackScholesModel(int assetNb, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel, Asset **assets);
     virtual ~BlackScholesModel();
 
     /**
