@@ -16,6 +16,7 @@ typedef enum{
     JPY = 4,
     AUD = 5
 } Change;
+std::ostream& operator<<(std::ostream& os,Change c);
 
 using namespace std;
 

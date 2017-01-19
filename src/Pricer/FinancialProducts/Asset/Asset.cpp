@@ -1,6 +1,11 @@
 #include "Asset.hpp"
 
 
+std::ostream& operator<<(std::ostream& os,Change c){
+   const char* txt[] = {"EUR", "GBP", "USD", "HKD", "JPY", "AUD"};
+   return os << txt[(int)c];
+}
+
 Asset::Asset(string id, string name, Change change, double trend, double spot, double volatility)
         : id(id), name(name), change(change), trend(trend), spot(spot), volatility(volatility)
 {
