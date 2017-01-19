@@ -18,11 +18,16 @@ namespace IgPeps
     /// <summary>
     /// Logique d'interaction pour Page1.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class Vue : Page
     {
-        public Page1()
+        public Vue()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
