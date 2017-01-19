@@ -23,13 +23,14 @@ int main(){
     PnlMat *choleskyCorr;
     setParameters(&choleskyCorr, &rateModels, &assets);
     ModelGen *simuIndex = new BlackScholesModel(11, 6,rateModels);
-    int nbSample = 10000;
-    int nbTimeStep = 2228;
+    int nbSample = 5000;
+    int hedgingNb, nbTimeStep;
+    hedgingNb = nbTimeStep = (int)Multimonde::maturity; // TODO vérifier qu'on fait bien jour à jour (constructeur multimonde ?)
     PricerGen * pricer = new MonteCarloPricer(
             Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
     assert(pricer != NULL);
     AssetList *assetList = new AssetList(11,assets,choleskyCorr);
-    Multimonde *multimonde = new Multimonde(pricer,100,assetList);
+    Multimonde *multimonde = new Multimonde(pricer,hedgingNb,assetList);
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     multimonde->Print();
