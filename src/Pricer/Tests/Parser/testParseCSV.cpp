@@ -6,7 +6,7 @@
 #include <string>
 int main(){
 
-    std::string path = "Parser/testPEPS.csv";
+    std::string path = "Parser/dataPEPS.csv";
 
     ParseCSV *parser = new ParseCSV(path);
 

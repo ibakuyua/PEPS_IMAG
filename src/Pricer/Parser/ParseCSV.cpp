@@ -7,17 +7,16 @@
 
 ParseCSV::ParseCSV(string path) {
     inputData = pnl_mat_new();
-
+    char delimiter = ',';
 
     ifstream FILE(path,ios::in);
     if(FILE){
-
         char curChar = '0';
         string line;
         int m = 0;
         int n = 0;
         while(curChar != '\n'){
-            if(curChar == ','){
+            if(curChar == delimiter){
                 n++;
             }
             curChar = FILE.get();
@@ -33,7 +32,7 @@ ParseCSV::ParseCSV(string path) {
         char tmpChar;
         getline(FILE,line);
         for(int i = 0; i < m; i++){
-            while(FILE.get()!=','){}
+            while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
                 FILE >> tmpDouble;
                 MLET(inputData,i,j) = tmpDouble;
