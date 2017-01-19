@@ -4,7 +4,7 @@
 #include <cmath>
 #include "../../Stats/StatsFactory.h"
 #include <iostream>
-#include "../../Parser/ParseCSV.h"
+#include "../../Stats/Parser/ParseCSV.h"
 int main(){
 
     PnlMat* quotes = pnl_mat_create_from_zero(4,3);

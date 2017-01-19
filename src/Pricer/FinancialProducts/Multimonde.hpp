@@ -1,7 +1,7 @@
 #ifndef PRICING_MULTIMONDE_HPP
 #define PRICING_MULTIMONDE_HPP
 
-#include "../infoMultimonde.hpp"
+#include "../ProductInfo/infoMultimonde.hpp"
 #include "ProductGen.hpp"
 
 /**
@@ -14,7 +14,7 @@ public:
     /**
      * Members
      */
-    static constexpr double maturity = NB_DAYS_TO_MATURITY/(double)BASE; /// The maturity of the product
+    static constexpr double maturity = NB_DAYSWRK_TO_MATURITY; /// The maturity of the product in working days
 
     /**
      * Constructor 1 : all the underlying asset are in the domestic economy

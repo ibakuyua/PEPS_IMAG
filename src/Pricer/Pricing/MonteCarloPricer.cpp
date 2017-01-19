@@ -36,7 +36,7 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
 
 void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
                              PayOffFunction payOff, PnlVect *parameters) const {
-    // TODO
+    // TODO les deltas
 }
 
 MonteCarloPricer::~MonteCarloPricer() {
