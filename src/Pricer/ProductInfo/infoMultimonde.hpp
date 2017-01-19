@@ -1,23 +1,38 @@
 #ifndef PEPS_IMAG_INFOMULTIMONDE_HPP
 #define PEPS_IMAG_INFOMULTIMONDE_HPP
 
-// Spot of each index
+// Cap and Floor
+#define FLOOR -0.15
+#define CAP 0.15
+
+// Nominal
+#define NOMINAL 100
+
+// Spot of each index at t = 01/10/2015
+#define SPOT_EUROSTOCK50 3190.39
 #define SPOT_FTSE 6061.61
 #define SPOT_P500 1919.65
 #define SPOT_HANGSENG 9551.52
 #define SPOT_NIKKEI 17479.97
 #define SPOT_SPASX200 5021.97
-#define SPOT_EUROSTOCK50 3190.39
+
+// TODO calculer le reste
+// Spot of each change at t = 01/10/2015
+#define SPOT_GBP 1
+#define SPOT_USD 1
+#define SPOT_HKD 1
+#define SPOT_JPY 1
+#define SPOT_AUD 1
 
 // Volatility
+#define VOL_EUROSTOCK50 0.152
 #define VOL_FTSE 0.191
 #define VOL_P500 0.184
 #define VOL_HANGSENG 0.532
 #define VOL_NIKKEI 0.248
 #define VOL_SPASX200 0.186
-#define VOL_EUROSTOCK50 0.152
 
-// TODO Trend
+// Trends
 #define TREND_FTSE 0
 #define TREND_P500 0
 #define TREND_HANGSENG 0
@@ -25,7 +40,7 @@
 #define TREND_SPASX200 0
 #define TREND_EUROSTOCK50 0
 
-// Matrice de correlation
+// Matrice de correlation sigma.sigmaT
 #define COR_FTSE_P500 0.856
 #define COR_FTSE_HANGSENG 0.505
 #define COR_FTSE_NIKKEI 0.841
@@ -49,15 +64,18 @@
 #define NB_DAYS_TO_CONSTATATION_4 1486 // 01/10/2015 to 25/10/2019
 #define NB_DAYS_TO_CONSTATATION_5 1857 // 01/10/2015 to 30/10/2020
 #define NB_DAYS_TO_CONSTATATION_6 2228 // 01/10/2015 to 05/11/2021
+// Number of working days from 01/10/2015 to each date of constatation
+#define NB_DAYSWRK_TO_CONSTATATION_1 267 // 01/10/2015 to 07/10/2016
+#define NB_DAYSWRK_TO_CONSTATATION_2 532 // 01/10/2015 to 13/10/2017
+#define NB_DAYSWRK_TO_CONSTATATION_3 797 // 01/10/2015 to 19/10/2018
+#define NB_DAYSWRK_TO_CONSTATATION_4 1062 // 01/10/2015 to 25/10/2019
+#define NB_DAYSWRK_TO_CONSTATATION_5 1327 // 01/10/2015 to 30/10/2020
+#define NB_DAYSWRK_TO_CONSTATATION_6 1592 // 01/10/2015 to 05/11/2021
 
 #define NB_DAYS_TO_MATURITY 2235 // 01/10/2015 to 12/11/2021
+#define NB_DAYSWRK_TO_MATURITY 1597 // 01/10/2015 to 12/11/2021
+
 #define BASE 360
 
-// Cap and Floor
-#define FLOOR -0.15
-#define CAP 0.15
-
-// Nominal
-#define NOMINAL 100
 
 #endif //PEPS_IMAG_INFOMULTIMONDE_HPP

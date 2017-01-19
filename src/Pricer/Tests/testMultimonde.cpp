@@ -22,7 +22,7 @@ int main(){
     Asset **assets;
     PnlMat *choleskyCorr;
     setParameters(&choleskyCorr, &rateModels, &assets);
-    ModelGen *simuIndex = new BlackScholesModel(11, 1,rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(11, 6,rateModels);
     int nbSample = 10000;
     int nbTimeStep = 2228;
     PricerGen * pricer = new MonteCarloPricer(
@@ -52,8 +52,8 @@ int main(){
 
 void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***assets){
     *rateModels = (RateModelGen**) malloc(1* sizeof(RateModelGen*));
-    for (int d = 0; d < 1; ++d)
-        (*rateModels)[d] = new ConstantRateModel(Change::EUR, 0.03);
+    for (int d = 0; d < 6; ++d)
+        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03);
     *assets = (Asset**) malloc(11 * sizeof(Asset*));
     (*assets)[0] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, TREND_EUROSTOCK50, SPOT_EUROSTOCK50, VOL_EUROSTOCK50);
     (*assets)[1] = new Asset(string("X_FTSE"), string("X_FTSE"), Change::EUR, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
@@ -83,8 +83,8 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
     PNL_MSET(*choleskyCorr,3,4,COR_NIKKEI_SPASX200);
     PNL_MSET(*choleskyCorr,3,5,COR_NIKKEI_EUROSTOCK50);
     PNL_MSET(*choleskyCorr,4,5,COR_SPASX_EUROSTOCK50);
-    for (int i = 0; i < 6; ++i)
-        for (int j = i; j < 6; ++j) {
+    for (int i = 0; i < 11; ++i)
+        for (int j = i; j < 11; ++j) {
             if (i==j)
                 PNL_MSET(*choleskyCorr, i, j, 1);
             else
@@ -94,7 +94,7 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
 }
 void freeParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels,Asset ***assets){
     pnl_mat_free(choleskyCorr);
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 6; ++i) {
         delete (*rateModels)[i];
     }
     delete *rateModels;
