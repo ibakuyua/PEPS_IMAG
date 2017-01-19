@@ -22,20 +22,23 @@ int main(){
     Asset **assets;
     PnlMat *choleskyCorr;
     setParameters(&choleskyCorr, &rateModels, &assets);
-    ModelGen *simuIndex = new BlackScholesModel(6, choleskyCorr,6,rateModels, assets);
+    ModelGen *simuIndex = new BlackScholesModel(6, 6,rateModels);
     int nbSample = 10000;
     int nbTimeStep = 2228;
     PricerGen * pricer = new MonteCarloPricer(
             Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
     assert(pricer != NULL);
-    Multimonde *multimonde = new Multimonde(pricer,100,assets);
+    AssetList *assetList = new AssetList(6,assets,choleskyCorr);
+    Multimonde *multimonde = new Multimonde(pricer,100,assetList);
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+    multimonde->Print();
+    cout << "\n\n";
     double price, ic;
-    cout << "Computing Price ...\n";
+    /*cout << "Computing Price ...\n";
     multimonde->PriceProduct(0, price, ic);
     cout << "\n--> Price : " << price;
-    cout << "\n--> Ic : " << ic;
+    cout << "\n--> Ic : " << ic;*/
     // Free
     cout << "\n\n** Delete : ";
     delete multimonde;

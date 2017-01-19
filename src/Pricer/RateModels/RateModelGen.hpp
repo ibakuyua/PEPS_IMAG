@@ -2,7 +2,7 @@
 #define PRICING_RATEMODELGEN_HPP
 
 
-#include "../FinancialProducts/Asset.hpp"
+#include "../FinancialProducts/Asset/Asset.hpp"
 
 /**
  * RateModelGen[abstract]

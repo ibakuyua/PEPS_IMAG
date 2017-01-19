@@ -7,7 +7,7 @@ Asset::Asset(string id, string name, Change change, double trend, double spot, d
 }
 
 
-void Asset::PrintAsset() {
+void Asset::Print() {
     cout << "[ " <<this->id << " ] : " << this->name << " (" << this->change << ") ";
     cout << "\n\t Spot : " << this->spot << " | Trend : " << this->trend << " | Vol : " << this->volatility;
 }

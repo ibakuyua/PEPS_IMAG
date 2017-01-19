@@ -1,9 +1,11 @@
 #include "BlackScholesModel.hpp"
 
 
-BlackScholesModel::BlackScholesModel(int assetNb, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel, Asset **assets)
-        : ModelGen(assetNb, economyNb,rateModel, "Black Scholes",assets){
-    this->choleskyCorr = choleskyCorr;
+BlackScholesModel::BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel)
+        : ModelGen(assetNb, economyNb,rateModel, "Black Scholes"){
+    this->choleskyCorr = pnl_mat_create_from_scalar(assetNb,assetNb,0);
+    for (int i = 0; i < assetNb; ++i)
+        MLET(choleskyCorr,i,i) = 1.;
     this->Gi_ = pnl_vect_new();
     this->LGi_ = pnl_vect_new();
     this->St = pnl_vect_new();
@@ -116,6 +118,7 @@ BlackScholesModel::~BlackScholesModel() {
     pnl_vect_free(&Gi_);
     pnl_vect_free(&LGi_);
     pnl_vect_free(&St);
+    pnl_mat_free(&choleskyCorr);
     // Base destructor is called here
 }
 
@@ -143,4 +146,11 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
             PNL_MSET(path,i,d,Sd_ti);
         }
     }
+}
+
+
+void BlackScholesModel::SetAssets(AssetList *assets) {
+    ModelGen::SetAssets(assets);
+    pnl_mat_free(&choleskyCorr);
+    choleskyCorr = pnl_mat_copy(assets->volatilityMat);
 }

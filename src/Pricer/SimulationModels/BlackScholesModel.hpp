@@ -22,13 +22,14 @@ public:
     /**
      * Constructor / Destructor
      *
+     * remarks : the list of asset has to be setted after with SetAssets
+     * remarks : Generaly is done in the product constructor
+     *
      * @param[in] assetNb : the number of assets
-     * @param[in] choleskyCorr : the volatility matrix in the order of list of assets
      * @param[in] economyNb : the number of economy
      * @param[in] rateModel : the list of rate models for each economy
-     * @param[in] assets : the list of assets
      */
-    BlackScholesModel(int assetNb, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel, Asset **assets);
+    BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel);
     virtual ~BlackScholesModel();
 
     /**
@@ -47,6 +48,8 @@ public:
      * remarks : the dynamic is dS(t) = S(t)(mu(t)dt + sigma(t).dWt)
      */
     void SimulateMarket(double maturity, PnlMat *path, int stepNb);
+
+    void SetAssets(AssetList *assets);
 
 };
 

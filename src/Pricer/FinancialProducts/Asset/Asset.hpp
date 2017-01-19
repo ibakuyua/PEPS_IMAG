@@ -42,9 +42,9 @@ public:
      * Methods
      */
     /**
-     * PrintAsset : permit to print asset information
+     * Print : permit to print asset information
      */
-    void PrintAsset();
+    void Print();
 
 
     /**

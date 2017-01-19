@@ -1,9 +1,10 @@
 #ifndef PEPS_IMAG_PRODUCTGEN_HPP
 #define PEPS_IMAG_PRODUCTGEN_HPP
 
-#include "Asset.hpp"
+#include "Asset/Asset.hpp"
 #include "../Pricing/PricerGen.hpp"
 #include "../FinancialProducts/PayOffs/PayOffFunctions.hpp"
+#include "Asset/AssetList.hpp"
 
 /**
  * ProductGen[Abstract]
@@ -17,8 +18,7 @@ public:
      */
     string nom; /// Name of the product
     PricerGen *pricer; /// Pricer for this product
-    Asset **assets; /// List of underlying assets
-    int size; /// Number of underlying assets
+    AssetList *assets; /// List of underlying assets
     int hedgingDateNb; /// Number of hedging dates
 
     /*
@@ -43,8 +43,8 @@ public:
      * @param[in] parameters : list of parameters for the payOff(optionnal)
      * @param[in] assets : list of underlying assets (optionnal)
      */
-    ProductGen(string nom, PricerGen *pricer, int size, int hedgingDateNb, PayOffFunction payOff,
-               Asset **assets, PnlVect* parameters = NULL);
+    ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffFunction payOff,
+               AssetList *assets, PnlVect* parameters = NULL);
     virtual ~ProductGen();
 
     /*
@@ -68,9 +68,9 @@ public:
      */
     virtual void PriceProduct(double t, double &price, double &ic) const;
     /**
-     * PrintProduct : permit to show the information of the product
+     * Print : permit to show the information of the product
      */
-    virtual void PrintProduct() const;
+    virtual void Print() const;
 
     /*
      * Virtual pur method

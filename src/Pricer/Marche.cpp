@@ -33,8 +33,8 @@ void Marche::GetCotations(double t, PnlVect* cotations) {
 Marche::Marche(ProductGen *product)
     : product(product)
 {
-    cours = pnl_mat_create_from_zero(product->hedgingDateNb, product->size);
-    cours_t = pnl_vect_create_from_zero(product->size);
+    cours = pnl_mat_create_from_zero(product->hedgingDateNb, product->assets->size);
+    cours_t = pnl_vect_create_from_zero(product->assets->size);
 }
 
 Marche::~Marche() {

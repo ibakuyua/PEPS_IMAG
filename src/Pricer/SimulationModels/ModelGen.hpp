@@ -6,7 +6,8 @@
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 #include "../RateModels/RateModelGen.hpp"
-#include "../FinancialProducts/Asset.hpp"
+#include "../FinancialProducts/Asset/Asset.hpp"
+#include "../FinancialProducts/Asset/AssetList.hpp"
 #include <map>
 #include <vector>
 
@@ -35,13 +36,15 @@ public:
     /**
      * Constructor
      *
+     * remarks : the list of asset has to be setted after with SetAssets
+     * remarks : Generaly is done in the product constructor
+     *
      * @param[in] assetNb : Number of asset for the model
      * @param[in] economyNb : Number of different change in the model
      * @param[in] rateModels : list of rate model (one for each change)
      * @param[in] name : the name of the model
-     * @param[in] assets : the list of underlying asset
      */
-    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name, Asset **assets);
+    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name);
 
     /**
      * Virtual methods
@@ -51,11 +54,11 @@ public:
      *
      * @param[in] assets : the list of assets
      */
-    virtual void SetAssets(Asset **assets);
+    virtual void SetAssets(AssetList *assets);
     /**
-     * PrintModel : permit to print the model information
+     * Print : permit to print the model information
      */
-    virtual void PrintModel();
+    virtual void Print();
 
     /**
      * Virtual methods [Pur]

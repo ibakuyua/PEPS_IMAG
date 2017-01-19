@@ -1,9 +1,9 @@
 #include "ProductGen.hpp"
 
 
-ProductGen::ProductGen(string nom, PricerGen *pricer, int size, int hedgingDateNb, PayOffFunction payOff,
-                        Asset **assets, PnlVect* parameters)
-    : nom(nom), pricer(pricer), assets(assets), size(size), hedgingDateNb(hedgingDateNb)
+ProductGen::ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffFunction payOff,
+                        AssetList *assets, PnlVect* parameters)
+    : nom(nom), pricer(pricer), assets(assets), hedgingDateNb(hedgingDateNb)
         , payOff(payOff), parameters(parameters)
 {
     this->pricer->simuModel->SetAssets(assets); // Obligation to do this
@@ -25,18 +25,14 @@ void ProductGen::PriceProduct(double t, double &price, double &ic) const {
 }
 
 
-void ProductGen::PrintProduct() const {
+void ProductGen::Print() const {
     cout << "\n******************************************";
     cout << "\nProduct : " << this->nom;
     cout << "\nPricer : " ; this->pricer->PrintPricer();
     cout << "\n------------------------------------------";
     cout << "\nMaturity : " << this->pricer->maturity;
     cout << "\nNumber of hedging date : " << this->hedgingDateNb;
-    cout << "\nNumber of underlying assets : " << this->size;
-    for (int d = 0; d < this->size; ++d) {
-        cout << "\n";
-        assets[d]->PrintAsset();
-    }
+    cout << "\n"; assets->Print();
     cout << "\n------------------------------------------";
     cout << "\nParameters : ";
 }

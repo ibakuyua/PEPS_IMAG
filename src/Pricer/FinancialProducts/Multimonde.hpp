@@ -27,7 +27,7 @@ public:
      *          4 : Xnikkei   | 5 : Xspasx200  | 6 : XRgbp | 7 : XRusd
      *          8 : XRhkd     | 9 : XRjpy      | 10: XRaud
      */
-    Multimonde(PricerGen *pricer, int hedgingDateNb, Asset **assets);
+    Multimonde(PricerGen *pricer, int hedgingDateNb, AssetList *assets);
 
     // Destructor
     ~Multimonde();
