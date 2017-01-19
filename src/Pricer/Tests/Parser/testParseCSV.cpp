@@ -3,7 +3,7 @@
 #include "../../Stats/Parser/ParseCSV.h"
 int main(){
 
-    std::string path = "Parser/testPEPS.csv";
+    std::string path = "../data/dataPEPS.csv";
 
     ParseCSV *parser = new ParseCSV(path);
 

@@ -8,9 +8,8 @@
 int main(){
 
     PnlMat* quotes = pnl_mat_create_from_zero(4,3);
-    ParseCSV*  parser = new ParseCSV("Parser/testPEPS.csv");
-
-
+    ParseCSV*  parser = new ParseCSV("../data/dataPEPS.csv");
+    
     std::cout << "Test avec les données en dur :" << std::endl;
     MLET(quotes,0,0) = 2.0;
     MLET(quotes,0,1) = 5.2;
