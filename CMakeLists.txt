@@ -25,7 +25,7 @@ set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/
 set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
         src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp src/Pricer/FinancialProducts/Asset/AssetList.cpp)
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
-set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Parser/ParseCSV.cpp)
+set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Stats/Parser/ParseCSV.cpp)
 # Add executables
 #Test for rate model
 add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})

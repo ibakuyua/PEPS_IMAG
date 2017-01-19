@@ -2,7 +2,7 @@
 #include <math.h>
 #include "PayOffFunctions.hpp"
 
-#include "../../infoMultimonde.hpp"
+#include "../../ProductInfo/infoMultimonde.hpp"
 // TODO Faire attention, vu qu'on fait du jour par jour dans la calibration, l'intégrale doit se faire en terme de jour ! pour le calcul des payoff
 
 double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels) {

@@ -1,7 +1,7 @@
 #ifndef PRICING_MULTIMONDE_HPP
 #define PRICING_MULTIMONDE_HPP
 
-#include "../infoMultimonde.hpp"
+#include "../ProductInfo/infoMultimonde.hpp"
 #include "ProductGen.hpp"
 
 /**

@@ -22,13 +22,13 @@ int main(){
     Asset **assets;
     PnlMat *choleskyCorr;
     setParameters(&choleskyCorr, &rateModels, &assets);
-    ModelGen *simuIndex = new BlackScholesModel(6, 6,rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(11, 1,rateModels);
     int nbSample = 10000;
     int nbTimeStep = 2228;
     PricerGen * pricer = new MonteCarloPricer(
             Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
     assert(pricer != NULL);
-    AssetList *assetList = new AssetList(6,assets,choleskyCorr);
+    AssetList *assetList = new AssetList(11,assets,choleskyCorr);
     Multimonde *multimonde = new Multimonde(pricer,100,assetList);
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
@@ -51,18 +51,22 @@ int main(){
 }
 
 void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***assets){
-    // TODO : Peut être faire des méthodes venant de multimonde
-    *rateModels = (RateModelGen**) malloc(6* sizeof(RateModelGen*));
-    for (int d = 0; d < 6; ++d)
-        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03);
-    *assets = (Asset**) malloc(6 * sizeof(Asset*));
-    (*assets)[1] = new Asset(string("FTSE"), string("FTSE"), Change::GBP, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
-    (*assets)[2] = new Asset(string("P500"), string("P500"), Change::USD, TREND_P500, SPOT_P500, VOL_P500);
-    (*assets)[3] = new Asset(string("HANGSENG"), string("HANGSENG"), Change::HKD, TREND_HANGSENG, SPOT_HANGSENG, VOL_HANGSENG);
-    (*assets)[4] = new Asset(string("NIKKEI"), string("NIKKEI"), Change::JPY , TREND_NIKKEI, SPOT_NIKKEI, VOL_NIKKEI);
-    (*assets)[5] = new Asset(string("SPASX200"), string("SPASX200"), Change::AUD, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    *rateModels = (RateModelGen**) malloc(1* sizeof(RateModelGen*));
+    for (int d = 0; d < 1; ++d)
+        (*rateModels)[d] = new ConstantRateModel(Change::EUR, 0.03);
+    *assets = (Asset**) malloc(11 * sizeof(Asset*));
     (*assets)[0] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, TREND_EUROSTOCK50, SPOT_EUROSTOCK50, VOL_EUROSTOCK50);
-    *choleskyCorr = pnl_mat_create(6,6);
+    (*assets)[1] = new Asset(string("X_FTSE"), string("X_FTSE"), Change::EUR, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
+    (*assets)[2] = new Asset(string("X_P500"), string("X_P500"), Change::EUR, TREND_P500, SPOT_P500, VOL_P500);
+    (*assets)[3] = new Asset(string("X_HANGSENG"), string("X_HANGSENG"), Change::EUR, TREND_HANGSENG, SPOT_HANGSENG, VOL_HANGSENG);
+    (*assets)[4] = new Asset(string("X_NIKKEI"), string("X_NIKKEI"), Change::EUR, TREND_NIKKEI, SPOT_NIKKEI, VOL_NIKKEI);
+    (*assets)[5] = new Asset(string("X_SPASX200"), string("X_SPASX200"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[6] = new Asset(string("X_Rgbp"), string("X_Rgbp"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[7] = new Asset(string("X_Rusd"), string("X_Rusd"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[8] = new Asset(string("X_Rhkd"), string("X_Rhkd"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[9] = new Asset(string("X_Rjpy"), string("X_Rjpy"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[10] = new Asset(string("X_Raud"), string("X_Raud"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    *choleskyCorr = pnl_mat_create_from_scalar(11,11,0.);
     // TODO : changer l'ordre
     PNL_MSET(*choleskyCorr,0,1,COR_FTSE_P500);
     PNL_MSET(*choleskyCorr,0,2,COR_FTSE_HANGSENG);
@@ -90,11 +94,11 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
 }
 void freeParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels,Asset ***assets){
     pnl_mat_free(choleskyCorr);
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 1; ++i) {
         delete (*rateModels)[i];
     }
     delete *rateModels;
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 11; ++i) {
         delete (*assets)[i];
     }
     delete *assets;
