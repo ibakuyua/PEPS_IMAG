@@ -12,7 +12,7 @@ typedef enum{
     EUR = 0,
     GBP = 1,
     USD = 2,
-    HKD = 3,
+    CNY = 3,
     JPY = 4,
     AUD = 5
 } Change;

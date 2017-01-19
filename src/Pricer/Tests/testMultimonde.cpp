@@ -64,7 +64,7 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
     (*assets)[5] = new Asset(string("X_SPASX200"), string("X_SPASX200"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
     (*assets)[6] = new Asset(string("X_Rgbp"), string("X_Rgbp"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
     (*assets)[7] = new Asset(string("X_Rusd"), string("X_Rusd"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
-    (*assets)[8] = new Asset(string("X_Rhkd"), string("X_Rhkd"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
+    (*assets)[8] = new Asset(string("X_Rcny"), string("X_Rhkd"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
     (*assets)[9] = new Asset(string("X_Rjpy"), string("X_Rjpy"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
     (*assets)[10] = new Asset(string("X_Raud"), string("X_Raud"), Change::EUR, TREND_SPASX200, SPOT_SPASX200, VOL_SPASX200);
     *choleskyCorr = pnl_mat_create_from_scalar(11,11,0.);
