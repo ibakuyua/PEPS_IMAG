@@ -22,7 +22,7 @@ double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateMod
                     Change::EUR,
                     Change::GBP,
                     Change::USD,
-                    Change::HKD,
+                    Change::CNY,
                     Change::JPY,
                     Change::AUD
             };

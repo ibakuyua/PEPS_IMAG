@@ -20,7 +20,7 @@
 // Spot of each change at t = 01/10/2015
 #define SPOT_GBP 1
 #define SPOT_USD 1
-#define SPOT_HKD 1
+#define SPOT_CNY 1
 #define SPOT_JPY 1
 #define SPOT_AUD 1
 
