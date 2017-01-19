@@ -23,6 +23,7 @@ public:
     PnlMat *correl_;
     PnlVect *mean_;
     PnlVect *vol_;
+    PnlMat *quotesInEUR_;
 
 
     StatsFactory(PnlMat *quotes);
@@ -31,6 +32,8 @@ public:
 private:
 
     //Compute returns from quotes
+    void getQuotesInEUR();
+
     void getReturnsFromQuotes();
 
     void getMeanFromReturns();

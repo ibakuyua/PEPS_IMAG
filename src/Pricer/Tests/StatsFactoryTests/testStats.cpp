@@ -25,9 +25,9 @@ int main(){
     MLET(quotes,3,2) = 3.4;
 
 
-    StatsFactory* statsFactory1 = new StatsFactory(quotes);
+    //StatsFactory* statsFactory1 = new StatsFactory(quotes);
     StatsFactory* statsFactory2 = new StatsFactory(parser->inputData);
-
+/*
     std::cout << "Matrice of quotes : " << std::endl;
     pnl_mat_print(statsFactory1->quotes_);
 
@@ -48,7 +48,7 @@ int main(){
     std::cout << std::endl << "Matrice of Correlation : " << std::endl;
     pnl_mat_print(statsFactory1->correl_);
 
-
+*/
     std::cout << std::endl;
     std::cout << std::endl;
 
@@ -57,6 +57,9 @@ int main(){
 
     std::cout << "Matrice of quotes : " << std::endl;
     pnl_mat_print(statsFactory2->quotes_);
+
+    std::cout << "Matrice of quotes in EUR : " << std::endl;
+    pnl_mat_print(statsFactory2->quotesInEUR_);
 
     std::cout << std::endl << "Matrice of returns : " << std::endl;
     pnl_mat_print(statsFactory2->returns_);

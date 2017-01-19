@@ -7,6 +7,9 @@
 
 StatsFactory::StatsFactory(PnlMat *quotes):quotes_(quotes){
 
+    quotesInEUR_ = pnl_mat_create_from_zero(quotes->m,quotes->n);
+    getQuotesInEUR();
+
     returns_ = pnl_mat_create_from_zero(quotes->m - 1, quotes->n);
     getReturnsFromQuotes();
 
@@ -30,6 +33,29 @@ StatsFactory::~StatsFactory(){
     pnl_mat_free(&returns_);
     pnl_mat_free(&correl_);
     pnl_mat_free(&covar_);
+    pnl_mat_free(&quotesInEUR_);
+
+}
+
+void StatsFactory::getQuotesInEUR() {
+
+    for(int i = 0; i < quotes_->m; i++){
+        for(int j = 0; j < quotes_->n;j++){
+            if(j == 1){
+                MLET(quotesInEUR_,i,j) = MGET(quotes_,i,j) * MGET(quotes_,i,6);
+            }else if(j == 2){
+                MLET(quotesInEUR_,i,j) = MGET(quotes_,i,j) * MGET(quotes_,i,7);
+            }else if(j == 3){
+                MLET(quotesInEUR_,i,j) = MGET(quotes_,i,j) * MGET(quotes_,i,8);
+            }else if(j == 4){
+                MLET(quotesInEUR_,i,j) = MGET(quotes_,i,j) * MGET(quotes_,i,9);
+            }else if(j == 5){
+                MLET(quotesInEUR_,i,j) = MGET(quotes_,i,j) * MGET(quotes_,i,10);
+            }else{
+                MLET(quotesInEUR_,i,j) = MGET(quotes_,i,j);
+            }
+        }
+    }
 
 }
 
