@@ -41,10 +41,10 @@ public:
      * @param[in] hedgingDateNb : the number of hedging dates
      * @param[in] payOff : the payOff function
      * @param[in] parameters : list of parameters for the payOff(optionnal)
-     * @param[in] assets : list of underlying assets (optionnal)
+     * @param[in] assets : list of underlying assets (optionnal but has to be setted before to price)
      */
     ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffFunction payOff,
-               AssetList *assets, PnlVect* parameters = NULL);
+               AssetList *assets = NULL, PnlVect* parameters = NULL);
     virtual ~ProductGen();
 
     /*

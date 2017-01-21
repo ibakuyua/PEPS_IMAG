@@ -154,3 +154,16 @@ void BlackScholesModel::SetAssets(AssetList *assets) {
     pnl_mat_free(&choleskyCorr);
     choleskyCorr = pnl_mat_copy(assets->volatilityMat);
 }
+
+void BlackScholesModel::GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix) {
+    // TODO vérifier que la matrice de cholesky fonctionne bien
+    *volMatrix = pnl_mat_copy(stats->covar_);
+    pnl_mat_chol(*volMatrix); // sigma = cholesky(sigma.sigmaT) = cholesky(covar)
+    *trend = pnl_vect_copy(stats->mean_); // drift = mean
+    PnlVect *vol;
+    for (int i = 0; i < (*trend)->size; ++i) { // drift = trend - 1/2 sigma_i^2
+        pnl_mat_get_col(vol,*volMatrix,i);
+        LET(*trend,i) = GET(*trend,i) + 1/2 * pnl_vect_scalar_prod(vol,vol);
+    }
+    pnl_vect_free(&vol);
+}

@@ -23,7 +23,8 @@ set(RATE_SOURCE_FILES src/Pricer/RateModels/RateModelGen.cpp src/Pricer/RateMode
 set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/MonteCarloPricer.cpp ${SIMULATION_SOURCE_FILE})
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
 set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
-        src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp src/Pricer/FinancialProducts/Asset/AssetList.cpp)
+        src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp src/Pricer/FinancialProducts/Asset/AssetList.cpp
+        src/Pricer/FinancialProducts/Asset/ChangeZC.cpp)
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Stats/Parser/ParseCSV.cpp)
 # Add executables
@@ -46,5 +47,5 @@ target_link_libraries(test_parseCSV.te ${LIBS})
 # Global executable
 add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
-        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} ${BASE_SOURCE_FILES})
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_multimonde.te ${LIBS})

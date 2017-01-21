@@ -3,7 +3,7 @@
 Call::Call(PricerGen *pricer, Asset *asset, int hedgingDateNb, double strike)
         : ProductGen("Call", pricer, hedgingDateNb, payOffCall, new AssetList(asset))
 {
-    parameters = pnl_vect_create_from_scalar(1,strike);
+    this->parameters = pnl_vect_create_from_scalar(1,strike);
 }
 
 Call::~Call() {

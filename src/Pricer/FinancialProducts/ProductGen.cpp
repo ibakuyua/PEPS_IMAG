@@ -6,11 +6,11 @@ ProductGen::ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffF
     : nom(nom), pricer(pricer), assets(assets), hedgingDateNb(hedgingDateNb)
         , payOff(payOff), parameters(parameters)
 {
-    this->pricer->simuModel->SetAssets(assets); // Obligation to do this
+    if (assets != NULL)
+        this->pricer->simuModel->SetAssets(assets); // Obligation to do this
 }
 
 ProductGen::~ProductGen() {
-
 }
 
 

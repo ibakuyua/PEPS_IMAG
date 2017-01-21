@@ -8,6 +8,7 @@
 #include "../RateModels/RateModelGen.hpp"
 #include "../FinancialProducts/Asset/Asset.hpp"
 #include "../FinancialProducts/Asset/AssetList.hpp"
+#include "../Stats/StatsFactory.h"
 #include <map>
 #include <vector>
 
@@ -63,6 +64,15 @@ public:
     /**
      * Virtual methods [Pur]
      */
+    /**
+     * // TODO : Améliorer ce truc
+     * GetParametersFromStats : permit to obtain parameter model easily
+     *
+     * @param[in] stats : the statistic measures
+     * @param[out] trend : the trend of each asset
+     * @param[out] volMatrix : the matrice of volatility sigma
+     */
+    virtual void GetParametersFromStats(StatsFactory *stats,PnlVect **trend, PnlMat **volMatrix) = 0;
     /**
      * Simulate : permit to simulate at the date t a path for each asset.
      *

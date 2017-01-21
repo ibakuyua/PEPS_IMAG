@@ -21,8 +21,9 @@ public:
      * @param[in] size : the size of the list
      * @param[in] assets : the list of assets
      * @param[in] vol : the volatility matrix sigma
+     * @param[bool] withDestroy : if the destructor has to destroy the parameters
      */
-    AssetList(int size, Asset **assets, PnlMat *vol);
+    AssetList(int size, Asset **assets, PnlMat *vol, bool withDestroy = false);
     /**
      * Constructor
      *
@@ -40,7 +41,7 @@ public:
     void Print();
 
 private:
-    bool hasToDestroy = false;
+    bool hasToDestroy;
 
 };
 

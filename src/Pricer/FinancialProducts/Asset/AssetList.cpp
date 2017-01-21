@@ -2,8 +2,8 @@
 #include "AssetList.hpp"
 
 
-AssetList::AssetList(int size, Asset **assets, PnlMat *vol)
-        : size(size), assets(assets), volatilityMat(vol)
+AssetList::AssetList(int size, Asset **assets, PnlMat *vol, bool withDestroy)
+        : size(size), assets(assets), volatilityMat(vol), hasToDestroy(withDestroy)
 {
 }
 

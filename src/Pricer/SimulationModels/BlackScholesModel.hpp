@@ -43,8 +43,9 @@ public:
      */
     void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb);
     void Simulate(double maturity, PnlMat *path, int stepNb);
+    void GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix);
 
-    /*
+/*
      * remarks : the dynamic is dS(t) = S(t)(mu(t)dt + sigma(t).dWt)
      */
     void SimulateMarket(double maturity, PnlMat *path, int stepNb);

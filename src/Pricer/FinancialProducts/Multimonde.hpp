@@ -3,6 +3,7 @@
 
 #include "../ProductInfo/infoMultimonde.hpp"
 #include "ProductGen.hpp"
+#include "../Stats/StatsFactory.h"
 
 /**
  * Multimonde
@@ -21,13 +22,13 @@ public:
      *
      * @param[in] pricer : the pricer for the product valuation
      * @param[in] hedgingDateNb : the number of hedging date
-     * @param[in] assets : the underlying asset on the order specified in Multimonde.hpp
+     * @param[in] stats : the statistics in the order specified in Multimonde.hpp
      *
      * @details 0 : eurostock | 1 : Xftse      | 2 : Xp500 | 3 : Xhangseng
      *          4 : Xnikkei   | 5 : Xspasx200  | 6 : XRgbp | 7 : XRusd
      *          8 : XRcny     | 9 : XRjpy      | 10: XRaud
      */
-    Multimonde(PricerGen *pricer, int hedgingDateNb, AssetList *assets);
+    Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats);
 
     // Destructor
     ~Multimonde();

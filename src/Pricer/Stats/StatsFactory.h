@@ -42,10 +42,8 @@ private:
 
     void ComputeCorrelFromCovar();
 
-
-
-
 };
+
 
 
 #endif //PEPS_IMAG_STATSFACTORY_H

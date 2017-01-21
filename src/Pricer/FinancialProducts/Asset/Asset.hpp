@@ -38,6 +38,7 @@ public:
     double trend; /// Trend (mu) of the asset
     double spot; /// Spot (t=0) of the asset
     double volatility; /// volatility of the model (sqrt(Sum_k sigma_(i,k)^2) for classic B&S)
+    bool isChange; /// The asset is a change ?
 
     /**
      * Methods
