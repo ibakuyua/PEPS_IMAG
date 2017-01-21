@@ -16,46 +16,12 @@
 #define SPOT_NIKKEI 17479.97
 #define SPOT_SPASX200 5021.97
 
-// TODO calculer le reste
 // Spot of each change at t = 01/10/2015
 #define SPOT_GBP 1
 #define SPOT_USD 1
 #define SPOT_CNY 1
 #define SPOT_JPY 1
 #define SPOT_AUD 1
-
-// Volatility
-#define VOL_EUROSTOCK50 0.152
-#define VOL_FTSE 0.191
-#define VOL_P500 0.184
-#define VOL_HANGSENG 0.532
-#define VOL_NIKKEI 0.248
-#define VOL_SPASX200 0.186
-
-// Trends
-#define TREND_FTSE 0
-#define TREND_P500 0
-#define TREND_HANGSENG 0
-#define TREND_NIKKEI 0
-#define TREND_SPASX200 0
-#define TREND_EUROSTOCK50 0
-
-// Matrice de correlation sigma.sigmaT
-#define COR_FTSE_P500 0.856
-#define COR_FTSE_HANGSENG 0.505
-#define COR_FTSE_NIKKEI 0.841
-#define COR_FTSE_SPASX200 0.922
-#define COR_FTSE_EUROSTOCK50 0.934
-#define COR_P500_HANGSENG 0.542
-#define COR_P500_NIKKEI 0.781
-#define COR_P500_SPASX200 0.809
-#define COR_P500_EUROSTOCK50 0.909
-#define COR_HANGSENG_NIKKEI 0.306
-#define COR_HANGSENG_SPASX200 0.518
-#define COR_HANGSENG_EUROSTOCK50 0.521
-#define COR_NIKKEI_SPASX200 0.741
-#define COR_NIKKEI_EUROSTOCK50 0.793
-#define COR_SPASX_EUROSTOCK50 0.897
 
 // Number of days from 01/10/2015 to each date of constatation
 #define NB_DAYS_TO_CONSTATATION_1 373 // 01/10/2015 to 07/10/2016

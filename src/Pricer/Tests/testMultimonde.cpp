@@ -52,11 +52,11 @@ int main(){
 }
 
 void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***assets){
-    *rateModels = (RateModelGen**) malloc(1* sizeof(RateModelGen*));
+    /**rateModels = (RateModelGen**) malloc(1* sizeof(RateModelGen*));
     for (int d = 0; d < 6; ++d)
         (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03);
     *assets = (Asset**) malloc(11 * sizeof(Asset*));
-    (*assets)[0] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, TREND_EUROSTOCK50, SPOT_EUROSTOCK50, VOL_EUROSTOCK50);
+    (*assets)[0] = new Asset(string("EUROSTOCK50"), string("EUROSTOCK50"), Change::EUR, 0, 0, VOL_EUROSTOCK50);
     (*assets)[1] = new Asset(string("X_FTSE"), string("X_FTSE"), Change::EUR, TREND_FTSE, SPOT_FTSE, VOL_FTSE);
     (*assets)[2] = new Asset(string("X_P500"), string("X_P500"), Change::EUR, TREND_P500, SPOT_P500, VOL_P500);
     (*assets)[3] = new Asset(string("X_HANGSENG"), string("X_HANGSENG"), Change::EUR, TREND_HANGSENG, SPOT_HANGSENG, VOL_HANGSENG);
@@ -91,10 +91,10 @@ void setParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels, Asset ***a
             else
                 PNL_MSET(*choleskyCorr, j, i, PNL_MGET(*choleskyCorr, i, j));
         }
-    pnl_mat_chol(*choleskyCorr);
+    pnl_mat_chol(*choleskyCorr);*/
 }
 void freeParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels,Asset ***assets){
-    pnl_mat_free(choleskyCorr);
+    /*pnl_mat_free(choleskyCorr);
     for (int i = 0; i < 6; ++i) {
         delete (*rateModels)[i];
     }
@@ -102,5 +102,5 @@ void freeParameters(PnlMat **choleskyCorr, RateModelGen ***rateModels,Asset ***a
     for (int i = 0; i < 11; ++i) {
         delete (*assets)[i];
     }
-    delete *assets;
+    delete *assets;*/
 }

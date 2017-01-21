@@ -1,83 +1,79 @@
-//
-// Created by Ruimy Benjamin Mac on 13/01/2017.
-//
-
 #include "StatsFactory.h"
 #include <iostream>
 
 StatsFactory::StatsFactory(PnlMat *quotes):quotes_(quotes){
 
-    returns_ = pnl_mat_create_from_zero(quotes->m - 1, quotes->n);
-    getReturnsFromQuotes();
+    logReturns_ = pnl_mat_create_from_zero(quotes->m - 1, quotes->n);
+    ComputeLogReturnsFromQuotes();
 
     mean_ = pnl_vect_create_from_zero(quotes->n);
-    getMeanFromReturns();
+    ComputeMeanFromLogReturns();
 
     covar_ = pnl_mat_create_from_zero(quotes->n,quotes->n);
-    getCovarFromReturns();
+    ComputeCovarFromLogReturns();
 
     vol_ = pnl_vect_create_from_zero(quotes->n);
-    getVolFromCovar();
+    ComputeVolFromCovar();
 
     correl_ = pnl_mat_create_from_zero(quotes->n, quotes->n);
-    getCorrelFromCovar();
+    ComputeCorrelFromCovar();
 
 }
 
 StatsFactory::~StatsFactory(){
 
     pnl_vect_free(&vol_);
-    pnl_mat_free(&returns_);
+    pnl_mat_free(&logReturns_);
     pnl_mat_free(&correl_);
     pnl_mat_free(&covar_);
 
 }
 
-void StatsFactory::getReturnsFromQuotes() {
+void StatsFactory::ComputeLogReturnsFromQuotes() {
     double newValue = 0;
     double oldValue = 0;
     for(int j = 0; j < quotes_->n ; j++){
         oldValue = MGET(quotes_,0,j);
         for(int i = 0; i < quotes_->m - 1; i++){
             newValue = MGET(quotes_,i + 1,j);
-            MLET(returns_,i,j) = log(newValue/oldValue);
+            MLET(logReturns_, i, j) = log(newValue / oldValue);
             oldValue = newValue;
         }
     }
 }
 
-void StatsFactory::getMeanFromReturns() {
+void StatsFactory::ComputeMeanFromLogReturns() {
 
     double esp;
-    for(int j = 0; j < returns_->n; j++){
+    for(int j = 0; j < logReturns_->n; j++){
         esp = 0;
-        for(int i = 0; i < returns_->m; i++){
-            esp+= MGET(returns_,i,j);
+        for(int i = 0; i < logReturns_->m; i++){
+            esp+= MGET(logReturns_, i, j);
         }
-        esp/=returns_->m;
+        esp/= logReturns_->m;
         LET(mean_,j) = esp;
     }
 
 }
 
-void StatsFactory::getCovarFromReturns(){
+void StatsFactory::ComputeCovarFromLogReturns(){
     double esp1;
     double esp2;
     double coVar;
-    for(int i = 0; i < returns_->n; i++){
+    for(int i = 0; i < logReturns_->n; i++){
         esp1 = GET(mean_,i);
         for(int j = 0; j <= i; j++){
             esp2 = GET(mean_,j);
             //GetCovar
             coVar = 0;
-            for(int i2 = 0; i2 < returns_->m; i2++){
-                coVar += (MGET(returns_,i2,i) - esp1)*(MGET(returns_,i2,j) - esp2);
+            for(int i2 = 0; i2 < logReturns_->m; i2++){
+                coVar += (MGET(logReturns_, i2, i) - esp1) * (MGET(logReturns_, i2, j) - esp2);
             }
-            MLET(covar_,i,j) = coVar / (returns_->m - 1);
+            MLET(covar_,i,j) = coVar / (logReturns_->m - 1);
         }
     }
 
-    for(int i = 0; i < returns_->n; i++){
+    for(int i = 0; i < logReturns_->n; i++){
         for(int j = 0; j < i; j++){
             MLET(covar_,j,i) = MGET(covar_,i,j);
         }
@@ -85,7 +81,7 @@ void StatsFactory::getCovarFromReturns(){
 
 }
 
-void StatsFactory::getVolFromCovar(){
+void StatsFactory::ComputeVolFromCovar(){
 
     for(int i = 0; i < vol_->size; i++){
         LET(vol_,i) = sqrt(MGET(covar_,i,i));
@@ -93,7 +89,7 @@ void StatsFactory::getVolFromCovar(){
 
 }
 
-void StatsFactory::getCorrelFromCovar(){
+void StatsFactory::ComputeCorrelFromCovar(){
 
     for(int i = 0; i < correl_->m; i++){
         for(int j = 0; j <= i; j++){

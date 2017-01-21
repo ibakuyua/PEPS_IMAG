@@ -32,7 +32,7 @@ int main(){
     pnl_mat_print(statsFactory1->quotes_);
 
     std::cout << std::endl << "Matrice of returns : " << std::endl;
-    pnl_mat_print(statsFactory1->returns_);
+    pnl_mat_print(statsFactory1->logReturns_);
 
 
     std::cout << std::endl << "Matrice of Covariance : " << std::endl;
@@ -59,7 +59,7 @@ int main(){
     pnl_mat_print(statsFactory2->quotes_);
 
     std::cout << std::endl << "Matrice of returns : " << std::endl;
-    pnl_mat_print(statsFactory2->returns_);
+    pnl_mat_print(statsFactory2->logReturns_);
 
 
     std::cout << std::endl << "Matrice of Covariance : " << std::endl;
