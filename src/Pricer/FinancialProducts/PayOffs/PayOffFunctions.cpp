@@ -10,12 +10,12 @@ double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateMod
     bool isConstated[6] = {false, false, false, false,false,false};
     int constatationIndexes[6] =
             {
-                    (int)NB_DAYS_TO_CONSTATATION_1,
-                    (int)NB_DAYS_TO_CONSTATATION_2,
-                    (int)NB_DAYS_TO_CONSTATATION_3,
-                    (int)NB_DAYS_TO_CONSTATATION_4,
-                    (int)NB_DAYS_TO_CONSTATATION_5,
-                    (int)NB_DAYS_TO_CONSTATATION_6
+                    (int)NB_DAYSWRK_TO_CONSTATATION_1,
+                    (int)NB_DAYSWRK_TO_CONSTATATION_2,
+                    (int)NB_DAYSWRK_TO_CONSTATATION_3,
+                    (int)NB_DAYSWRK_TO_CONSTATATION_4,
+                    (int)NB_DAYSWRK_TO_CONSTATATION_5,
+                    (int)NB_DAYSWRK_TO_CONSTATATION_6
             };
     Change changeByIndex[6] =
             {

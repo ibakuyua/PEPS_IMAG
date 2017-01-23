@@ -36,10 +36,11 @@ int main(){
     multimonde->Print();
     cout << "\n\n";
     double price, ic;
-    /*cout << "Computing Price ...\n";
+    cout << "Computing Price ...\n";
     multimonde->PriceProduct(0, price, ic);
     cout << "\n--> Price : " << price;
-    cout << "\n--> Ic : " << ic;*/
+    cout << "\n--> Ic : [ " << (price - ic/2) << " ; " << (price + ic/2) << " ]"  ;
+    cout << "\n\n--> Forward price " << price * exp(rateModels[0]->GetIntegralRate(0,Multimonde::maturity));
     // Free
     cout << "\n\n** Delete : ";
     delete multimonde;
@@ -52,9 +53,9 @@ int main(){
 }
 
 void setParameters(RateModelGen ***rateModels){
-    *rateModels = (RateModelGen**) malloc(1* sizeof(RateModelGen*));
+    *rateModels = (RateModelGen**) malloc(6 * sizeof(RateModelGen*));
     for (int d = 0; d < 6; ++d)
-        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03);
+        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03/365.);
 }
 void freeParameters(RateModelGen ***rateModels){
     for (int i = 0; i < 6; ++i) {

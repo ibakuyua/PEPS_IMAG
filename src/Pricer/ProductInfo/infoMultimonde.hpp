@@ -17,11 +17,11 @@
 #define SPOT_SPASX200 5021.97
 
 // Spot of each change at t = 01/10/2015
-#define SPOT_GBP 1
-#define SPOT_USD 1
-#define SPOT_CNY 1
-#define SPOT_JPY 1
-#define SPOT_AUD 1
+#define SPOT_GBP 1.3533
+#define SPOT_USD 0.8946
+#define SPOT_CNY 0.1407
+#define SPOT_JPY 0.0075
+#define SPOT_AUD 0.6278
 
 // Spot of each index at eur economy at t = 01/10/2015
 #define SPOT_XEUROSTOCK50 SPOT_EUROSTOCK50

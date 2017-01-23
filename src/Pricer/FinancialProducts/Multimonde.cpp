@@ -11,10 +11,11 @@ Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats
     PnlMat *volMatrix;
     pricer->simuModel->GetParametersFromStats(stats,&trend,&volMatrix);
     // Creation of the BlackScoles parameters in euro economy
-    PnlVect *trendEur = pnl_vect_create(11);
-    PnlVect *sigma_i, *sigma_X_i;
-    trendEur[0] = trend[0];
-    PnlMat *volMatrixEur = pnl_mat_create(11,11);
+    PnlVect *trendEur = pnl_vect_copy(trend);
+    PnlVect *sigma_i = pnl_vect_create(11);
+    PnlVect *sigma_X_i = pnl_vect_create(11);
+    LET(trendEur,0) = GET(trend,0);
+    PnlMat *volMatrixEur = pnl_mat_copy(volMatrix);
     for (int i = 1; i < 6; ++i) {
         pnl_mat_get_col(sigma_i,volMatrix,i); // Get sigma_i
         pnl_mat_get_col(sigma_X_i,volMatrix,i+5); // Get sigma_X_i
@@ -51,7 +52,6 @@ Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats
             "EUR/GBP","EUR/GBP",Change::EUR,Change::GBP,GET(trendEur,6),SPOT_GBP,GET(volEur,6));
     myAssets[7] = new ChangeZC(
             "EUR/USD","EUR/USD",Change::EUR,Change::USD,GET(trendEur,7),SPOT_USD,GET(volEur,7));
-    // TODO a finir
     myAssets[8] = new ChangeZC(
             "EUR/CNY","EUR/CNY",Change::EUR,Change::CNY,GET(trendEur,8),SPOT_CNY,GET(volEur,8));
     myAssets[9] = new ChangeZC(
@@ -64,7 +64,7 @@ Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats
     // Delete
     pnl_vect_free(&trend);
     pnl_vect_free(&trendEur);
-    pnl_vect_free(&volEur);
+   pnl_vect_free(&volEur);
     pnl_mat_free(&volMatrix);
     pnl_vect_free(&sigma_i);
     pnl_vect_free(&sigma_X_i);
