@@ -47,7 +47,7 @@ double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateMod
             if (isConstated[ind])
                 continue;
             // Compute the index performance
-            Rt_outof_R0 = exp(-rateModels[changeByIndex[ind]]->GetIntegralRate(0.,constatationIndexes[ind]));
+            Rt_outof_R0 = exp(-rateModels[changeByIndex[ind]]->GetIntegralRate(0.,constatationIndexes[d]));
             XtIt_outof_XtRt = PNL_MGET(path,constatationIndexes[d],ind)/PNL_MGET(path,constatationIndexes[d],ind+5);
             X0I0_out_of_X0R0 = PNL_MGET(path,0,ind)/PNL_MGET(path,0,ind+5);
 
