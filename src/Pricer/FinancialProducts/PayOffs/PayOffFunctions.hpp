@@ -3,6 +3,7 @@
 
 #include "pnl/pnl_matrix.h"
 #include "../../RateModels/RateModelGen.hpp"
+#include <map>
 /*
  * Prototypes for payOff functions
  * CONVENTION : double payOffProduct(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels))

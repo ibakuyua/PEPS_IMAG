@@ -43,6 +43,10 @@ target_link_libraries(test_stats.te ${LIBS})
 #Test for parsingCSV
 add_executable(test_parseCSV.te src/Pricer/Tests/Parser/testParseCSV.cpp ${STATS_SOURCE_FILES})
 target_link_libraries(test_parseCSV.te ${LIBS})
+#Test for payOff
+add_executable(test_payOffMultimonde.te src/Pricer/Tests/PayOffs/testPayOffMultimonde21.cpp
+        src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp ${RATE_SOURCE_FILES})
+target_link_libraries(test_payOffMultimonde.te ${LIBS})
 
 # Global executable
 add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
