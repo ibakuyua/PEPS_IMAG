@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(){
-   cout << "\n\n#### TEST OF MULTIMONDE PAY OFFs ####\n\n";
+    cout << "\n\n#### TEST OF MULTIMONDE PAY OFFs ####\n\n";
     cout << "** Initialisation of path and rate models : ";
     // RateModel initialisation
     map<Change,RateModelGen*> rateModels;

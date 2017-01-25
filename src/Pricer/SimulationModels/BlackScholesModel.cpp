@@ -169,11 +169,11 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
 void BlackScholesModel::SetAssets(AssetList *assets) {
     ModelGen::SetAssets(assets);
     pnl_mat_free(&choleskyCorr);
-    choleskyCorr = pnl_mat_copy(assets->volatilityMat);
+    choleskyCorr = pnl_mat_copy(assets->correlMatrix);
+    pnl_mat_chol(choleskyCorr);
 }
 
 void BlackScholesModel::GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix) {
-    // TODO vérifier que la matrice de cholesky fonctionne bien
     *volMatrix = pnl_mat_copy(stats->covar_);
     pnl_mat_chol(*volMatrix); // sigma = cholesky(sigma.sigmaT) = cholesky(covar)
     *trend = pnl_vect_copy(stats->mean_); // drift = mean

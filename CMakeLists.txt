@@ -22,9 +22,10 @@ set(LIBS ${LIBS} ${PNL_LIBRARIES})
 set(RATE_SOURCE_FILES src/Pricer/RateModels/RateModelGen.cpp src/Pricer/RateModels/ConstantRateModel.cpp src/Pricer/RateModels/GamTauxRateModel.cpp)
 set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/MonteCarloPricer.cpp ${SIMULATION_SOURCE_FILE})
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
-set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
-        src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp src/Pricer/FinancialProducts/Asset/AssetList.cpp
+set(ASSET_SOURCE_FILES src/Pricer/FinancialProducts/Asset/AssetList.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
         src/Pricer/FinancialProducts/Asset/ChangeZC.cpp)
+set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp
+        ${ASSET_SOURCE_FILES})
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Stats/Parser/ParseCSV.cpp)
 # Add executables
@@ -33,6 +34,10 @@ add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamT
 target_link_libraries(test_gamTauxRateModel.te ${LIBS})
 add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testConstantRateModel.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_constantRateModel.te ${LIBS})
+#Test for model
+add_executable(test_blackScholes.te src/Pricer/Tests/SimulationModels/BlackScholesTest.cpp
+        ${SIMULATION_SOURCE_FILES} ${ASSET_SOURCE_FILES} ${STATS_SOURCE_FILES})
+target_link_libraries(test_blackScholes.te ${LIBS})
 #Test for pricer
 add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp
         ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})

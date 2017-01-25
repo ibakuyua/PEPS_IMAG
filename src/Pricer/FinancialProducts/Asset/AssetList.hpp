@@ -13,17 +13,18 @@ public:
      */
     int size; /// The number of asset in the list
     Asset **assets; /// The list of asset
-    PnlMat *volatilityMat; /// Volatility matrix (cholesky of the calibrage in BS model)
+    PnlMat *correlMatrix; /// Matrix of correlation of the list of asset
+                         /// (rho_ij = (sigma.sigmaT_ij)/(sqrt(sigma^2_i)*sqrt(sigma_j^2))
 
     /**
      * Constructor / Destructor
      *
      * @param[in] size : the size of the list
      * @param[in] assets : the list of assets
-     * @param[in] vol : the volatility matrix sigma
+     * @param[in] correl : the volatility matrix sigma
      * @param[bool] withDestroy : if the destructor has to destroy the parameters
      */
-    AssetList(int size, Asset **assets, PnlMat *vol, bool withDestroy = false);
+    AssetList(int size, Asset **assets, PnlMat *correl, bool withDestroy = false);
     /**
      * Constructor
      *
