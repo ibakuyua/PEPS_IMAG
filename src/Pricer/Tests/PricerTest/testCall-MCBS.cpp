@@ -17,6 +17,7 @@ int main(){
     double FRR = 0.03;
     double maturity = 10.;
     double strike = 100.;
+    int sampleNb = 200000;
     cout << "** Instance : ";
     Asset * asset = new Asset("BNP","BNP",Change::EUR,0.03,spot,vol);
     assert(asset != NULL);
@@ -25,7 +26,7 @@ int main(){
     assert(rateModels != NULL && rateModels[0] != NULL);
     ModelGen *modelBS = new BlackScholesModel(1,1,rateModels);
     assert(modelBS != NULL);
-    PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,50000,(int)maturity);
+    PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,sampleNb,(int)maturity);
     assert(pricerMC != NULL);
     ProductGen *call = new Call(pricerMC,asset,(int)maturity,strike);
     assert(call != NULL);
@@ -41,7 +42,7 @@ int main(){
     price1 = pnl_bs_call(spot,strike,maturity,FRR,0.,vol);
     cout << " \033[1;34m [CHECK]\033[0m\n\n";
     cout << "--> Price : " << price0;
-    cout << "\n--> Ic : " << ic;
+    cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic;
     cout << "\n--> Closed formula Price : " << price1;
     assert(fabs(price0-price1) <= ic);
 
@@ -59,10 +60,10 @@ int main(){
     call->pricer->Price(t,past,price0,ic,call->payOff,call->parameters);
     price1 = pnl_bs_call(spot,strike,maturity-t,FRR,0,vol);
     cout << "\n\n--> Price : " << price0;
-    cout << "\n--> Ic : " << ic;
+    cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic ;
     cout << "\n--> Closed formula Price : " << price1;
     assert(fabs(price0-price1) <= ic);
-    cout << " \n\033[1;34m [CHECK]\033[0m\n\n";
+    cout << " \n\n\033[1;34m [CHECK]\033[0m";
 
     cout << "\n\n** Delete : ";
     delete call;
