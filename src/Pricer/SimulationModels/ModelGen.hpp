@@ -88,6 +88,13 @@ public:
      * Simulate : permit to simulate at the date 0 a path for each asset
      */
     virtual void Simulate(double maturity, PnlMat *path, int stepNb) = 0;
+
+
+    virtual void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
+                    int d, double h, double t, double timestep) = 0;
+
+
+
     /**
      * SimulateMarket : permit to simulate a market
      *

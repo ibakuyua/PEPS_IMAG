@@ -114,6 +114,23 @@ void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
     }
 }
 
+//TODO : function to implement
+void BlackScholesModel::ShiftAsset(PnlMat *path_shifted, const PnlMat *path, int d, double h, double t,
+                                   double timestep) {
+    // Index i after t
+    //int indexAfter_t = (t / timestep - (int)(t / timestep) < 0.000000001)
+    //                   ? (int)(t/timestep)
+    //                   : (int)(t/timestep) + 1;
+    int indexAfter_t = (int)(t / timestep) + 1;
+    // path_shifted is path with asset d shifted after t
+
+    //TODO : Benjamin pourquoi t'as fait clone et pas copy ?
+    pnl_mat_clone(path_shifted, path);
+    //path_shifted = pnl_mat_copy(path);
+    for (int i = indexAfter_t; i < path->m; ++i)
+        MLET(path_shifted,i,d) *= (1+h);
+}
+
 BlackScholesModel::~BlackScholesModel() {
     pnl_vect_free(&Gi_);
     pnl_vect_free(&LGi_);

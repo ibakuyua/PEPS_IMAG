@@ -40,6 +40,8 @@ public:
     void Delta(double t, PnlMat *past, PnlVect *delta,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
+    void PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const;
+
 private:
     /**
      * Private member
