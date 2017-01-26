@@ -18,6 +18,7 @@ public:
     /**
      * Members
      */
+    int nbTimeStep; /**< Number of time step for the simulation*/
     ModelGen *simuModel; /**< To simulate underlying asset */
     string name; /**< Name of the type of pricer*/
     double maturity; /**< Maturity of the instrument to Price */
@@ -28,8 +29,9 @@ public:
      * @param[in] maturity : the maturity of the products you want to Price
      * @param[in] simuModel : the simulation model
      * @param[in] name : the name of the pricer
+     * @param[in] nbTimeStep : the number of time step for the simulation
      */
-    PricerGen(double maturity, ModelGen *simuModel, string name);
+    PricerGen(double maturity, ModelGen *simuModel, string name, int nbTimeStep);
     virtual ~PricerGen();
 
     /**

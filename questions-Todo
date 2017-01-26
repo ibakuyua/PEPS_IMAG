@@ -13,3 +13,5 @@ Partie fonctionnelle :
 
 
 /!\ Pourquoi le Nikkei descend toujours proche de 0 comme indice ?
+Faire un csv avec toutes les cotes depuis 3 ans et faire dans la classe stat une méthode prenant t,T pour
+faire les calibrages sur une fenêtre d'estimation

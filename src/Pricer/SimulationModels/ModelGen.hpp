@@ -25,14 +25,14 @@ public:
     int assetNb; /// Nb of asset
     string name; /// The name of the model
 
+    // This member permit to compute faster simulation
     PnlVect *spot; /// List of underlying asset spots
     PnlVect *trend; /// List of underlying trend spots
     PnlVect *volatility; /// List of underlying asset volatilities
     PnlRng *rng; /// List of rng to randomize simulation
 
-    // TODO : mettre la list d'asset directement ? puisqu'on a besoin de isChange etc ...
+    AssetList *assetList; /// List of assets
     map<Change,RateModelGen*> rateModels; /// map of rateModel (one for each underlying asset economies)
-    vector<Change> associatedChanges; /// Associated changes for underlying asset
 
     /**
      * Constructor

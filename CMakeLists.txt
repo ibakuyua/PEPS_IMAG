@@ -24,9 +24,9 @@ set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/Mon
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
 set(ASSET_SOURCE_FILES src/Pricer/FinancialProducts/Asset/AssetList.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
         src/Pricer/FinancialProducts/Asset/ChangeZC.cpp)
-set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp
-        ${ASSET_SOURCE_FILES})
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
+set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp
+        ${ASSET_SOURCE_FILES} ${BASE_SOURCE_FILES})
 set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Stats/Parser/ParseCSV.cpp)
 # Add executables
 #Test for rate model

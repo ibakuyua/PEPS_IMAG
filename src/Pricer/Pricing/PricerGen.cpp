@@ -1,8 +1,8 @@
 #include "PricerGen.hpp"
 
 
-PricerGen::PricerGen(double theMaturity, ModelGen *simuModel, string name)
-        : maturity(theMaturity), simuModel(simuModel), name(name)
+PricerGen::PricerGen(double theMaturity, ModelGen *simuModel, string name, int nbTimeStep)
+        : maturity(theMaturity), simuModel(simuModel), name(name), nbTimeStep(nbTimeStep)
 {
 }
 

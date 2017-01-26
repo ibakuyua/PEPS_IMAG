@@ -3,11 +3,10 @@
 
 
 MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample, int nbTimeStep)
-        : PricerGen(maturity, simuModel, "Monte Carlo")
+        : PricerGen(maturity, simuModel, "Monte Carlo", nbTimeStep)
 {
     this->nbSample = nbSample;
     this->simuModel = simuModel;
-    this->nbTimeStep = nbTimeStep;
     this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
 }
 
