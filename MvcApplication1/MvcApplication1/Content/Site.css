@@ -245,6 +245,12 @@ hgroup.title h2 {
     margin-left: 3px;
 }
 
+div.affiche {
+    font-size: 60px;
+    font-family: 'Liberation Serif';
+    text-align: center;
+}
+
 /* features */
 section.feature {
     width: 300px;
