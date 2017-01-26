@@ -53,11 +53,16 @@ target_link_libraries(test_parseCSV.te ${LIBS})
 add_executable(test_payOffMultimonde.te src/Pricer/Tests/PayOffs/testPayOffMultimonde21.cpp
         src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_payOffMultimonde.te ${LIBS})
-#Test for hedging
+#Test for hedging Multimonde
 add_executable(test_HedgingMultimonde.te src/Pricer/Tests/testHedgingMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         src/Pricer/Pricing/MonteCarloPricer.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_HedgingMultimonde.te ${LIBS})
+#Test for hedging call
+add_executable(test_HedgingCall.te src/Pricer/Tests/testHedgingCall.cpp src/Pricer/FinancialProducts/Call.cpp
+        src/Pricer/Pricing/MonteCarloPricer.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+target_link_libraries(test_HedgingCall.te ${LIBS})
 
 # Global executable
 add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
