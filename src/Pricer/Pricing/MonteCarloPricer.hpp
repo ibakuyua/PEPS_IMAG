@@ -18,6 +18,7 @@ public:
      */
     int nbSample; /**< Number of sample for the monte carlo method */
 
+
     /**
      * Constructor / Destructor
      *
@@ -46,6 +47,8 @@ private:
      * Private member
      */
     PnlMat *path; /**< path for simulation : allocated just one time */
+    PnlMat *pathShifted; /*! pathShifted for delta simulation : initialized one times only*/
+    double h = 0.000001; /**< h : step for derivation*/
 };
 
 
