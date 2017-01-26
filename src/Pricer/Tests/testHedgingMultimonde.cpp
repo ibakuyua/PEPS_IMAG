@@ -53,7 +53,7 @@ int main(){
     double pastArray[NB_TIMEVALUE_KNOWN][NB_ASSET] =
             {{SPOT_EUROSTOCK50,SPOT_FTSE,SPOT_P500,SPOT_HANGSENG,
                      SPOT_NIKKEI,SPOT_SPASX200,SPOT_XFTSE,
-             SPOT_XP500,SPOT_XHANGSENG,SPOT_XNIKKEI,SPOT_XSPASX200}}; // S(t)
+                     SPOT_XP500,SPOT_XHANGSENG,SPOT_XNIKKEI,SPOT_XSPASX200}}; // S(t)
 
     PnlMat *past = pnl_mat_create(NB_TIMEVALUE_KNOWN,NB_ASSET);
     for (int i = 0; i < NB_TIMEVALUE_KNOWN; ++i) {
@@ -64,11 +64,6 @@ int main(){
 
     cout << "Voici la matrice past : \n";
     pnl_mat_print(past);
-
-    cout << "Voici la matrice de simulation PATH : \n";
-    PnlMat* path = pnl_mat_create_from_zero(NB_TIMEVALUE_KNOWN,NB_ASSET);
-    simuIndex->Simulate(Multimonde::maturity,path,nbTimeStep);
-    pnl_mat_print(path);
 
     //Computing delta
     PnlVect *delta = pnl_vect_create(NB_ASSET);
