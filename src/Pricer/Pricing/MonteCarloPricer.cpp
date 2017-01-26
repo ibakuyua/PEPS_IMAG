@@ -79,7 +79,9 @@ void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const Pn
 
     //Useful values
     double T = maturity;
-    int nbTimeSteps = nbTimeSteps;
+    int nbTimeSteps = nbTimeStep;
+
+
     double timeStep = T / nbTimeSteps;
     int D = simuModel->assetNb;
     double moins_h = -h;
