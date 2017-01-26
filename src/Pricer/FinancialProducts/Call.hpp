@@ -24,11 +24,6 @@ public:
     virtual ~Call();
 
     /**
-     * Implementation of virtual pure method
-     */
-    virtual void MAJPortfolio();
-
-    /**
      * Virtual methods overrided
      */
     void Print() const;

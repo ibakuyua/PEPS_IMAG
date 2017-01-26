@@ -7,6 +7,8 @@
  * ChangeZC
  *
  * Represent the foreignZC in domestic value (X*Rf)
+ *
+ * remarks : the difference is that the trend is trend + r_f(t)
  */
 class ChangeZC : public Asset{
 public:

@@ -23,9 +23,8 @@ typedef enum {
  */
 class Marche {
 public:
-    static double t; /// Current time
-    PnlMat *cours; /// The cotations in the market (0 to T or 0 to t if real)
     ProductGen *product; /// The product to valuate
+    PnlMat *cours; /// The cotations in the market (0 to T or 0 to t if real)
 
     /**
      * Instance : return an instance of the market
@@ -35,7 +34,7 @@ public:
      * @param[in] product : the product
      * @return a market
      */
-    static Marche *Instance(ProductGen *product);
+    static Marche *Instance(ProductGen *product = NULL);
 
     /**
      * ImportCotations : permit to fill the cotation market
@@ -52,13 +51,39 @@ public:
      * @param[in] t : the date to get the cotations
      * @param[out] cotations : the result
      */
-    static void GetCotations(double t, PnlVect* cotations);
+    void GetCotations(double t, PnlVect *cotations);
+
+    /**
+     * Permit to obtain the past matrix (in model step in case of withStepModel=true)
+     *
+     * remarks : if t and t+1 are in [stepModel_i,stepModel_i+1], return the same past matrix
+     *           with just the last row different (S_t) if withStepModel = true
+     *
+     * @param[in] t : the date to get past matrix
+     * @param[out] past : the past matrix
+     * @param[in] withStepModel : determine if past is in model step or hedging step
+     * @param[in] modelStepNb : the number of step in the model
+     */
+    void GetPastCotations(double t, PnlMat *past, bool withStepModel = false, int modelStepNb = 1);
+
+    /**
+     * SetTime : permit to set the real time of the market
+     * @param t : the new date
+     */
+    inline static void SetTime(double t){Marche::t = t;}
+    /**
+     * GetTime : permit to return the time of the market
+     * @return time
+     */
+    inline static double GetTime(){return Marche::t;}
 
 
 private:
+    static double t; /// Current time
     static Marche *instance; /// The unique instance of market
-    static PnlVect *cours_t; /// The cotations at the date t
     CotationTypes type; /// The type of current cotations in the market
+    double hedgingStep; /// The hedging step (step between two indexes of cours)
+    double modelStep; /// The model step (step between two indexes of
     /**
      * Constructor/Destructor
      */
