@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Pricer";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+        </div>
+    </section>
+}
+<p>
+pricer le produit
+demander une date
+</p>
+
+<p>
+    <form>
+        Enter a date before 1980-01-01:
+        <input type="date" name="PricingDate" max="1979-12-31"><br>
+    </form>
+</p>
+
+<button type="button">Pricer</button>
