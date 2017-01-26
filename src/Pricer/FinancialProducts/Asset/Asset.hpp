@@ -4,6 +4,7 @@
 #include "pnl/pnl_vector.h"
 #include <string>
 #include <iostream>
+#include <utility> // Pair
 
 /**
  * Change : enum which represent the different changes
@@ -38,7 +39,7 @@ public:
     double trend; /// Trend (mu) of the asset
     double spot; /// Spot (t=0) of the asset
     double volatility; /// volatility of the model (sqrt(Sum_k sigma_(i,k)^2) for classic B&S)
-    bool isChange; /// The asset is a change ?
+    pair<bool,Change> isChange; /// The asset is a change and for which economy?
 
     /**
      * Methods
@@ -50,7 +51,7 @@ public:
 
 
     /**
-     * Constructor / Destructor
+     * Constructor / Destructor : classic asset
      *
      * @param[in] id : the id of the asset
      * @param[in] name : the name of the asset

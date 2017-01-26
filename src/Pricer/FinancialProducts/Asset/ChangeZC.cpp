@@ -5,5 +5,5 @@ ChangeZC::ChangeZC(string id, string name, Change domesticChange, Change foreign
                    double volatility)
         : Asset(id,name,domesticChange,trend,spot,volatility), foreignChange(foreignChange)
 {
-    this->isChange = true;
+    this->isChange = pair<bool,Change>(true,foreignChange);
 }

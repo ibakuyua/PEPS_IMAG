@@ -18,7 +18,7 @@ public:
     static constexpr double maturity = NB_DAYSWRK_TO_MATURITY; /// The maturity of the product in working days
 
     /**
-     * Constructor 1 : all the underlying asset are in the domestic economy
+     * Constructor : all the underlying asset are in the domestic economy
      *
      * @param[in] pricer : the pricer for the product valuation
      * @param[in] hedgingDateNb : the number of hedging date
@@ -29,13 +29,25 @@ public:
      *          8 : XRcny     | 9 : XRjpy      | 10: XRaud
      */
     Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats);
-
-    // Destructor
+    /**
+     * Destructor
+     */
     ~Multimonde();
     /**
      * Overriding Methods
      */
     void MAJPortfolio();
+    /**
+     * Static methods
+     */
+     /**
+      * GetAssetListFromStat : Permit to obtain the multimonde asset list with all the needed parameters
+      *
+      * @param stats using to estimate parameters
+      * @param simuModel the modele used to simulate
+      * @return the asset list of multimonde product
+      */
+     static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
 };
 
 

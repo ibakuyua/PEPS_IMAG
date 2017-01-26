@@ -5,12 +5,28 @@
 Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats)
     : ProductGen("Multimonde21", pricer, hedgingDateNb, payOffMultimonde21)
 {
-    // TODO --> Vérifier tous les calculs et rendre plus propre
+    assets = Multimonde::GetAssetListFromStat(stats, pricer->simuModel);
+    pricer->simuModel->SetAssets(assets);
+}
+
+Multimonde::~Multimonde() {
+    for (int i = 0; i < 11; ++i) {
+        delete assets->assets[i];
+    }
+    delete assets;
+}
+
+
+void Multimonde::MAJPortfolio() {
+    // TODO with market
+}
+
+AssetList *Multimonde::GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel) {
     // Creation of the BlackScholes parameters in global economy
     // thanks to statistics in asset in their economy
     PnlVect *trend;
     PnlMat *volMatrix;
-    pricer->simuModel->GetParametersFromStats(stats,&trend,&volMatrix);
+    simuModel->GetParametersFromStats(stats,&trend,&volMatrix);
     // Creation of the BlackScoles parameters in euro economy
     PnlVect *trendEur = pnl_vect_copy(trend);
     PnlVect *sigma_i = pnl_vect_create(11);
@@ -62,21 +78,19 @@ Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats
             "X_SPASX200","X_SPASX200",Change::EUR,GET(trendEur,5),SPOT_XSPASX200,GET(volEur,5));
     myAssets[6] = new ChangeZC(
             "EUR/GBP","EUR/GBP",Change::EUR,Change::GBP,GET(trendEur,6),
-            SPOT_GBP * exp(pricer->simuModel->rateModels[Change::GBP]->GetIntegralRate(0,maturity)),GET(volEur,6));
+            SPOT_GBP * exp(simuModel->rateModels[Change::GBP]->GetIntegralRate(0,maturity)),GET(volEur,6));
     myAssets[7] = new ChangeZC(
             "EUR/USD","EUR/USD",Change::EUR,Change::USD,GET(trendEur,7),
-            SPOT_USD * exp(pricer->simuModel->rateModels[Change::USD]->GetIntegralRate(0,maturity)),GET(volEur,7));
+            SPOT_USD * exp(simuModel->rateModels[Change::USD]->GetIntegralRate(0,maturity)),GET(volEur,7));
     myAssets[8] = new ChangeZC(
             "EUR/CNY","EUR/CNY",Change::EUR,Change::CNY,GET(trendEur,8),
-            SPOT_CNY * exp(pricer->simuModel->rateModels[Change::CNY]->GetIntegralRate(0,maturity)),GET(volEur,8));
+            SPOT_CNY * exp(simuModel->rateModels[Change::CNY]->GetIntegralRate(0,maturity)),GET(volEur,8));
     myAssets[9] = new ChangeZC(
             "EUR/JPY","EUR/JPY",Change::EUR,Change::JPY,GET(trendEur,9),
-            SPOT_JPY * exp(pricer->simuModel->rateModels[Change::JPY]->GetIntegralRate(0,maturity)),GET(volEur,9));
+            SPOT_JPY * exp(simuModel->rateModels[Change::JPY]->GetIntegralRate(0,maturity)),GET(volEur,9));
     myAssets[10] = new ChangeZC(
             "EUR/AUD","EUR/AUD",Change::EUR,Change::AUD,GET(trendEur,10),
-            SPOT_AUD * exp(pricer->simuModel->rateModels[Change::AUD]->GetIntegralRate(0,maturity)),GET(volEur,10));
-    assets = new AssetList(11,myAssets,correlationMatrixEur,true);
-    pricer->simuModel->SetAssets(assets);
+            SPOT_AUD * exp(simuModel->rateModels[Change::AUD]->GetIntegralRate(0,maturity)),GET(volEur,10));
 
     // Delete
     pnl_vect_free(&trend);
@@ -89,17 +103,7 @@ Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats
     pnl_mat_free(&volMatrixEurT);
     pnl_mat_free(&covMatrixEur);
     //pnl_mat_free(&correlationMatrixEur); // deleted in the destructor of assetlist
-}
 
-Multimonde::~Multimonde() {
-    for (int i = 0; i < 11; ++i) {
-        delete assets->assets[i];
-    }
-    delete assets;
-}
-
-
-void Multimonde::MAJPortfolio() {
-    // TODO with market
+    return new AssetList(11,myAssets,correlationMatrixEur,true);
 }
 

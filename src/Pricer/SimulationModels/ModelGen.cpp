@@ -1,5 +1,6 @@
 #include <time.h>
 #include "ModelGen.hpp"
+#include "../FinancialProducts/Asset/ChangeZC.hpp"
 
 
 ModelGen::ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name)

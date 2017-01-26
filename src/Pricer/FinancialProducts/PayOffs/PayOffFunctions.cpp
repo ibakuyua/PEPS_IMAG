@@ -4,7 +4,9 @@
 
 #include "../../ProductInfo/infoMultimonde.hpp"
 
-////// Attention : les calculs d'actifs sans risques se font sur des intégralles de largeur en unité celle utilisée pour le calibrage
+////// Attention : les calculs d'actifs sans risques se font sur des intégrales de largeur en unité celle utilisée pour le calibrage
+
+//################ PayOff Multimonde21 avec actifs en euros #########################
 
 double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateModelGen *> &rateModels) {
     bool isConstated[6] = {false, false, false, false,false,false};
@@ -70,11 +72,15 @@ double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateMod
     return NOMINAL * (1 + constatedPerf);
 }
 
+//########################## PayOff Call vanille ####################################
+
 double payOffCall(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels) {
     double S_TminusK = MGET(path,path->m-1,0)-GET(parameters,0);
 
     return (S_TminusK > 0.) ? S_TminusK : 0.;
 }
+
+//########################### PayOff Multimonde21 avec indice dans leur devise ###########################
 
 // Premier payOff pour multimonde21 : prend que les indices et nbTimeStep peut être différent de maturity
 double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels) {

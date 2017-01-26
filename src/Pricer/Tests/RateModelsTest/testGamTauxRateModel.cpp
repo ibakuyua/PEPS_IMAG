@@ -20,7 +20,7 @@ int main(){
     assert(rateModel->gamma == 0.01);
     assert(rateModel->a == 0.4);
     cout << " \n\n --> \033[1;34m [CHECK]\033[0m\n\n";
-    cout << "2) Courbe des taux [t | R(t)] : \n";
+    cout << "2) Courbe des taux moyen [t | R(0,t)] : \n";
     double t;
     int i;
     for (t = 0.1, i = 0; t < 10 ; t+=0.5, i++) {
