@@ -1,4 +1,5 @@
 #include "MonteCarloPricer.hpp"
+#include "../FinancialProducts/PayOffs/PayOffFunctions.hpp"
 
 
 MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample, int nbTimeStep)
@@ -36,8 +37,78 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
 
 void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
                              PayOffFunction payOff, PnlVect *parameters) const {
-    // TODO
+    //Get useful values
+    //Maturity
+    double T = maturity;
+    //FRR
+    double r = simuModel->rateModels[Change::EUR]->GetIntegralRate(t,T);
+    //Samples number
+    double M = nbSample;
+    double discountFactor = exp(-r * (T-t));
+
+    PnlVect *St = pnl_vect_new();
+    pnl_mat_get_row(St, past, past->m - 1);
+
+    PnlVect *payOffDiff = pnl_vect_create(delta->size);
+    pnl_vect_set_zero(delta);
+    // For each simulation
+    for (int m = 0; m < nbSample; ++m) {
+        // Simulation at t
+        PayOffSimulationShiftedDiff(payOffDiff,past,t,payOff,parameters);
+        for (int d = 0; d < delta->size; ++d)
+            LET(delta,d) = GET(payOffDiff,d);
+    }
+
+    // Delta
+    for (int d = 0; d < delta->size; ++d){
+        LET(delta,d) *= (discountFactor / (M * GET(St,d)));
+    }
+
+
+    // Free
+    pnl_vect_free(&St);
+    pnl_vect_free(&payOffDiff);
+
+
+
 }
+
+//TODO : Implement this function
+void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const {
+
+    //Useful values
+    double T = maturity;
+    int nbTimeSteps = nbTimeStep;
+    double timeStep = T / nbTimeSteps;
+    int D = simuModel->assetNb;
+    // derivation step
+    double h = 0.000001;
+    double moins_h = -h;
+
+    //PnlMat* pathShifted = pnl_mat_create(nbTimeSteps + 1, D);
+    PnlMat* pathShifted = pnl_mat_create_from_zero(path->m,path->n);
+
+    //Simulation
+    if (past == NULL || t == 0) {
+        simuModel->Simulate(T,path,nbTimeSteps);
+    }
+    else {
+        simuModel->Simulate(t,T,path,past, nbTimeSteps);
+    }
+
+    //For each asset, we shift the trajectory
+    for (int d = 0; d < D; d++) {
+        //Simulation of the path +h
+        simuModel->ShiftAsset(pathShifted,path,d,h,t,timeStep);
+        double payOffShifted = payOff(pathShifted,parameters,simuModel->rateModels);
+        //Simulation of the path -h
+        simuModel->ShiftAsset(pathShifted,path,d,moins_h,t,timeStep);
+        payOffShifted -= payOff(pathShifted,parameters,simuModel->rateModels);
+        //Don't forget to divide by the derivation step
+        LET(payOffDiff,d) = payOffShifted/(2*h);
+    }
+}
+
 
 MonteCarloPricer::~MonteCarloPricer() {
     pnl_mat_free(&path);

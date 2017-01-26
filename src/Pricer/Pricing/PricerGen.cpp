@@ -8,7 +8,8 @@ PricerGen::PricerGen(double theMaturity, ModelGen *simuModel, string name)
 
 
 void PricerGen::PrintPricer() {
-    cout << this->name << " with the model : " ; this->simuModel->PrintModel();
+    cout << this->name << " with the model : " ;
+    this->simuModel->Print();
 }
 
 PricerGen::~PricerGen() {

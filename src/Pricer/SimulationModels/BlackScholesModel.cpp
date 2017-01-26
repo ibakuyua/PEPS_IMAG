@@ -1,9 +1,11 @@
 #include "BlackScholesModel.hpp"
 
 
-BlackScholesModel::BlackScholesModel(int assetNb, PnlMat *choleskyCorr, int economyNb, RateModelGen **rateModel, Asset **assets)
-        : ModelGen(assetNb, economyNb,rateModel, "Black Scholes",assets){
-    this->choleskyCorr = choleskyCorr;
+BlackScholesModel::BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel)
+        : ModelGen(assetNb, economyNb,rateModel, "Black Scholes"){
+    this->choleskyCorr = pnl_mat_create_from_scalar(assetNb,assetNb,0);
+    for (int i = 0; i < assetNb; ++i)
+        MLET(choleskyCorr,i,i) = 1.;
     this->Gi_ = pnl_vect_new();
     this->LGi_ = pnl_vect_new();
     this->St = pnl_vect_new();
@@ -112,10 +114,28 @@ void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
     }
 }
 
+//TODO : function to implement
+void BlackScholesModel::ShiftAsset(PnlMat *path_shifted, const PnlMat *path, int d, double h, double t,
+                                   double timestep) {
+    // Index i after t
+    //int indexAfter_t = (t / timestep - (int)(t / timestep) < 0.000000001)
+    //                   ? (int)(t/timestep)
+    //                   : (int)(t/timestep) + 1;
+    int indexAfter_t = (int)(t / timestep) + 1;
+    // path_shifted is path with asset d shifted after t
+
+    //TODO : Benjamin pourquoi t'as fait clone et pas copy ?
+    pnl_mat_clone(path_shifted, path);
+    //path_shifted = pnl_mat_copy(path);
+    for (int i = indexAfter_t; i < path->m; ++i)
+        MLET(path_shifted,i,d) *= (1+h);
+}
+
 BlackScholesModel::~BlackScholesModel() {
     pnl_vect_free(&Gi_);
     pnl_vect_free(&LGi_);
     pnl_vect_free(&St);
+    pnl_mat_free(&choleskyCorr);
     // Base destructor is called here
 }
 
@@ -143,4 +163,25 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
             PNL_MSET(path,i,d,Sd_ti);
         }
     }
+}
+
+
+void BlackScholesModel::SetAssets(AssetList *assets) {
+    ModelGen::SetAssets(assets);
+    pnl_mat_free(&choleskyCorr);
+    choleskyCorr = pnl_mat_copy(assets->correlMatrix);
+    pnl_mat_chol(choleskyCorr);
+}
+
+void BlackScholesModel::GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix) {
+    *volMatrix = pnl_mat_copy(stats->covar_);
+    pnl_mat_chol(*volMatrix); // sigma = cholesky(sigma.sigmaT) = cholesky(covar)
+    *trend = pnl_vect_copy(stats->mean_); // drift = mean
+    PnlVect *vol;
+    vol = pnl_vect_create_from_zero((*volMatrix)->n);
+    for (int i = 0; i < (*trend)->size; ++i) { // drift = trend - 1/2 sigma_i^2
+        pnl_mat_get_col(vol,*volMatrix,i);
+        LET(*trend,i) = GET(*trend,i) + 1/2 * pnl_vect_scalar_prod(vol,vol);
+    }
+    pnl_vect_free(&vol);
 }

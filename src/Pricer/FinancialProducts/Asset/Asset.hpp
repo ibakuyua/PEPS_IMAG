@@ -4,6 +4,7 @@
 #include "pnl/pnl_vector.h"
 #include <string>
 #include <iostream>
+#include <utility> // Pair
 
 /**
  * Change : enum which represent the different changes
@@ -12,10 +13,11 @@ typedef enum{
     EUR = 0,
     GBP = 1,
     USD = 2,
-    HKD = 3,
+    CNY = 3,
     JPY = 4,
     AUD = 5
 } Change;
+std::ostream& operator<<(std::ostream& os,Change c);
 
 using namespace std;
 
@@ -37,18 +39,19 @@ public:
     double trend; /// Trend (mu) of the asset
     double spot; /// Spot (t=0) of the asset
     double volatility; /// volatility of the model (sqrt(Sum_k sigma_(i,k)^2) for classic B&S)
+    pair<bool,Change> isChange; /// The asset is a change and for which economy?
 
     /**
      * Methods
      */
     /**
-     * PrintAsset : permit to print asset information
+     * Print : permit to print asset information
      */
-    void PrintAsset();
+    void Print();
 
 
     /**
-     * Constructor / Destructor
+     * Constructor / Destructor : classic asset
      *
      * @param[in] id : the id of the asset
      * @param[in] name : the name of the asset

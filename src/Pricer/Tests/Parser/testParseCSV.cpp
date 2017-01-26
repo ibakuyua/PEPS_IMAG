@@ -1,12 +1,9 @@
-//
-// Created by ruimyb on 1/17/17.
-//
 #include <iostream>
-#include "../../Parser/ParseCSV.h"
 #include <string>
+#include "../../Stats/Parser/ParseCSV.h"
 int main(){
 
-    std::string path = "Parser/testPEPS.csv";
+    std::string path = "../data/dataPEPS.csv";
 
     ParseCSV *parser = new ParseCSV(path);
 

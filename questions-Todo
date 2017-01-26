@@ -1,32 +1,6 @@
-TODO : 
-
-Comment faire pour lors de la simulation ou les deltas on est la connaissance de la change ? on en a besoin ?
-
-Simuler un marché : en risque neutre, en proba historique 
-Un marché contient des actifs (chacun contient les calibrations pour le modèle)
-Une simulation entraine un pnlmat sur tous les sous jacents
-Le rajout des X_i entrainent une calibration différente sur sigma (ajout de lignes)
-
-
-Questions : 
-
-Partie Statistique :
-
---> Estimation des rendements : quel modèle ? 
---> Passer de mensuel à annuel ?
---> Corrélation : modèle puis mensuel à annuel ? lequel prendre ?
---> Annuel = (1+r_moy)^12-1 ? 
---> Rendement annuel décalé : 12 rendements annuels par an
---> Ou directement en annuel sur Yahoo
---> FTSE : problème pour récupérer les datas
-
-Partie mathématique : 
-
 --> Amélioration : r non constant : bootstrapping sur bond ? => Aléatoire ? i.e. à chaque t, la courbe des taux diffère.
 
---> Estimer la moyenne et la variance du FTSE : bootstrapping : plusieurs tirages d'une sous partie de l'historique des indices.
-
-Partie fonctionnelle : 
+Partie fonctionnelle :
 
 --> Comment on gère le temps dans l'appli web ? on simule le marché (style forward test) ou on se base sur la date d'aujourd'hui avec les vrais valeurs des cours sur les indices passés
 
@@ -36,6 +10,6 @@ Partie fonctionnelle :
 
 ===> Régime switché
 
-===> Vaut mieux faire un sigma sur la volatilité pour estimer un seul parametre !
 
 
+/!\ Pourquoi le Nikkei descend toujours proche de 0 comme indice ?

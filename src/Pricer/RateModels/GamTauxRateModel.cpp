@@ -22,15 +22,21 @@ double GamTauxRateModel::G2(double T) const {
 }
 
 double GamTauxRateModel::GetRate(double maturity) const {
-    return r_inf - spread * G1(maturity) + gamma * G2(maturity);
+    return R(maturity);
 }
 
 
 double GamTauxRateModel::GetIntegralRate(double t, double maturity) const {
-    // TODO calculer l'intégral et l'implémenter
-    return 0;
+    // R(t,T) = (R(0,T)T - R(0,t)t)/(T-t)
+    return R(maturity) * maturity - R(t) * t;
 }
 
 
 GamTauxRateModel::~GamTauxRateModel() {
 }
+
+double GamTauxRateModel::R(double T) const {
+    return r_inf - spread * G1(T) + gamma * G2(T);
+}
+
+

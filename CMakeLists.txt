@@ -22,15 +22,23 @@ set(LIBS ${LIBS} ${PNL_LIBRARIES})
 set(RATE_SOURCE_FILES src/Pricer/RateModels/RateModelGen.cpp src/Pricer/RateModels/ConstantRateModel.cpp src/Pricer/RateModels/GamTauxRateModel.cpp)
 set(PRICING_SOURCE_FILES src/Pricer/Pricing/PricerGen.cpp src/Pricer/Pricing/MonteCarloPricer.cpp ${SIMULATION_SOURCE_FILE})
 set(SIMULATION_SOURCE_FILES src/Pricer/SimulationModels/ModelGen.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp ${RATE_SOURCE_FILES})
-set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/Asset.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp)
+set(ASSET_SOURCE_FILES src/Pricer/FinancialProducts/Asset/AssetList.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
+        src/Pricer/FinancialProducts/Asset/ChangeZC.cpp)
+set(PRODUIT_SOURCE_FILES src/Pricer/FinancialProducts/ProductGen.cpp src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp
+        ${ASSET_SOURCE_FILES})
 set(BASE_SOURCE_FILES src/Pricer/Marche.cpp)
-set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Parser/ParseCSV.cpp)
+set(STATS_SOURCE_FILES src/Pricer/Stats/StatsFactory.cpp src/Pricer/Stats/Parser/ParseCSV.cpp)
 # Add executables
 #Test for rate model
 add_executable(test_gamTauxRateModel.te src/Pricer/Tests/RateModelsTest/testGamTauxRateModel.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_gamTauxRateModel.te ${LIBS})
 add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testConstantRateModel.cpp ${RATE_SOURCE_FILES})
 target_link_libraries(test_constantRateModel.te ${LIBS})
+#Test for model
+add_executable(test_blackScholes.te src/Pricer/Tests/SimulationModels/BlackScholesTest.cpp
+        ${SIMULATION_SOURCE_FILES} ${ASSET_SOURCE_FILES} ${STATS_SOURCE_FILES} src/Pricer/FinancialProducts/Multimonde.cpp
+        ${PRODUIT_SOURCE_FILES})
+target_link_libraries(test_blackScholes.te ${LIBS})
 #Test for pricer
 add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp
         ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
@@ -41,9 +49,18 @@ target_link_libraries(test_stats.te ${LIBS})
 #Test for parsingCSV
 add_executable(test_parseCSV.te src/Pricer/Tests/Parser/testParseCSV.cpp ${STATS_SOURCE_FILES})
 target_link_libraries(test_parseCSV.te ${LIBS})
+#Test for payOff
+add_executable(test_payOffMultimonde.te src/Pricer/Tests/PayOffs/testPayOffMultimonde21.cpp
+        src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp ${RATE_SOURCE_FILES})
+target_link_libraries(test_payOffMultimonde.te ${LIBS})
+#Test for hedging
+add_executable(test_HedgingMultimonde.te src/Pricer/Tests/testHedgingMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
+        src/Pricer/Pricing/MonteCarloPricer.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+target_link_libraries(test_HedgingMultimonde.te ${LIBS})
 
 # Global executable
 add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
-        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} ${BASE_SOURCE_FILES})
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_multimonde.te ${LIBS})

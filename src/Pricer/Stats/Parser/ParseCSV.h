@@ -1,7 +1,3 @@
-//
-// Created by ruimyb on 1/17/17.
-//
-
 #ifndef PEPS_IMAG_PARSECSV_H
 #define PEPS_IMAG_PARSECSV_H
 

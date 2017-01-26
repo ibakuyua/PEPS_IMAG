@@ -6,7 +6,9 @@
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
 #include "../RateModels/RateModelGen.hpp"
-#include "../FinancialProducts/Asset.hpp"
+#include "../FinancialProducts/Asset/Asset.hpp"
+#include "../FinancialProducts/Asset/AssetList.hpp"
+#include "../Stats/StatsFactory.h"
 #include <map>
 #include <vector>
 
@@ -28,20 +30,22 @@ public:
     PnlVect *volatility; /// List of underlying asset volatilities
     PnlRng *rng; /// List of rng to randomize simulation
 
+    // TODO : mettre la list d'asset directement ? puisqu'on a besoin de isChange etc ...
     map<Change,RateModelGen*> rateModels; /// map of rateModel (one for each underlying asset economies)
-
     vector<Change> associatedChanges; /// Associated changes for underlying asset
 
     /**
      * Constructor
      *
+     * remarks : the list of asset has to be setted after with SetAssets
+     * remarks : Generaly is done in the product constructor
+     *
      * @param[in] assetNb : Number of asset for the model
      * @param[in] economyNb : Number of different change in the model
      * @param[in] rateModels : list of rate model (one for each change)
      * @param[in] name : the name of the model
-     * @param[in] assets : the list of underlying asset
      */
-    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name, Asset **assets);
+    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name);
 
     /**
      * Virtual methods
@@ -51,15 +55,24 @@ public:
      *
      * @param[in] assets : the list of assets
      */
-    virtual void SetAssets(Asset **assets);
+    virtual void SetAssets(AssetList *assets);
     /**
-     * PrintModel : permit to print the model information
+     * Print : permit to print the model information
      */
-    virtual void PrintModel();
+    virtual void Print();
 
     /**
      * Virtual methods [Pur]
      */
+    /**
+     * // TODO : Améliorer ce truc
+     * GetParametersFromStats : permit to obtain parameter model easily
+     *
+     * @param[in] stats : the statistic measures
+     * @param[out] trend : the trend of each asset
+     * @param[out] volMatrix : the matrice of volatility sigma
+     */
+    virtual void GetParametersFromStats(StatsFactory *stats,PnlVect **trend, PnlMat **volMatrix) = 0;
     /**
      * Simulate : permit to simulate at the date t a path for each asset.
      *
@@ -75,6 +88,13 @@ public:
      * Simulate : permit to simulate at the date 0 a path for each asset
      */
     virtual void Simulate(double maturity, PnlMat *path, int stepNb) = 0;
+
+
+    virtual void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
+                    int d, double h, double t, double timestep) = 0;
+
+
+
     /**
      * SimulateMarket : permit to simulate a market
      *

@@ -28,13 +28,19 @@ public:
      * Overriding virtual function
      */
     double GetRate(double maturity) const;
+    double GetIntegralRate(double t, double maturity) const;
+private:
     /**
-     * Methods
+     * Private Methods
      */
     double G1(double T) const;
     double G2(double T) const;
-
-    virtual double GetIntegralRate(double t, double maturity) const;
+    /**
+     * R : return the mean rate R(0,T)
+     * @param T the maturity
+     * @return R(0,T)
+     */
+    double R(double T) const;
 };
 
 

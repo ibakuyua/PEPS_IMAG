@@ -16,11 +16,11 @@ public:
      * Constructor/Destructor
      *
      * @param[in] pricer : the pricer to valuate the call
-     * @param[in] assets : the list of underlying assets (asset[0] is the call underlying asset)
+     * @param[in] assets : the underlying asset
      * @param[in] hedgingDateNb : the number of date of modification of the hedging portfolio
      * @param[in] strike : the strike of the call
      */
-    Call(PricerGen *pricer, Asset ** asset, int hedgingDateNb, double strike);
+    Call(PricerGen *pricer, Asset * asset, int hedgingDateNb, double strike);
     virtual ~Call();
 
     /**
@@ -31,7 +31,7 @@ public:
     /**
      * Virtual methods overrided
      */
-    void PrintProduct() const;
+    void Print() const;
 };
 
 
