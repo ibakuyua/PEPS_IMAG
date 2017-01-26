@@ -9,7 +9,7 @@
  * CONVENTION : double payOffProduct(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels))
  */
 
-/*
+/**
  *  Pay off for the product multimonde21
  *
  *  Remarks : pay off with only index point (without changes)
@@ -25,6 +25,7 @@ double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,R
  * Pay off for the product multimonde21
  *
  * remarks : the pay off is a function of each asset in the domestic economy
+ * remarks : the timeStep must be in term of days and maturity also
  *
  * CONVENTION :
  * -parameter is not used
@@ -38,7 +39,7 @@ double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,R
  */
 double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels);
 
-/*
+/**
  * Pay off for the classic Call
  *
  *  CONVENTION :

@@ -36,7 +36,8 @@ add_executable(test_constantRateModel.te src/Pricer/Tests/RateModelsTest/testCon
 target_link_libraries(test_constantRateModel.te ${LIBS})
 #Test for model
 add_executable(test_blackScholes.te src/Pricer/Tests/SimulationModels/BlackScholesTest.cpp
-        ${SIMULATION_SOURCE_FILES} ${ASSET_SOURCE_FILES} ${STATS_SOURCE_FILES})
+        ${SIMULATION_SOURCE_FILES} ${ASSET_SOURCE_FILES} ${STATS_SOURCE_FILES} src/Pricer/FinancialProducts/Multimonde.cpp
+        ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_blackScholes.te ${LIBS})
 #Test for pricer
 add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp

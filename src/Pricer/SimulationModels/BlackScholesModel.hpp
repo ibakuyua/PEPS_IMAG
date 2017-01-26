@@ -47,7 +47,7 @@ public:
                     int d, double h, double t, double timestep);
     void GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix);
 
-/*
+     /*
      * remarks : the dynamic is dS(t) = S(t)(mu(t)dt + sigma(t).dWt)
      */
     void SimulateMarket(double maturity, PnlMat *path, int stepNb);
