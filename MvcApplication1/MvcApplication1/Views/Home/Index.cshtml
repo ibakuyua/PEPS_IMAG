@@ -12,15 +12,26 @@
     </section>
 }
 <p>
-pricer le produit
-demander une date
+Pour pricer le produit, vous devez d'abord préciser la date du début du pricing puis appuyer sur le bouton Pricer.
 </p>
 
-<p>
     <form>
-        Enter a date before 1980-01-01:
-        <input type="date" name="PricingDate" max="1979-12-31"><br>
+        Veuillez donner la date de début de pricing
+        <input type="date" name="PricingDate" max="2021-01-01"><br>
     </form>
-</p>
 
-<button type="button">Pricer</button>
+<div class="price">
+    <button id="boutonPrice" type="button">Pricer</button> 
+    <div class="affiche" style="visibility: hidden">86.56</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+    function price() {
+        $(document).find("div.price").children()[1].style.visibility = "visible"
+    }
+
+    function initialize() {
+        document.getElementById("boutonPrice").addEventListener("click", price, false);
+    }
+
+    window.addEventListener("load", initialize, false);
+</script>
