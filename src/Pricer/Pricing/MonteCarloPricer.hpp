@@ -17,7 +17,6 @@ public:
      * Public members
      */
     int nbSample; /**< Number of sample for the monte carlo method */
-    int nbTimeStep; /**< Number of time step for the simulation*/
 
 
     /**

@@ -9,9 +9,6 @@ ModelGen::ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string
     spot = pnl_vect_create_from_scalar(assetNb,0);
     trend = pnl_vect_create_from_scalar(assetNb,0);
     volatility = pnl_vect_create_from_scalar(assetNb,0);
-    associatedChanges = vector<Change>(assetNb);
-    for (int i = 0; i < assetNb; ++i)
-        associatedChanges[i] = Change::EUR;
     for (int e = 0; e < economyNb; ++e)
         this->rateModels[rateModels[e]->change] = rateModels[e];
 
@@ -20,12 +17,15 @@ ModelGen::ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string
 }
 
 void ModelGen::SetAssets(AssetList *assets) {
+    if (assets->size != assetNb)
+        throw domain_error("SetAssets : list asset doesn't contain "
+                                   "the same number of asset that mentionned in the assetNb model");
     for (int d = 0; d < assets->size; ++d) {
         LET(spot,d) = assets->assets[d]->spot;
         LET(trend,d) = assets->assets[d]->trend;
         LET(volatility,d) = assets->assets[d]->volatility;
-        associatedChanges[d] = assets->assets[d]->change;
     }
+    this->assetList = assets;
 }
 
 void ModelGen::Print() {

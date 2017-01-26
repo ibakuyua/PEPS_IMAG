@@ -11,11 +11,6 @@ Call::~Call() {
     delete assets;
 }
 
-void Call::MAJPortfolio() {
-    //TODO pour tester la couverture ?
-}
-
-
 void Call::Print() const {
     ProductGen::Print();
     cout << "\nStrike : " << GET(this->parameters,0);

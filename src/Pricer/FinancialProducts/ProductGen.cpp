@@ -1,4 +1,5 @@
 #include "ProductGen.hpp"
+#include "../Marche.hpp"
 
 
 ProductGen::ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffFunction payOff,
@@ -15,13 +16,28 @@ ProductGen::~ProductGen() {
 
 
 void ProductGen::PricePortfolio(double t, double &price) const {
-    //TODO With market
+    PnlVect *quotes = pnl_vect_new();
+    Marche *market = Marche::Instance(); // There is only one instance of market
+    market->GetCotations(t,quotes);
+    price = pnl_vect_scalar_prod(composition,quotes);
+    pnl_vect_free(&quotes);
 }
 
 void ProductGen::PriceProduct(double t, double &price, double &ic) const {
-    PnlMat *past = NULL;
-    //past = Marche.GetPast(t);
+    PnlMat *past = pnl_mat_new();
+    Marche *market = Marche::Instance();
+    market->GetPastCotations(t,past,true,pricer->nbTimeStep);
     pricer->Price(t, past, price, ic, payOff, parameters);
+    pnl_mat_free(&past);
+}
+
+void ProductGen::MAJPortfolio() {
+    double t = Marche::GetTime();
+    PnlMat *past = pnl_mat_new();
+    Marche *market = Marche::Instance();
+    market->GetPastCotations(t,past,true,pricer->nbTimeStep);
+    pricer->Delta(t,past,composition,payOff,parameters);
+    pnl_mat_free(&past);
 }
 
 

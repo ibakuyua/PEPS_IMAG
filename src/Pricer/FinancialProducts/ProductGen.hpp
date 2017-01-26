@@ -19,7 +19,7 @@ public:
     string nom; /// Name of the product
     PricerGen *pricer; /// Pricer for this product
     AssetList *assets; /// List of underlying assets
-    int hedgingDateNb; /// Number of hedging dates
+    int hedgingDateNb; /// Number of hedging dates (must be > nbTimeStep date)
 
     /*
      * PayOff
@@ -32,7 +32,7 @@ public:
      */
     PnlVect *composition; /// Composition of the portfolio with underlying assets
 
-    /*
+    /**
      * Constructor/Destructor
      *
      * @param[in] nom : the name of the product
@@ -72,13 +72,13 @@ public:
      */
     virtual void Print() const;
 
-    /*
-     * Virtual pur method
-     */
     /**
      * MAJPortfolio : permit to upgrade the portfolio (new composition to hedge)
+     *
+     * remarks : MAJ from the current date contained in the market
+     *
      */
-    virtual void MAJPortfolio() = 0;
+    virtual void MAJPortfolio();
 
 };
 

@@ -17,10 +17,6 @@ Multimonde::~Multimonde() {
 }
 
 
-void Multimonde::MAJPortfolio() {
-    // TODO with market
-}
-
 AssetList *Multimonde::GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel) {
     // Creation of the BlackScholes parameters in global economy
     // thanks to statistics in asset in their economy

@@ -50,7 +50,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         Sd_t = GET(St, d);
         LdGi = GET(LGi_, d);
 
-        value = exp(rateModels[associatedChanges[d]]->GetIntegralRate(t, t + firstStep)
+        value = exp(rateModels[assetList->assets[d]->change]->GetIntegralRate(t, t + firstStep)
                     - (sigma_d * sigma_d / 2) * firstStep + sigma_d * sqrtFirstStep * LdGi
                     );
 
@@ -73,7 +73,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
             LdGi = GET(LGi_, d);
 
             value = value_tiMinus1[d] * exp(
-                    rateModels[associatedChanges[d]]->GetIntegralRate(tiMinus1, tiMinus1 + step)
+                    rateModels[assetList->assets[d]->change]->GetIntegralRate(tiMinus1, tiMinus1 + step)
                     - (sigma_d * sigma_d/2) * step + sigma_d * sqrtStep * LdGi
                     );
 
@@ -105,7 +105,7 @@ void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
             LdGi = GET(LGi_,d);
 
             Sd_ti = Sd_tiMinus1 * exp(
-                    rateModels[associatedChanges[d]]->GetIntegralRate(tiMinus1, tiMinus1 + step)
+                    rateModels[assetList->assets[d]->change]->GetIntegralRate(tiMinus1, tiMinus1 + step)
                     - (sigma_d * sigma_d / 2) * step + sigma_d * sqrtStep * LdGi
                     );
 
@@ -147,12 +147,14 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
     // Step Initialisation
     double step = maturity/(double)stepNb;
     double sqrtStep = sqrt(step);
+    double addTrendForZC, ti_minus1;
     // Spot Initialisation
     for (int d = 0; d < path->n; ++d)
         PNL_MSET(path, 0, d, GET(spot,d));
     double sigma_d, trend_d, Sd_tiMinus1, LdGi, Sd_ti;
     // For each time
     for (int i = 1; i < path->m; ++i) {
+        ti_minus1 = (i-1) * step;
         pnl_vect_rng_normal_d(Gi_,path->n,rng); // Gi gaussian vector
         LGi_ =  pnl_mat_mult_vect(choleskyCorr,Gi_); // All the LdGi
         // For each asset
@@ -162,7 +164,12 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
             Sd_tiMinus1 = PNL_MGET(path, (i-1), d);
             LdGi = GET(LGi_,d);
 
-            Sd_ti = Sd_tiMinus1 * exp( (trend_d - sigma_d * sigma_d / 2) * step + sigma_d * sqrtStep * LdGi);
+            // Case of X.ZC : XR_f
+            addTrendForZC = (assetList->assets[d]->isChange.first)
+                            ? rateModels[assetList->assets[d]->isChange.second]->GetIntegralRate(ti_minus1,ti_minus1+step)
+                            : 0.;
+
+            Sd_ti = Sd_tiMinus1 * exp( (trend_d - sigma_d * sigma_d / 2) * step + addTrendForZC + sigma_d * sqrtStep * LdGi);
 
             PNL_MSET(path,i,d,Sd_ti);
         }
