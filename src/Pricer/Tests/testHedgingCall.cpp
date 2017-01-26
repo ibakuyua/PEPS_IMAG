@@ -7,8 +7,7 @@
 #include "../FinancialProducts/Call.hpp"
 #include "../SimulationModels/BlackScholesModel.hpp"
 #include "../RateModels/ConstantRateModel.hpp"
-#include "../Stats/Parser/ParseCSV.h"
-#include "../FinancialProducts/ProductGen.hpp"
+#include "../Marche.hpp"
 
 using namespace std;
 
@@ -23,66 +22,68 @@ int main(){
 
     //Useful datas
     double strike = 100.;
-    double trend = 0.02;
+    double trend = 0.03;
     double spot = 100.;
-    double volatility = 0.2;
-    double r = 0.02;
+    double volatility = 0.15;
+    double r = 0.03;
     double maturity = 10.;
+    int nbSample = 200000;
 
-    //Initialisation du modele de taux
+
+    Asset *asset = new Asset("XX","MyAsset",Change::EUR,trend,spot,volatility);
+    assert(asset != NULL);
+
     RateModelGen **rateModels = (RateModelGen**) malloc(1 * sizeof(RateModelGen*));
     rateModels[0] = new ConstantRateModel(Change::EUR,r);
     assert(rateModels != NULL && rateModels[0] != NULL);
 
     //Initialisation du Modele de BlackScholes
-    ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY,rateModels);
+    ModelGen *modelBlackScholes = new BlackScholesModel(1, 1,rateModels);
+    assert(modelBlackScholes != NULL);
+    //Initialisation du Pricer MonteCarlo
+    PricerGen *pricer = new MonteCarloPricer(maturity,modelBlackScholes,nbSample,1);
+    assert(pricer != NULL);
+    //Initialisation of Call Product
+    Call *call = new Call(pricer,asset,(int) maturity,strike);
+    assert(call != NULL);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+    call->Print();
+    cout << "\n\n";
+    //Marche *marche = Marche::Instance(call);
+    //assert(marche != NULL);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
-    //Spot Vector for simu BS
-    cout << "=== Initialisation of Spot Vector ===\n";
+    double price0, price1, ic, deltaFF;
+    cout << "\n\n** Computing Price at t = 0 ... ";
+    call->PriceProduct(0,price0,ic);
+    pnl_cf_call_bs(spot,strike,maturity,r,0.,volatility,&price1,&deltaFF);
+    cout << " \033[1;34m [CHECK]\033[0m\n\n";
+    cout << "--> Price : " << price0;
+    cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic;
+    cout << "\n--> Closed formula Price : " << price1;
+    cout << "\n --> Closed Formula Delta : " << deltaFF;
+    assert(fabs(price0-price1) <= ic);
+
+
+    //Spot Vector for Past Matrix
+    //cout << "\n\n=== Initialisation of Spot Vector ===\n";
     PnlVect *spotV = pnl_vect_create(NB_ASSET);
     for (int d = 0; d < NB_ASSET; ++d) {
         PNL_SET(spotV, d, spot);
     }
-    cout << "CHECK : \n\n";
-
-    cout << "=== Initialisation of Volatility Vector ===\n";
-    PnlVect *volatilityV = pnl_vect_create(NB_ASSET);
-    for (int d = 0; d < NB_ASSET; ++d) {
-        PNL_SET(volatilityV, d, volatility);
-    }
-    cout << "CHECK : \n\n";
+    cout << "\n\nCHECK : \n\n";
 
 
     //Setting past
     PnlMat *past = pnl_mat_create_from_zero(1,NB_ASSET);
     pnl_mat_set_row(past,spotV,0);
 
-
-    //Setting BSModel car on n'a pas la fonction GetParametersFromStats comme multimonde
-    simuIndex->spot = spotV;
-    simuIndex->volatility = volatilityV;
-
-
-    //Initialisation du Pricer MonteCarlo
-    int nbSample = 5000;
-    PricerGen *pricer = new MonteCarloPricer(maturity,simuIndex,nbSample,(int) maturity);
-    assert(pricer != NULL);
-
-
-    //Initialisation of Call Product
-
-    Asset *asset = new Asset("XX","MyAsset",Change::EUR,trend,spot,volatility);
-    assert(asset != NULL);
-    Call *call = new Call(pricer,asset,(int) maturity,strike);
-    assert(call != NULL);
-    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-    call->Print();
-    cout << "\n\n";
-
+    cout << "PAST :\n";
+    pnl_mat_print(past);
 
     //Computing delta
-    PnlVect *delta = pnl_vect_create(NB_ASSET);
-    PnlVect *parameters = pnl_vect_create_from_scalar(NB_ASSET,strike);
+    PnlVect *delta = pnl_vect_create(1);
+    PnlVect *parameters = pnl_vect_create_from_scalar(1,strike);
     cout << "Computing Delta ...\n";
     pricer->Delta(0,past,delta,payOffCall,parameters);
 
@@ -90,29 +91,10 @@ int main(){
     cout << "\n---> Delta : \n";
     pnl_vect_print(delta);
 
-    //Computing Price
-    double ourPrice;
-    double ic;
-    pricer->Price(0,past,ourPrice,ic,payOffCall,parameters);
-    cout << "\n---> Notre Prix du call à 0 : " << ourPrice;
-
-
-    double prixFF;
-    double deltaFF;
-
-    prixFF = pnl_cf_call_bs(spot,strike,maturity,r,0,volatility,&prixFF,&deltaFF);
-
-    cout << "\n---> Prix Formule fermée : " << prixFF;
-    cout << "\n---> Delta Formule fermée : " << deltaFF;
-    cout << "\n\nCHECK";
-
-
-
-
     //FREEING Memory
     delete call;
     delete pricer;
-    delete simuIndex;
+    delete modelBlackScholes;
     delete rateModels[0];
     free(rateModels);
     delete asset;

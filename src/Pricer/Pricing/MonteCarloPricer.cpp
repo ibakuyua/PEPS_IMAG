@@ -9,6 +9,7 @@ MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbS
     this->simuModel = simuModel;
     this->nbTimeStep = nbTimeStep;
     this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
+    this->pathShifted = pnl_mat_create(nbTimeStep+ 1, simuModel->assetNb);
 }
 
 void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
@@ -56,12 +57,14 @@ void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
         // Simulation at t
         PayOffSimulationShiftedDiff(payOffDiff,past,t,payOff,parameters);
         for (int d = 0; d < delta->size; ++d)
-            LET(delta,d) = GET(payOffDiff,d);
+            LET(delta,d) += GET(payOffDiff,d);
     }
+
+
 
     // Delta
     for (int d = 0; d < delta->size; ++d){
-        LET(delta,d) *= (discountFactor / (M * GET(St,d)));
+        LET(delta,d) *= (discountFactor / (M * GET(St,d) * 2 * h));
     }
 
 
@@ -73,7 +76,6 @@ void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
 
 }
 
-//TODO : Implement this function
 void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const {
 
     //Useful values
@@ -81,15 +83,10 @@ void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const Pn
     int nbTimeSteps = nbTimeStep;
     double timeStep = T / nbTimeSteps;
     int D = simuModel->assetNb;
-    // derivation step
-    double h = 0.000001;
     double moins_h = -h;
 
-    //PnlMat* pathShifted = pnl_mat_create(nbTimeSteps + 1, D);
-    PnlMat* pathShifted = pnl_mat_create_from_zero(path->m,path->n);
-
     //Simulation
-    if (past == NULL || t == 0) {
+    if (t == 0) {
         simuModel->Simulate(T,path,nbTimeSteps);
     }
     else {
@@ -101,11 +98,12 @@ void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const Pn
         //Simulation of the path +h
         simuModel->ShiftAsset(pathShifted,path,d,h,t,timeStep);
         double payOffShifted = payOff(pathShifted,parameters,simuModel->rateModels);
+
         //Simulation of the path -h
         simuModel->ShiftAsset(pathShifted,path,d,moins_h,t,timeStep);
         payOffShifted -= payOff(pathShifted,parameters,simuModel->rateModels);
-        //Don't forget to divide by the derivation step
-        LET(payOffDiff,d) = payOffShifted/(2*h);
+
+        LET(payOffDiff,d) = payOffShifted;
     }
 }
 
