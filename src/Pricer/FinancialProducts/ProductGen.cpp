@@ -31,6 +31,15 @@ void ProductGen::PriceProduct(double t, double &price, double &ic) const {
     pnl_mat_free(&past);
 }
 
+void ProductGen::MAJPortfolio() {
+    double t = Marche::GetTime();
+    PnlMat *past = pnl_mat_new();
+    Marche *market = Marche::Instance();
+    market->GetPastCotations(t,past,true,pricer->nbTimeStep);
+    pricer->Delta(t,past,composition,payOff,parameters);
+    pnl_mat_free(&past);
+}
+
 
 void ProductGen::Print() const {
     cout << "\n******************************************";

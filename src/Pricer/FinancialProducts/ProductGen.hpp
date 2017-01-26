@@ -72,13 +72,13 @@ public:
      */
     virtual void Print() const;
 
-    /*
-     * Virtual pur method
-     */
     /**
      * MAJPortfolio : permit to upgrade the portfolio (new composition to hedge)
+     *
+     * remarks : MAJ from the current date contained in the market
+     *
      */
-    virtual void MAJPortfolio() = 0;
+    virtual void MAJPortfolio();
 
 };
 

@@ -34,10 +34,6 @@ public:
      */
     ~Multimonde();
     /**
-     * Overriding Methods
-     */
-    void MAJPortfolio();
-    /**
      * Static methods
      */
      /**

@@ -23,9 +23,8 @@ typedef enum {
  */
 class Marche {
 public:
-    static double t; /// Current time
-    PnlMat *cours; /// The cotations in the market (0 to T or 0 to t if real)
     ProductGen *product; /// The product to valuate
+    PnlMat *cours; /// The cotations in the market (0 to T or 0 to t if real)
 
     /**
      * Instance : return an instance of the market
@@ -67,8 +66,20 @@ public:
      */
     void GetPastCotations(double t, PnlMat *past, bool withStepModel = false, int modelStepNb = 1);
 
+    /**
+     * SetTime : permit to set the real time of the market
+     * @param t : the new date
+     */
+    inline static void SetTime(double t){Marche::t = t;}
+    /**
+     * GetTime : permit to return the time of the market
+     * @return time
+     */
+    inline static double GetTime(){return Marche::t;}
+
 
 private:
+    static double t; /// Current time
     static Marche *instance; /// The unique instance of market
     CotationTypes type; /// The type of current cotations in the market
     double hedgingStep; /// The hedging step (step between two indexes of cours)
