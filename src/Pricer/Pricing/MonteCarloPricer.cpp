@@ -44,7 +44,7 @@ void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
     double r = simuModel->rateModels[Change::EUR]->GetIntegralRate(t,T);
     //Samples number
     double M = nbSample;
-    double discountFactor = exp(-r * (T-t));
+    double discountFactor = exp(-r);
 
     PnlVect *St = pnl_vect_new();
     pnl_mat_get_row(St, past, past->m - 1);
@@ -79,7 +79,7 @@ void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const Pn
 
     //Useful values
     double T = maturity;
-    int nbTimeSteps = nbTimeStep;
+    int nbTimeSteps = nbTimeSteps;
     double timeStep = T / nbTimeSteps;
     int D = simuModel->assetNb;
     double moins_h = -h;
