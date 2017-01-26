@@ -9,7 +9,7 @@
 #include "../Stats/Parser/ParseCSV.h"
 
 using namespace std;
-
+void computePnl();
 double hedging(PricerGen *pricer, double& V_iMinus1, RateModelGen ***rateModels,
                PnlVect *deltas_iMinus1, PnlVect *Stau_i, PnlMat *past, double t,double marketStep, double &pi);
 void setParameters(RateModelGen ***rateModels);
@@ -20,6 +20,13 @@ void freeParameters(RateModelGen ***rateModels);
 #define NB_ECONOMY 6
 
 int main(){
+
+    computePnl();
+    return EXIT_SUCCESS;
+
+}
+
+void computePnl(){
 
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE ######\n\n";
     cout << "** Instance : ";
@@ -128,7 +135,6 @@ int main(){
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     cout << "########################################\n\n";
-    return EXIT_SUCCESS;
 
 }
 
