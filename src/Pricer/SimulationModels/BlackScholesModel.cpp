@@ -103,7 +103,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         pnl_mat_get_row(St, past, past->m - 1);
 
         // Size of a step
-        double step = GET(scheduleSimulation,1);
+        double step = GET(scheduleSimulation,0);
 
         // The index before t
         int indexBeforet = past->m - 1; // TODO : ou past->m si on est sur un pas de constatation
