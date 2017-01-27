@@ -4,8 +4,6 @@
 
 #include "../../ProductInfo/infoMultimonde.hpp"
 
-////// Attention : les calculs d'actifs sans risques se font sur des intégrales de largeur en unité celle utilisée pour le calibrage
-
 //################ PayOff Multimonde21 avec actifs en euros #########################
 
 double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateModelGen *> &rateModels) {

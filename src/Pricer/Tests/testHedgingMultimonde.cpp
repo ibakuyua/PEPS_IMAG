@@ -29,6 +29,7 @@ int main(){
 void computePnl(){
 
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE ######\n\n";
+    
     cout << "** Instance : ";
     RateModelGen **rateModels;
     setParameters(&rateModels);
