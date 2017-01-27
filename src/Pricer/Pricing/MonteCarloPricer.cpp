@@ -69,7 +69,7 @@ void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic
             LET(ic, d) += GET(delta,d) * GET(delta,d);
         }
     }
-    // Delta and ic 
+    // Delta and ic
     for (int d = 0; d < delta->size; ++d){
         LET(delta,d) *= (discountFactor / (M * GET(St,d) * 2 * h));
     }

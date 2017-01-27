@@ -38,8 +38,13 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         step = maturity / (double)stepNb;
         firstStep = MAX(step * indexAftert - t, 0.);
     }else {
-        for (int i = 0; i < indexAftert; ++i)
+        for (int i = 0; i < indexAftert; ++i) {
+            if (i >= simulationSchedule->size) {
+                cumuledStep = maturity;
+                break;
+            }
             cumuledStep += GET(simulationSchedule, i);
+        }
         firstStep = MAX(cumuledStep - t, 0.);
     }
     sqrtFirstStep = sqrt(firstStep);
