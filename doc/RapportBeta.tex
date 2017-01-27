@@ -133,9 +133,6 @@ Voong Kwan
  \newpage
 
  %--- Commencer a ecrire ici ---% 
- \part{Présentation du projet}
- \section{Le produit Multimonde}
- \newpage
 \part{Mathématiques}
 \section{Modélisation du produit multi-économies}
 Le produit {\tt multimonde21} met en jeu des sous-jacents répartis sur plusieurs économies (et devises). Contrairement à la couverture en delta classique sur une seule économie, le portefeuille de réplication induit un achat de titres étrangers et par cette occasion une exposition au risque de change. \\
@@ -366,7 +363,7 @@ Ces méthodes seront présentées et implémentées dans la prochaine version du
 \section{Librairie de Pricing}
 Nous avons décidé de faire une librairie de pricing la plus générique possible de façon à pouvoir l'améliorer sans devoir changer tout le code. \\
 Il est possible de pricer tous les produits désirés dès lors qu'une fonction de payOff est implémentée (dans le fichier {\tt PayOffFunction.cpp}) et qu'une classe dérivant de la classe {\tt ProductGen} est créée. \\
-Le lecteur pourra apprécier plus loin en Annexe (\ref{diagrammeClasse}) le diagramme de classe de la librairie ainsi que les spécificités de généricité de notre librairie.
+Le lecteur pourra apprécier le diagramme de classe de la librairie dans le fichier {\tt classDiagramPeps.jpg}.
 \subsection{Simulation du modèle}
 Le but est de simuler une trajectoire des sous-jacents selon le modèle de Black \& Scholes à actifs corrélés. \\[2mm]
 Soit $d$ actifs $((S^i_t)_t)_{i=1,\ldots,d}$ de matrice de volatilité $\sigma$ et de tendance $\mu$ déterministes constantes. \\
@@ -412,7 +409,7 @@ Le fichier CSV a été construit de façon rigoureuse. Il contient l'ensemble de
 La première ligne définit le nom des colonnes. Elle est ignorée lors de la lecture du fichier de façon automatique. \\ 
 Les colonnes ont un ordre très précis. La première colonne permet d'indiquer la date de la ligne courante. Pour le moment, elle est ignorée et sert seulement a donner du sens au fichier lorsqu'il est ouvert indépendemment du parser. \\ 
 Les autres colonnes permettent d'obtenir à chaque date (une date par WorkingDay), les valeurs des indices en devise étrangère et les taux de changes devise étrangère / EUR. \\ 
-Ces données ont pour le moment étées récupérées manuellement. \\ 
+Ces données ont pour le moment étées récupérées manuellement. \\ 
 L'ordre de ces colonnes est le suivant :
 \begin{itemize}
     \item La date
@@ -429,20 +426,20 @@ L'ordre de ces colonnes est le suivant :
 \end{itemize}
 
 Pour le moment, ce fichier contient les dates du 12/01/2017 au 13/06/2016. 
-\subsubsubsection{Améliorations}
+\subsubsection{Améliorations}
 
-L'amélioration qui sera implémentée incessemment sous peu consistera à la récupération automatique des données manquantes à partir du jour courant. \\ 
+L'amélioration qui sera implémentée incessemment sous peu consistera à la récupération automatique des données manquantes à partir du jour courant. \\ 
 Il faudra être très vigilant quant à l'abscence de donnée de sorte à ce que lorsqu'une donnée est manquante, la donnée du jour précédent est utilisée.
 
 
 \subsubsection{Implémentation}
-\subsubsubsection{ParseCSV}
+\subsubsection{ParseCSV}
 La classe parseCSV possède un constructeur prenant en entrée un chemin vers un fichier csv. \\
 Pour le moment, l'ensemble des données du fichier csv sont récupérées et permettent de remplir l'attribut inputDate de type PnlMat*.\\
 \underline{Amélioration :} Une amélioration qui sera très bientôt implémentée sera de faire en sorte que seulement les 6 derniers mois soient parsés à partir du jour demander par l'utilisateur. \\ 
 Il conviendra de lire la colonne de date et de récupérer l'indice à partir duquel nous souhaitons récupérer les données. 
 
-\subsubsubsection{StatFactory}
+\subsubsection{StatFactory}
 
 La classe StatFactory permet, à partir d'une matrice contenant les différentes quotations journalières, de déduire les choses suivantes : 
 \begin{itemize}
@@ -453,18 +450,34 @@ La classe StatFactory permet, à partir d'une matrice contenant les différentes
     \item La matrice de corrélation de ces logRendement
 \end{itemize}
 
-Ces matrices ne sont pas toutes utilisées pour l'estimation des paramètres, ils sont retravaillés pour le produit multimonde, néanmoins, nous souhaitions faire une classe assez générale. \\ 
+Ces matrices ne sont pas toutes utilisées pour l'estimation des paramètres, ils sont retravaillés pour le produit multimonde, néanmoins, nous souhaitions faire une classe assez générale. \\ 
 En effet, selon le modèle, les modifications sur ces données ne sont pas forcément les mêmes. 
-
 
 \subsection{Parallélisation du programme}
 Une autre méthode pour augmenter la précision du pricer est d'augmenter le nombre de simulation en parallélisant la somme et donc les simulations. Cette méthode permet donc de garder le même temps de calcul\footnote{Si on multiplie le nombre de tirage par $m$ le nombre de coeurs de la machine} tout en réduisant la largeur de l'intervalle de confiance du prix. \\
 Le programme sera parallélisé dans les versions ultérieures
-\newpage
 \section{Interface utilisateur}
-YAYA, PAUL
+Le lecteur est prié d'aller voir le pdf {\tt Manuel\_Interface.pdf}
+\newpage
 \part{Annexe}
-\section{Diagramme des classes de la librairie}
-\label{diagrammeClasse}
-\section{Généricité des classes de la librairie}
+\section{Test}
+Nous avons effectués plusieurs tests pour valider notre programme. 
+\subsubsection*{Test du pay off}
+{\tt test\_payOffMultimonde.te} : Permet de tester le pay off du multimonde en créant une trajectoire où le payoff est connu.
+\subsubsection*{Test de la simulation}
+{\tt test\_blackScholes.te} : Permet de faire une simulation avec le modèle de Black\&Scholes. On remarque d'ailleurs dans ce test la tendance du Nikkei a chuter vers $0$. Ceci est dû à la période de calibration.
+\subsubsection*{Test du pricing}
+{\tt test\_pricerCall-MCBS.te} : Grâce à la généricité de notre librairie, on a pu créer un produit Call facilement et comme nous connaissons le prix exact d'un Call (formule fermée) on a pu valider notre pricer en $t=0$ ou $t>0$
+\subsubsection*{Test des deltas}
+{\tt test\_DeltaCall.te} On utilise les formules fermées comme précédemment
+\subsubsection*{Test du multimonde}
+{\tt test\_pricer\_multimonde.te} : Permet de pricer le multimonde en $t=0$. On obtient un prix de $90.57$ euros environ. \\
+
+{\tt test\_HedgingMultimonde.te} : Permet de tester la couverture du produit. Nous n'avons pas réussi à corriger un bug de rebalancement comme le montre le graphique suivant du PnL à chaque date de rebalancement. Il montre des sauts importants toujours non résolus à certain indices.
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[scale=0.6]{pnl} \\
+Figure 5 : PnL du produit
+\end{tabular}
+\end{center}
  \end{document}

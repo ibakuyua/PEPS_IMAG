@@ -13,7 +13,7 @@ using namespace std;
 
 int main(){
 
-    cout << "\n\n###### TEST OF HEDGING CALL ######\n\n";
+    cout << "\n\n###### TEST OF DELTA CALL ######\n\n";
     cout << "** Instance : ";
 
     //Useful datas
@@ -91,13 +91,12 @@ int main(){
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "\n --> Closed Formula Delta : " << deltaFF;
     cout << "\n---> Delta computed : " << GET(delta,0);
-    cout << "\n---> Prix closed formula: " << price << std::endl;
-    cout << "\n---> Prix computed" << myPrice << std::endl;
     cout << "\n---> IC : [ " << GET(delta,0) - GET(icP,0)/2. << " ; " << GET(delta,0) + GET(icP,0)/2. << " ]";
     cout << " \n\n\033[1;34m [CHECK]\033[0m";
     assert(fabs(price-myPrice) <= myIc);
 
 
+    cout << "\n\nFree : ";
     //FREEING Memory
     delete call;
     delete pricer;

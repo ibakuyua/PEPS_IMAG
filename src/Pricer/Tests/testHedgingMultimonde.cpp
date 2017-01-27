@@ -15,10 +15,6 @@ double hedging(PricerGen *pricer, double& V_iMinus1, RateModelGen ***rateModels,
 void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
-#define NB_TIMEVALUE_KNOWN 1 // Must be equal to (int)(t*N/maturity)+2]
-#define NB_ASSET 11 // Must be equal to size
-#define NB_ECONOMY 6
-
 int main(){
 
     computePnl();
@@ -42,12 +38,12 @@ void computePnl(){
     LET(scheduleSimulation,5) = NB_DAYSWRK_TO_CONSTATATION_6 -  NB_DAYSWRK_TO_CONSTATATION_5;
 
     //Initialisation du Modele de BlackScholes
-    ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(11, 6, rateModels);
 
     //Initialisation du Pricer MonteCarlo
     int nbSample = 10000;
     int hedgingNb;
-    hedgingNb = 200;
+    hedgingNb = 2000;
     PricerGen *pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
 
@@ -64,13 +60,13 @@ void computePnl(){
 
     // Market initialisation
     cout << " --- Simulation du marché --- \n";
-    PnlMat *market = pnl_mat_create_from_zero(hedgingNb + 1, NB_ASSET);
+    PnlMat *market = pnl_mat_create_from_zero(hedgingNb + 1, 11);
     simuIndex->SimulateMarket(Multimonde::maturity,market,hedgingNb);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     //PAst Initialisation
-    PnlMat *past = pnl_mat_create(1,NB_ASSET);
-    for (int i = 0; i < NB_ASSET; ++i) {
+    PnlMat *past = pnl_mat_create(1,11);
+    for (int i = 0; i < 11; ++i) {
         MLET(past,0,i) = MGET(market,0,i);
     }
 
@@ -79,7 +75,7 @@ void computePnl(){
 
     // Initialisation
     //Delta prec
-    PnlVect *deltas_iMinus1 = pnl_vect_create(NB_ASSET);
+    PnlVect *deltas_iMinus1 = pnl_vect_create(11);
     //Stau courant, les prix au temps i des actifs
     PnlVect *Stau_i = pnl_vect_new();
     pnl_mat_get_row(Stau_i, market, 0);
@@ -98,7 +94,6 @@ void computePnl(){
     pnl_mat_add_row(past, past->m, Stau_i);
     double V_iMinus1 = price  - pnl_vect_scalar_prod(deltas_iMinus1,Stau_i);
     LET(pnlAtDate, 0) = 0; // Par construction
-    std::cout << "Marché" << std::endl;
 
     // Foreach date
     int iN = 1;
@@ -114,16 +109,13 @@ void computePnl(){
         }
 
         LET(pnlAtDate, i) = hedging(pricer, V_iMinus1, &rateModels, deltas_iMinus1, Stau_i, past, t, marketStep, price);
+        //cout << "\nPnL at date : " << i << " --> " << GET(pnlAtDate, i);
+        cout << "\n" << i << ";" << GET(pnlAtDate,i);
     }
 
     // Display result
     cout << "\n-----> Pay-Off [ " << price << " ]";
     cout << "\n-----> PnL [ " << GET(pnlAtDate, hedgingNb) << " ]\n";
-    cout << "\n\n\n Marché : \n\n";
-    pnl_mat_print(market);
-    cout << "\n\n PnL at date : \n";
-    pnl_vect_print(pnlAtDate);
-
 
     //FREEING Memory
     delete multimonde;
@@ -164,7 +156,7 @@ double hedging(PricerGen *pricer, double& V_iMinus1, RateModelGen ***rateModels,
 void setParameters(RateModelGen ***rateModels){
     *rateModels = (RateModelGen**) malloc(6 * sizeof(RateModelGen*));
     for (int d = 0; d < 6; ++d)
-        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03/252.);
+        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03/365.);
 }
 
 void freeParameters(RateModelGen ***rateModels){

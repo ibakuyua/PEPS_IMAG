@@ -65,7 +65,7 @@ add_executable(test_DeltaCall.te src/Pricer/Tests/PricerTest/testDeltaCall.cpp s
 target_link_libraries(test_DeltaCall.te ${LIBS})
 
 # Global executable
-add_executable(test_multimonde.te src/Pricer/Tests/testMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
+add_executable(test_pricer_multimonde.te src/Pricer/Tests/testPricerMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
-target_link_libraries(test_multimonde.te ${LIBS})
+target_link_libraries(test_pricer_multimonde.te ${LIBS})
