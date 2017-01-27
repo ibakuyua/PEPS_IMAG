@@ -3,3 +3,7 @@ build/*
 lib/*
 lib/pnlLib/build/*
 .DS_Store
+*.log
+*.aux
+*.toc
+*.out

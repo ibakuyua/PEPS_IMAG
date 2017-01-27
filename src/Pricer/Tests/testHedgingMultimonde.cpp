@@ -118,7 +118,7 @@ void computePnl(){
         double t = i * marketStep;
         pnl_mat_get_row(Stau_i, market, i);
 
-        if ((i * marketStep) >= iN * Multimonde::maturity/ simuIndex->assetNb){
+        if ((i * marketStep) >= iN * Multimonde::maturity/ pricer->nbTimeStep){
             pnl_mat_add_row(past, past->m, Stau_i);
             iN++;
         }else{

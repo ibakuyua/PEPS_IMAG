@@ -110,9 +110,9 @@ Version Beta} \\[0.4cm] }
 \emph{IF - Groupe 9}\\[2cm]
 Ibakuyumcu Arnaud \\
 Lhuillery Paul \\
+Rattanatray Ayutaya \\
 Ruimy Benjamin \\
-Voong Kwan \\
-Rattanatray Ayutaya
+Voong Kwan
 \end{center}
 \end{minipage}
 \begin{minipage}{0.4\textwidth}
@@ -402,7 +402,61 @@ Par soucis de rendre une librairie de calcul générique et donc ré-utilisable,
 Cette partie sera complétée lors de l'implémentation d'une méthode à minimisation de variance. \\
 En effet la méthode de base n'a rien de compliquer à implémenter.
 \subsection{Parser et calculs statistiques}
-BENJAMINE
+
+Les calculs statistiques sont effectués à partir d'une classe statistique nommée StatsFactory.\\ Les paramètres sont estimés à partir des données historiques se trouvant dans un fichier csv. 
+Un parser de csv a été implémenté dans une classe ParseCSV.
+Cette section permet de comprendre à la fois l'implémentation, la façon dont le fichier csv a été construit mais aussi les améliorations que nous comptons réaliser pour la version suivante. 
+\subsubsection{Construction du fichier CSV}
+
+Le fichier CSV a été construit de façon rigoureuse. Il contient l'ensemble des données nécessaires afin d'obtenir l'estimation des paramètres. \\ 
+La première ligne définit le nom des colonnes. Elle est ignorée lors de la lecture du fichier de façon automatique. \\ 
+Les colonnes ont un ordre très précis. La première colonne permet d'indiquer la date de la ligne courante. Pour le moment, elle est ignorée et sert seulement a donner du sens au fichier lorsqu'il est ouvert indépendemment du parser. \\ 
+Les autres colonnes permettent d'obtenir à chaque date (une date par WorkingDay), les valeurs des indices en devise étrangère et les taux de changes devise étrangère / EUR. \\ 
+Ces données ont pour le moment étées récupérées manuellement. \\ 
+L'ordre de ces colonnes est le suivant :
+\begin{itemize}
+    \item La date
+    \item Le cours de l'EuroStock 50
+    \item Le cours du FTSE 100
+    \item Le cours du S\&P 500
+    \item Le cours du Nikkei 
+    \item Le cours du S\&P ASX 200
+    \item Le taux GBP/EUR
+    \item Le taux USD/EUR
+    \item Le taux CNY/EUR
+    \item Le taux JPY/EUR 
+    \item Le taux AUS/EUR
+\end{itemize}
+
+Pour le moment, ce fichier contient les dates du 12/01/2017 au 13/06/2016. 
+\subsubsubsection{Améliorations}
+
+L'amélioration qui sera implémentée incessemment sous peu consistera à la récupération automatique des données manquantes à partir du jour courant. \\ 
+Il faudra être très vigilant quant à l'abscence de donnée de sorte à ce que lorsqu'une donnée est manquante, la donnée du jour précédent est utilisée.
+
+
+\subsubsection{Implémentation}
+\subsubsubsection{ParseCSV}
+La classe parseCSV possède un constructeur prenant en entrée un chemin vers un fichier csv. \\
+Pour le moment, l'ensemble des données du fichier csv sont récupérées et permettent de remplir l'attribut inputDate de type PnlMat*.\\
+\underline{Amélioration :} Une amélioration qui sera très bientôt implémentée sera de faire en sorte que seulement les 6 derniers mois soient parsés à partir du jour demander par l'utilisateur. \\ 
+Il conviendra de lire la colonne de date et de récupérer l'indice à partir duquel nous souhaitons récupérer les données. 
+
+\subsubsubsection{StatFactory}
+
+La classe StatFactory permet, à partir d'une matrice contenant les différentes quotations journalières, de déduire les choses suivantes : 
+\begin{itemize}
+    \item La matrice de logRendement 
+    \item Le vecteur de moyenne des logRendement
+    \item La covariation de ces logRendement 
+    \item Le vecteur de volatilité de ces logRendement 
+    \item La matrice de corrélation de ces logRendement
+\end{itemize}
+
+Ces matrices ne sont pas toutes utilisées pour l'estimation des paramètres, ils sont retravaillés pour le produit multimonde, néanmoins, nous souhaitions faire une classe assez générale. \\ 
+En effet, selon le modèle, les modifications sur ces données ne sont pas forcément les mêmes. 
+
+
 \subsection{Parallélisation du programme}
 Une autre méthode pour augmenter la précision du pricer est d'augmenter le nombre de simulation en parallélisant la somme et donc les simulations. Cette méthode permet donc de garder le même temps de calcul\footnote{Si on multiplie le nombre de tirage par $m$ le nombre de coeurs de la machine} tout en réduisant la largeur de l'intervalle de confiance du prix. \\
 Le programme sera parallélisé dans les versions ultérieures
