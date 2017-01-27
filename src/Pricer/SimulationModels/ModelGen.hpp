@@ -34,8 +34,6 @@ public:
     AssetList *assetList; /// List of assets
     map<Change,RateModelGen*> rateModels; /// map of rateModel (one for each underlying asset economies)
 
-    PnlVect *scheduleSimulation;  // the schedule that manage the way simulating (giving brownian motion steps (in days))
-
     /**
      * Constructor
      *
@@ -47,11 +45,23 @@ public:
      * @param[in] rateModels : list of rate model (one for each change)
      * @param[in] name : the name of the model
      */
-    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name, PnlVect *scheduleSimulation = NULL);
+    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name);
 
     /**
      * Virtual methods
      */
+     /**
+      * ShiftAsset : permit to shift the asset number d in a path
+      *
+      * @param[out] path_shifted : the new path
+      * @param[in] path : the path to shift
+      * @param[in] d : index of asset to shift
+      * @param[in] h : the shift
+      * @param[in] t : the current date
+      * @param[in] timestep : the time step
+      */
+    virtual void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
+                            int d, double h, double t, double timestep);
     /**
      * SetAssets : Permit to set properly the list of asset
      *
@@ -67,7 +77,6 @@ public:
      * Virtual methods [Pur]
      */
     /**
-     * // TODO : Améliorer ce truc
      * GetParametersFromStats : permit to obtain parameter model easily
      *
      * @param[in] stats : the statistic measures
@@ -92,8 +101,6 @@ public:
     virtual void Simulate(double maturity, PnlMat *path, int stepNb) = 0;
 
 
-    virtual void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
-                    int d, double h, double t, double timestep) = 0;
 
 
 

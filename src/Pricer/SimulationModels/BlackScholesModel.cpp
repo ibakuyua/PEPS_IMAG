@@ -2,7 +2,7 @@
 
 
 BlackScholesModel::BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel, PnlVect *simulationSchedule)
-        : ModelGen(assetNb, economyNb, rateModel, "Black Scholes", simulationSchedule) {
+        : ModelGen(assetNb, economyNb, rateModel, "Black Scholes"), scheduleSimulation(simulationSchedule) {
     this->choleskyCorr = pnl_mat_create_from_scalar(assetNb,assetNb,0);
     for (int i = 0; i < assetNb; ++i)
         MLET(choleskyCorr,i,i) = 1.;
@@ -15,7 +15,6 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
 
     if(scheduleSimulation == NULL){
 // Simple case of t == 0
-        //TODO : USELESS
         if (t==0. || past == NULL) {
             Simulate(maturity, path, stepNb);
             return;
@@ -35,13 +34,13 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         double step = maturity/(double)stepNb;
         double sqrtStep = sqrt(step);
         // The index after t
-        int indexAftert = past->m - 1;
+        int indexBeforet = past->m - 1;
         // Number of value to simulate
-        int nbToSimulate = stepNb - indexAftert + 1;
+        int nbToSimulate = stepNb - indexBeforet + 1;
         // Initialisation of previous value due to simulate S~
         double value_tiMinus1[path->n];
         // Size of the first step (t_(i+1) - t)
-        double firstStep = MAX(step * indexAftert - t,0);
+        double firstStep = MAX(step * indexBeforet - t,0);
         double sqrtFirstStep = sqrt(firstStep);
         // G_0 : First gaussian vector
         pnl_vect_rng_normal_d(Gi_,path->n,rng);
@@ -59,7 +58,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
             );
 
             // Store in path
-            MLET(path, indexAftert, d) = (Sd_t * value);
+            MLET(path, indexBeforet, d) = (Sd_t * value);
             // Store in value_tiMinus1
             value_tiMinus1[d] = value;
         }
@@ -67,7 +66,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         double tiMinus1;
         for (int i = 1; i < nbToSimulate; ++i) {
             // Same processus that beside but with a different step
-            tiMinus1 = (indexAftert + i - 1) * step;
+            tiMinus1 = (indexBeforet + i - 1) * step;
             pnl_vect_rng_normal_d(Gi_, path->n, rng);
             LGi_ = pnl_mat_mult_vect(choleskyCorr, Gi_);
             // For each asset
@@ -82,7 +81,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
                 );
 
                 // Store in path and value_tiMinus1
-                PNL_MSET(path, (indexAftert + i), d, (Sd_t * value));
+                PNL_MSET(path, (indexBeforet + i), d, (Sd_t * value));
                 value_tiMinus1[d] = value;
             }
         }
@@ -105,13 +104,12 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
 
         // Size of a step
         double step = GET(scheduleSimulation,1);
-        double sqrtStep = sqrt(step);
 
-        // The index after t
-        int indexAftert = past->m;
+        // The index before t
+        int indexBeforet = past->m - 1; // TODO : ou past->m si on est sur un pas de constatation
 
         // Number of value to simulate
-        int nbToSimulate = stepNb - indexAftert + 1;
+        int nbToSimulate = stepNb - indexBeforet ;
 
         // Initialisation of previous value due to simulate S~
         double value_tiMinus1[path->n];
@@ -119,7 +117,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         // Size of the first step (t_(i+1) - t)
 
 
-        double firstStep = MAX(step * indexAftert - t,0);
+        double firstStep = MAX(step * indexBeforet - t,0);
         double sqrtFirstStep = sqrt(firstStep);
         // G_0 : First gaussian vector
         pnl_vect_rng_normal_d(Gi_,path->n,rng);
@@ -137,7 +135,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
             );
 
             // Store in path
-            MLET(path, indexAftert, d) = (Sd_t * value);
+            MLET(path, indexBeforet, d) = (Sd_t * value);
             // Store in value_tiMinus1
             value_tiMinus1[d] = value;
         }
@@ -146,9 +144,9 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         double tiMinus1;
         for (int i = 1; i < nbToSimulate; ++i) {
             step = GET(scheduleSimulation,i);
-            sqrtStep = sqrt(step);
+            double sqrtStep = sqrt(step);
             // Same processus that beside but with a different step
-            tiMinus1 = (indexAftert + i - 1) * step;
+            tiMinus1 = (indexBeforet + i - 1) * step;
             pnl_vect_rng_normal_d(Gi_, path->n, rng);
             LGi_ = pnl_mat_mult_vect(choleskyCorr, Gi_);
             // For each asset
@@ -163,13 +161,10 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
                 );
 
                 // Store in path and value_tiMinus1
-                PNL_MSET(path, (indexAftert + i), d, (Sd_t * value));
+                PNL_MSET(path, (indexBeforet + i), d, (Sd_t * value));
                 value_tiMinus1[d] = value;
             }
         }
-
-
-
     }
 }
 
@@ -201,27 +196,6 @@ void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
             PNL_MSET(path,i,d,Sd_ti);
         }
     }
-}
-
-void BlackScholesModel::ShiftAsset(PnlMat *path_shifted, const PnlMat *path, int d, double h, double t,
-                                   double timestep) {
-    // Index i after t
-    int indexAfter_t = (t / timestep - (int)(t / timestep) < 0.000000001)
-                       ? (int)(t/timestep)
-                       : (int)(t/timestep) + 1;
-    //int indexAfter_t = (int)(t / timestep) + 1;
-    // path_shifted is path with asset d shifted after t
-
-    pnl_mat_clone(path_shifted, path);
-
-
-
-    for (int i = indexAfter_t; i < path->m; ++i) {
-        if (i != 0)
-            MLET(path_shifted,i,d) *= (1+h);
-        
-    }
-
 }
 
 BlackScholesModel::~BlackScholesModel() {

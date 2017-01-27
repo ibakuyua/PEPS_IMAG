@@ -19,6 +19,8 @@ public:
     PnlVect *LGi_; /**< Multiplication between choleskyCorr and Gi*/
     PnlVect *St; /**< For the simulation*/
 
+    PnlVect *scheduleSimulation;  /**< the schedule that manage the way simulating (giving brownian motion steps  */
+
     /**
      * Constructor / Destructor
      *
@@ -43,8 +45,6 @@ public:
      */
     void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb);
     void Simulate(double maturity, PnlMat *path, int stepNb);
-    void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
-                    int d, double h, double t, double timestep);
     void GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix);
 
      /*
