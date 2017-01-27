@@ -70,8 +70,11 @@ void computePnl(){
     }
 
     // Market initialisation
+    cout << " --- Simulation du marché --- \n";
     PnlMat *market = pnl_mat_create_from_zero(hedgingNb + 1, NB_ASSET);
     simuIndex->SimulateMarket(Multimonde::maturity,market,hedgingNb);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+
 
     // Création du portefeuille et du vecteur de PnL (PnL à chaque date)
     PnlVect *pnlAtDate = pnl_vect_create(hedgingNb + 1);
@@ -86,6 +89,7 @@ void computePnl(){
 
     double price,ic;
     double marketStep = Multimonde::maturity/(double)hedgingNb;
+    cout << "Computing Price and Delta....\n";
     pricer->Price(0,past,price,ic,payOffMultimonde21);
     pricer->Delta(0,past,deltas_iMinus1,payOffMultimonde21);
     std::cout << "Le prix en 0 est de : " << price << std::endl;
