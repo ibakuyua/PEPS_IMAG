@@ -49,7 +49,7 @@ void computePnl(){
     //Initialisation du Pricer MonteCarlo
     int nbSample = 5000;
     int hedgingNb, nbTimeStep;
-    hedgingNb = (int)(Multimonde::maturity*2);
+    hedgingNb = 1000;
     nbTimeStep = 6;
     //nbTimeStep = (int)Multimonde::maturity; // TODO vérifier qu'on fait bien jour à jour (constructeur multimonde ?)
     PricerGen *pricer = new MonteCarloPricer(

@@ -103,47 +103,71 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         pnl_mat_get_row(St, past, past->m - 1);
 
         // Size of a step
-        double step = GET(scheduleSimulation,1);
+       //--> FAUX double step = GET(scheduleSimulation,1);
 
-        // The index before t
-        int indexBeforet = past->m - 1; // TODO : ou past->m si on est sur un pas de constatation
+
+        double step;
+        // The index before
+        int indexBeforet;
+        int tmp = 0;
+        double firstStep;
+        for(int i = 0; i < scheduleSimulation->size;i++){
+            if(t <= tmp){
+                indexBeforet = i;
+                firstStep = MAX(tmp - t,0);
+                break;
+            }
+            tmp+=GET(scheduleSimulation,i);
+        }
+
+        double sqrtFirstStep = sqrt(firstStep);
+
+
+
 
         // Number of value to simulate
-        int nbToSimulate = stepNb - indexBeforet ;
+        int nbToSimulate = stepNb - indexBeforet;
 
         // Initialisation of previous value due to simulate S~
         double value_tiMinus1[path->n];
 
-        // Size of the first step (t_(i+1) - t)
-
-
-        double firstStep = MAX(step * indexBeforet - t,0);
-        double sqrtFirstStep = sqrt(firstStep);
         // G_0 : First gaussian vector
         pnl_vect_rng_normal_d(Gi_,path->n,rng);
         // All the LdGi
         LGi_ = pnl_mat_mult_vect(choleskyCorr,Gi_);
 
         double sigma_d, Sd_t, LdGi, value;
-        for (int d = 0; d < path->n; ++d) {
-            sigma_d = GET(volatility,d);
-            Sd_t = GET(St, d);
-            LdGi = GET(LGi_, d);
 
-            value = exp(rateModels[assetList->assets[d]->change]->GetIntegralRate(t, t + firstStep)
-                        - (sigma_d * sigma_d / 2) * firstStep + sigma_d * sqrtFirstStep * LdGi
-            );
+        if(fabs(firstStep) < 0.000001){
 
-            // Store in path
-            MLET(path, indexBeforet, d) = (Sd_t * value);
-            // Store in value_tiMinus1
-            value_tiMinus1[d] = value;
+            for(int i = 0; i < path->n; ++i){
+                MLET(path,past->m - 1,i) = MGET(past,past->m - 1,i);
+                value_tiMinus1[i] = MGET(past,past->m - 1,i);
+            }
+
+        }else{
+
+            for (int d = 0; d < path->n; ++d) {
+                sigma_d = GET(volatility,d);
+                Sd_t = GET(St, d);
+                LdGi = GET(LGi_, d);
+
+                value = exp(rateModels[assetList->assets[d]->change]->GetIntegralRate(t, t + firstStep)
+                            - (sigma_d * sigma_d / 2) * firstStep + sigma_d * sqrtFirstStep * LdGi
+                );
+
+                // Store in path
+                MLET(path, indexBeforet, d) = (Sd_t * value);
+                // Store in value_tiMinus1
+                value_tiMinus1[d] = value;
+            }
         }
+
 
         // For all other simulation
         double tiMinus1;
         for (int i = 1; i < nbToSimulate; ++i) {
-            step = GET(scheduleSimulation,i);
+            step = GET(scheduleSimulation,indexBeforet + i);
             double sqrtStep = sqrt(step);
             // Same processus that beside but with a different step
             tiMinus1 = (indexBeforet + i - 1) * step;
