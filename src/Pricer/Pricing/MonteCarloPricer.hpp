@@ -46,7 +46,7 @@ public:
     void Price(double t, PnlMat *past, double &price, double &ic,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
-    void Delta(double t, PnlMat *past, PnlVect *delta,
+    void Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
     void PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const;

@@ -2,12 +2,12 @@
 #include <iostream>
 #include <assert.h>
 #include <pnl/pnl_finance.h>
-#include "../Pricing/PricerGen.hpp"
-#include "../Pricing/MonteCarloPricer.hpp"
-#include "../FinancialProducts/Call.hpp"
-#include "../SimulationModels/BlackScholesModel.hpp"
-#include "../RateModels/ConstantRateModel.hpp"
-#include "../Marche.hpp"
+#include "../../Pricing/PricerGen.hpp"
+#include "../../Pricing/MonteCarloPricer.hpp"
+#include "../../FinancialProducts/Call.hpp"
+#include "../../SimulationModels/BlackScholesModel.hpp"
+#include "../../RateModels/ConstantRateModel.hpp"
+#include "../../Marche.hpp"
 
 using namespace std;
 
@@ -85,9 +85,10 @@ int main(){
 
     //Computing delta
     PnlVect *delta = pnl_vect_create(1);
+    PnlVect *icP = pnl_vect_create(1);
     PnlVect *parameters = pnl_vect_create_from_scalar(1,strike);
     cout << "\nComputing Delta ...\n";
-    pricer->Delta(0,past,delta,payOffCall,parameters);
+    pricer->Delta(0,past,delta,icP,payOffCall,parameters);
 
     cout << "Delta sur Call à 0 : \n";
     cout << "\n --> Closed Formula Delta : " << deltaFF;
@@ -95,7 +96,7 @@ int main(){
     pnl_vect_print(delta);
 
     // En t
-    double t = 5.3;
+    double t = 4.;
     cout << "\n\n** Computing Price at t = " << t << "\n";
     marche->ImportCotations(CotationTypes::Simulated);
     cout << "\nMarché (past) : \n\n";
@@ -105,7 +106,7 @@ int main(){
     spot = MGET(past,past->m-1,0);
     cout << "Spot at t : " << spot;
     call->pricer->Price(t,past,price0,ic,call->payOff,call->parameters);
-    call->pricer->Delta(t,past,delta,call->payOff,call->parameters);
+    call->pricer->Delta(t,past,delta,icP,call->payOff,call->parameters);
     pnl_cf_call_bs(spot,strike,maturity-t,r,0,volatility,&price1,&deltaFF);
     cout << "\n\n--> Price : " << price0;
     cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic ;

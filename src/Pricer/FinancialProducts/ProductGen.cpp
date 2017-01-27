@@ -36,7 +36,8 @@ void ProductGen::MAJPortfolio() {
     PnlMat *past = pnl_mat_new();
     Marche *market = Marche::Instance();
     market->GetPastCotations(t,past,true,pricer->nbTimeStep);
-    pricer->Delta(t,past,composition,payOff,parameters);
+    PnlVect *icP = pnl_vect_create(assets->size);
+    pricer->Delta(t,past,composition,icP,payOff,parameters);
     pnl_mat_free(&past);
 }
 

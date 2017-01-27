@@ -44,7 +44,7 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
     ic = 3.92 * discountFactor * sqrt(varEstimation / (double)nbSample);
 }
 
-void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
+void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
                              PayOffFunction payOff, PnlVect *parameters) const {
     //Get useful values
     //Maturity
@@ -64,24 +64,19 @@ void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta,
     for (int m = 0; m < nbSample; ++m) {
         // Simulation at t
         PayOffSimulationShiftedDiff(payOffDiff,past,t,payOff,parameters);
-        for (int d = 0; d < delta->size; ++d)
-            LET(delta,d) += GET(payOffDiff,d);
+        for (int d = 0; d < delta->size; ++d) {
+            LET(delta, d) += GET(payOffDiff, d);
+            LET(ic, d) += GET(delta,d) * GET(delta,d);
+        }
     }
-
-
-
-    // Delta
+    // Delta and ic 
     for (int d = 0; d < delta->size; ++d){
         LET(delta,d) *= (discountFactor / (M * GET(St,d) * 2 * h));
     }
 
-
     // Free
     pnl_vect_free(&St);
     pnl_vect_free(&payOffDiff);
-
-
-
 }
 
 void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const {

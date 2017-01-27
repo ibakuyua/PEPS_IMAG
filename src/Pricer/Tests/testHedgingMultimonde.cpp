@@ -99,10 +99,11 @@ void computePnl(){
 
 
     double price,ic;
+    PnlVect *icP = pnl_vect_create(11);
     double marketStep = Multimonde::maturity/(double)hedgingNb;
     cout << "Computing Price and Delta....\n";
     pricer->Price(0,past,price,ic,payOffMultimonde21);
-    pricer->Delta(0,past,deltas_iMinus1,payOffMultimonde21);
+    pricer->Delta(0,past,deltas_iMinus1,icP,payOffMultimonde21);
     std::cout << "Le prix en 0 est de : " << price << std::endl;
     std::cout << "Les delta en 0 sont de : " << std::endl;
     pnl_vect_print(deltas_iMinus1);
@@ -160,7 +161,8 @@ double hedging(PricerGen *pricer, double& V_iMinus1, RateModelGen ***rateModels,
     double capitalizationFactor = exp(-(*rateModels)[0]->GetIntegralRate(t,t+marketStep));
 
     PnlVect *delta_i = pnl_vect_create(deltas_iMinus1->size);
-    pricer->Delta(t,past,delta_i,payOffMultimonde21);
+    PnlVect *icP = pnl_vect_create(deltas_iMinus1->size);
+    pricer->Delta(t,past,delta_i,icP,payOffMultimonde21);
 
     double deltas_iStau_i = pnl_vect_scalar_prod(delta_i,Stau_i);
     double deltas_iMinus1Stau_i = pnl_vect_scalar_prod(deltas_iMinus1,Stau_i);

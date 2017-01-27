@@ -75,10 +75,11 @@ public:
      * @param[in] t : the date to price the product
      * @param[in] past : the past values if any (the last is the spot at t)
      * @param[out] delta : the deltas for the payoff product
+     * @param[out] ic : confidence for each asset
      * @param[in] payOff : the payOff function
      * @param[in] parameters(optionnal) : the parameters for the payOff function
      */
-    virtual void Delta(double t, PnlMat *past, PnlVect *delta,
+    virtual void Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
                        PayOffFunction payOff, PnlVect *parameters = NULL) const = 0;
 
 };
