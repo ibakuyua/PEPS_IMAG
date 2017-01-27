@@ -43,7 +43,8 @@ int main(){
     PricerGen *pricer = new MonteCarloPricer(maturity, modelBlackScholes, schedule, nbSample);
     assert(pricer != NULL);
     //Initialisation of Call Product
-    Call *call = new Call(pricer,asset,(int) maturity,strike);
+    Call *call = new Call(pricer,asset,(int) 3,strike);
+
     assert(call != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     call->Print();
@@ -85,14 +86,16 @@ int main(){
     cout << "\n\n** Computing Delta at t = " << t << "\n";
     call->pricer->Delta(t,past,delta,icP,call->payOff,call->parameters);
     call->pricer->Price(t,past,myPrice,myIc,payOffCall,parameters);
-    pnl_cf_call_bs(spot,strike,maturity-t,r,0,volatility,&price,&deltaFF);
+    pnl_cf_call_bs(MGET(past,past->m-1,0),strike,maturity-t,r,0,volatility,&price,&deltaFF);
     cout << "Verification Prix : ";
-    assert(fabs(price-myPrice) <= myIc);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "\n --> Closed Formula Delta : " << deltaFF;
     cout << "\n---> Delta computed : " << GET(delta,0);
+    cout << "\n---> Prix closed formula: " << price << std::endl;
+    cout << "\n---> Prix computed" << myPrice << std::endl;
     cout << "\n---> IC : [ " << GET(delta,0) - GET(icP,0)/2. << " ; " << GET(delta,0) + GET(icP,0)/2. << " ]";
     cout << " \n\n\033[1;34m [CHECK]\033[0m";
+    assert(fabs(price-myPrice) <= myIc);
 
 
     //FREEING Memory
