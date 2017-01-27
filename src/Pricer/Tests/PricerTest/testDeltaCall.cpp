@@ -11,10 +11,6 @@
 
 using namespace std;
 
-#define NB_TIMEVALUE_KNOWN 1 // Must be equal to (int)(t*N/maturity)+2]
-#define NB_ASSET 1 // Must be equal to size
-#define NB_ECONOMY 1
-
 int main(){
 
     cout << "\n\n###### TEST OF HEDGING CALL ######\n\n";
@@ -56,66 +52,46 @@ int main(){
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
-    double price0, price1, ic, deltaFF;
-    cout << "\n\n** Computing Price at t = 0 ... ";
-    call->PriceProduct(0,price0,ic);
-    pnl_cf_call_bs(spot,strike,maturity,r,0.,volatility,&price1,&deltaFF);
-    cout << " \033[1;34m [CHECK]\033[0m\n\n";
-    cout << "--> Price : " << price0;
-    cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic;
-    cout << "\n--> Closed formula Price : " << price1;
-    assert(fabs(price0-price1) <= ic);
-
-
-    //Spot Vector for Past Matrix
-    //cout << "\n\n=== Initialisation of Spot Vector ===\n";
-    PnlVect *spotV = pnl_vect_create(NB_ASSET);
-    for (int d = 0; d < NB_ASSET; ++d) {
-        PNL_SET(spotV, d, spot);
-    }
-    cout << "\n\nCHECK : \n\n";
-
-
-    //Setting past
-    PnlMat *past = pnl_mat_create_from_zero(1,NB_ASSET);
-    pnl_mat_set_row(past,spotV,0);
-
-    cout << "PAST :\n";
-    pnl_mat_print(past);
+    double myPrice, myIc, price, deltaFF;
 
     //Computing delta
     PnlVect *delta = pnl_vect_create(1);
     PnlVect *icP = pnl_vect_create(1);
     PnlVect *parameters = pnl_vect_create_from_scalar(1,strike);
-    cout << "\nComputing Delta ...\n";
+    cout << "\nMarché (past) : \n\n";
+    marche->ImportCotations(CotationTypes::Simulated);
+    PnlMat subCoursMat = pnl_mat_wrap_mat_rows(marche->cours,0,0);
+    PnlMat *past = pnl_mat_copy(&subCoursMat);
+    pnl_mat_print(past);
+    cout << "\nComputing Delta at t = 0 ...\n";
+    pnl_cf_call_bs(spot,strike,maturity,r,0.,volatility,&price,&deltaFF);
     pricer->Delta(0,past,delta,icP,payOffCall,parameters);
+    pricer->Price(0,past,myPrice,myIc,payOffCall,parameters);
+    cout << "Verification Prix : ";
+    assert(fabs(price-myPrice) <= myIc);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     cout << "Delta sur Call à 0 : \n";
     cout << "\n --> Closed Formula Delta : " << deltaFF;
-    cout << "\n---> Delta computed : \n";
-    pnl_vect_print(delta);
+    cout << "\n---> Delta computed : " << GET(delta,0);
+    cout << "\n---> IC : [ " << GET(delta,0) - GET(icP,0)/2. << " ; " << GET(delta,0) + GET(icP,0)/2. << " ] --> largeur : " << GET(icP,0);
 
     // En t
-    double t = 4.;
-    cout << "\n\n** Computing Price at t = " << t << "\n";
-    marche->ImportCotations(CotationTypes::Simulated);
-    cout << "\nMarché (past) : \n\n";
-    PnlMat subCoursMat = pnl_mat_wrap_mat_rows(marche->cours,0,2);
+    double t = 5.;
+    subCoursMat = pnl_mat_wrap_mat_rows(marche->cours,0,2);
     past = pnl_mat_copy(&subCoursMat);
+    cout << "\nMarché (past) : \n\n";
     pnl_mat_print(past);
-    spot = MGET(past,past->m-1,0);
-    cout << "Spot at t : " << spot;
-    call->pricer->Price(t,past,price0,ic,call->payOff,call->parameters);
+    cout << "\n\n** Computing Delta at t = " << t << "\n";
     call->pricer->Delta(t,past,delta,icP,call->payOff,call->parameters);
-    pnl_cf_call_bs(spot,strike,maturity-t,r,0,volatility,&price1,&deltaFF);
-    cout << "\n\n--> Price : " << price0;
-    cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic ;
-    cout << "\n--> Closed formula Price : " << price1;
-    assert(fabs(price0-price1) <= ic);
-    cout << "Delta sur Call à t : \n";
+    call->pricer->Price(t,past,myPrice,myIc,payOffCall,parameters);
+    pnl_cf_call_bs(spot,strike,maturity-t,r,0,volatility,&price,&deltaFF);
+    cout << "Verification Prix : ";
+    assert(fabs(price-myPrice) <= myIc);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "\n --> Closed Formula Delta : " << deltaFF;
-    cout << "\n---> Delta computed : \n";
-    pnl_vect_print(delta);
+    cout << "\n---> Delta computed : " << GET(delta,0);
+    cout << "\n---> IC : [ " << GET(delta,0) - GET(icP,0)/2. << " ; " << GET(delta,0) + GET(icP,0)/2. << " ]";
     cout << " \n\n\033[1;34m [CHECK]\033[0m";
 
 

@@ -102,9 +102,6 @@ public:
     virtual void Simulate(double maturity, PnlMat *path, int stepNb, PnlVect *simulationScheduled = NULL) = 0;
 
 
-
-
-
     /**
      * SimulateMarket : permit to simulate a market
      *

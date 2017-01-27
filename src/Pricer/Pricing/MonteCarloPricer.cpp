@@ -66,12 +66,16 @@ void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic
         PayOffSimulationShiftedDiff(payOffDiff,past,t,payOff,parameters);
         for (int d = 0; d < delta->size; ++d) {
             LET(delta, d) += GET(payOffDiff, d);
-            LET(ic, d) += GET(delta,d) * GET(delta,d);
+            LET(ic, d) += GET(payOffDiff,d) * GET(payOffDiff,d);
         }
     }
     // Delta and ic
     for (int d = 0; d < delta->size; ++d){
-        LET(delta,d) *= (discountFactor / (M * GET(St,d) * 2 * h));
+        LET(delta,d) /= M;
+        LET(ic,d) /= M;
+        LET(ic,d) = fabs(GET(ic,d) - GET(delta,d) * GET(delta,d));
+        LET(delta,d) *= (discountFactor / (GET(St,d) * 2 * h));
+        LET(ic,d) = 3.92 * discountFactor * sqrt(GET(ic,d) / M) / (GET(St,d) * 2 * h);
     }
 
     // Free
