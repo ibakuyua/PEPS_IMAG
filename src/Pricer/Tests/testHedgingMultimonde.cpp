@@ -42,17 +42,13 @@ void computePnl(){
     LET(scheduleSimulation,5) = NB_DAYS_TO_CONSTATATION_6 -  NB_DAYS_TO_CONSTATATION_5;
 
     //Initialisation du Modele de BlackScholes
-    ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels, scheduleSimulation);
-    //ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels);
 
     //Initialisation du Pricer MonteCarlo
     int nbSample = 5000;
     int hedgingNb, nbTimeStep;
-    hedgingNb = 1000;
-    nbTimeStep = 6;
-    //nbTimeStep = (int)Multimonde::maturity; // TODO vérifier qu'on fait bien jour à jour (constructeur multimonde ?)
-    PricerGen *pricer = new MonteCarloPricer(
-            Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
+    hedgingNb = 30;
+    PricerGen *pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
 
     //Import of stats

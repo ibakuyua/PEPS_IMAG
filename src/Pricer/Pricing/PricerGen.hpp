@@ -19,12 +19,13 @@ public:
      * Members
      */
     int nbTimeStep; /**< Number of time step for the simulation*/
+    PnlVect *scheduleSimulation;  /**< the schedule that manage the way simulating (giving brownian motion steps)  */
     ModelGen *simuModel; /**< To simulate underlying asset */
     string name; /**< Name of the type of pricer*/
     double maturity; /**< Maturity of the instrument to Price */
 
     /**
-     * Constructor / Destructor
+     * Constructor 1
      *
      * @param[in] maturity : the maturity of the products you want to Price
      * @param[in] simuModel : the simulation model
@@ -32,6 +33,15 @@ public:
      * @param[in] nbTimeStep : the number of time step for the simulation
      */
     PricerGen(double maturity, ModelGen *simuModel, string name, int nbTimeStep);
+    /**
+     * Constructor 2
+     *
+     * @param[in] maturity : the maturity of the products you want to Price
+     * @param[in] simuModel : the simulation model
+     * @param[in] name : the name of the pricer
+     * @param[in] scheduledSteps : in the case of different step for the simulation
+     */
+    PricerGen(double maturity, ModelGen *simuModel, string name, PnlVect *scheduledSteps);
     virtual ~PricerGen();
 
     /**

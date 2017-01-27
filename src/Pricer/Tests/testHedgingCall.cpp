@@ -38,10 +38,10 @@ int main(){
     assert(rateModels != NULL && rateModels[0] != NULL);
 
     //Initialisation du Modele de BlackScholes
-    ModelGen *modelBlackScholes = new BlackScholesModel(1, 1, rateModels, nullptr);
+    ModelGen *modelBlackScholes = new BlackScholesModel(1, 1, rateModels);
     assert(modelBlackScholes != NULL);
     //Initialisation du Pricer MonteCarlo
-    PricerGen *pricer = new MonteCarloPricer(maturity,modelBlackScholes,nbSample,1);
+    PricerGen *pricer = new MonteCarloPricer(maturity, modelBlackScholes, 1, nbSample);
     assert(pricer != NULL);
     //Initialisation of Call Product
     Call *call = new Call(pricer,asset,(int) maturity,strike);

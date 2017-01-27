@@ -1,19 +1,109 @@
 #include "BlackScholesModel.hpp"
 
 
-BlackScholesModel::BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel, PnlVect *simulationSchedule)
-        : ModelGen(assetNb, economyNb, rateModel, "Black Scholes"), scheduleSimulation(simulationSchedule) {
+BlackScholesModel::BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel)
+        : ModelGen(assetNb, economyNb, rateModel, "Black Scholes"){
     this->choleskyCorr = pnl_mat_create_from_scalar(assetNb,assetNb,0);
     for (int i = 0; i < assetNb; ++i)
         MLET(choleskyCorr,i,i) = 1.;
     this->Gi_ = pnl_vect_new();
     this->LGi_ = pnl_vect_new();
     this->St = pnl_vect_new();
+    this->valuet_iminus1 = pnl_vect_new();
 }
 
-void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) {
+void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb, PnlVect *simulationSchedule) {
 
-    if(scheduleSimulation == NULL){
+    // Simple case in t = 0.
+    if (t==0. || past == NULL){
+        Simulate(maturity,path, stepNb, simulationSchedule);
+        return;
+    }
+    // Case in t != 0.
+    // Resize
+    pnl_mat_resize(path,stepNb + 1,assetNb);
+    pnl_vect_resize(St, path->n);
+    pnl_vect_resize(valuet_iminus1, path->n);
+    // Copy the past matrix in path before S_t
+    for (int i = 0; i < past->m - 1; ++i)
+        for (int d = 0; d < past->n; ++d)
+            PNL_MSET(path,i,d,MGET(past,i,d));
+    // NB : The last row is S(t), doesn't belong to a step of constatation !
+    pnl_mat_get_row(St, past, past->m - 1);
+    // Compute the index after t and the first step
+    int indexAftert = past->m - 1;
+    double cumuledStep = 0.;
+    double step = 0., firstStep = 0., sqrtFirstStep = 0.;
+    if (simulationSchedule == NULL){
+        step = maturity / (double)stepNb;
+        firstStep = MAX(step * indexAftert - t, 0.);
+    }else {
+        for (int i = 0; i < indexAftert; ++i)
+            cumuledStep += GET(simulationSchedule, i);
+        firstStep = MAX(cumuledStep - t, 0.);
+    }
+    sqrtFirstStep = sqrt(firstStep);
+    // If we are situated in a constatation date
+    bool isInConstationDate = (firstStep <= 0.0000001);
+    // First simulation
+    double sigma_d, Sd_t, LdGi, value;
+    if (isInConstationDate){
+        // Add the spot to path
+        pnl_mat_set_row(path,St,indexAftert);
+        // Set S_timinus1
+        pnl_vect_clone(valuet_iminus1,St);
+    }else{
+        // G_0 First gaussian vector
+        pnl_vect_rng_normal_d(Gi_,path->n,rng);
+        // All the LdGi
+        LGi_ = pnl_mat_mult_vect(choleskyCorr,Gi_);
+        // For each asset
+        for (int d = 0; d < path->n; ++d) {
+            sigma_d = GET(volatility,d);
+            Sd_t = GET(St,d);
+            LdGi = GET(LGi_, d);
+
+            value = exp(rateModels[assetList->assets[d]->change]->GetIntegralRate(t, t + firstStep)
+                        - (sigma_d * sigma_d / 2) * firstStep + sigma_d * sqrtFirstStep * LdGi
+                        );
+            // Store in path
+            MLET(path, indexAftert, d) = Sd_t * value;
+            // Store in S_timinus1
+            LET(valuet_iminus1,d) = value;
+        }
+    }
+    // For all other simulations
+    // Compute ti-1
+    double tiMinus1 = (simulationSchedule == NULL)
+                      ? indexAftert * step
+                      : cumuledStep;
+    double ti = tiMinus1;
+    for (int i = indexAftert + 1; i < path->m; ++i) {
+        // Compute ti
+        ti += (simulationSchedule == NULL)
+            ? step
+            : GET(simulationSchedule,i-1);
+        // Same process that besides but with different step
+        pnl_vect_rng_normal_d(Gi_,path->n, rng);
+        LGi_ = pnl_mat_mult_vect(choleskyCorr, Gi_);
+        for (int d = 0; d < path->n; ++d) {
+            sigma_d = GET(volatility,d);
+            Sd_t = GET(St, d);
+            LdGi = GET(LGi_, d);
+
+            value = GET(valuet_iminus1,d) * exp(
+                    rateModels[assetList->assets[d]->change]->GetIntegralRate(tiMinus1,ti)
+                    - (sigma_d * sigma_d / 2.) * (ti - tiMinus1) + sigma_d * sqrt(ti - tiMinus1) * LdGi
+            );
+            // Store computed values
+            PNL_MSET(path, i, d, Sd_t * value);
+            LET(valuet_iminus1,d) = value;
+        }
+        // Maj ti-1
+        tiMinus1 = ti;
+    }
+/*
+    if(simulationSchedule == NULL){
 // Simple case of t == 0
         if (t==0. || past == NULL) {
             Simulate(maturity, path, stepNb);
@@ -111,13 +201,13 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         int indexBeforet;
         int tmp = 0;
         double firstStep;
-        for(int i = 0; i < scheduleSimulation->size;i++){
+        for(int i = 0; i < (simulationSchedule->size);i++){
             if(t <= tmp){
                 indexBeforet = i;
                 firstStep = MAX(tmp - t,0);
                 break;
             }
-            tmp+=GET(scheduleSimulation,i);
+            tmp+=GET(simulationSchedule,i);
         }
 
         double sqrtFirstStep = sqrt(firstStep);
@@ -134,8 +224,8 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         // Size of the first step (t_(i+1) - t)
 
 
-        double firstStep = MAX(step * indexBeforet - t,0);
-        double sqrtFirstStep = sqrt(firstStep);
+        firstStep = MAX(step * indexBeforet - t,0);
+        sqrtFirstStep = sqrt(firstStep);
         // G_0 : First gaussian vector
         pnl_vect_rng_normal_d(Gi_,path->n,rng);
         // All the LdGi
@@ -160,7 +250,7 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
         // For all other simulation
         double tiMinus1;
         for (int i = 1; i < nbToSimulate; ++i) {
-            step = GET(scheduleSimulation,i);
+            step = GET(simulationSchedule,i);
             double sqrtStep = sqrt(step);
             // Same processus that beside but with a different step
             tiMinus1 = (indexBeforet + i - 1) * step;
@@ -182,21 +272,24 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
                 value_tiMinus1[d] = value;
             }
         }
-    }
+    }*/
 }
 
 
-void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
-    // Step initialisation
-    double step = maturity/(double)stepNb;
-    double sqrtStep = sqrt(step);
+void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb, PnlVect *simulationSchedule) {
+    // Resize
+    pnl_mat_resize(path,stepNb + 1, assetNb);
     // Spot initialisation
     for (int d = 0; d < path->n; ++d)
         PNL_MSET(path, 0, d, GET(spot,d));
-    double sigma_d, Sd_tiMinus1, LdGi, tiMinus1, Sd_ti;
-    // For each time
+    double step = maturity / (double)stepNb;
+    double sigma_d, Sd_tiMinus1, LdGi, Sd_ti;
+    double tiMinus1 = 0.;
+    double ti = tiMinus1;
     for (int i = 1; i < path->m; ++i) {
-        tiMinus1 = (i-1) * step;
+        ti += (simulationSchedule == NULL)
+              ? step
+              : GET(simulationSchedule,i-1);
         pnl_vect_rng_normal_d(Gi_,path->n,rng); // Gi gaussian vector
         LGi_ =  pnl_mat_mult_vect(choleskyCorr,Gi_); // All the LdGi
         // For each asset
@@ -206,12 +299,13 @@ void BlackScholesModel::Simulate(double maturity, PnlMat *path, int stepNb) {
             LdGi = GET(LGi_,d);
 
             Sd_ti = Sd_tiMinus1 * exp(
-                    rateModels[assetList->assets[d]->change]->GetIntegralRate(tiMinus1, tiMinus1 + step)
-                    - (sigma_d * sigma_d / 2) * step + sigma_d * sqrtStep * LdGi
-                    );
+                    rateModels[assetList->assets[d]->change]->GetIntegralRate(tiMinus1, ti)
+                    - (sigma_d * sigma_d / 2) * (ti - tiMinus1) + sigma_d * sqrt(ti - tiMinus1) * LdGi
+            );
 
             PNL_MSET(path,i,d,Sd_ti);
         }
+        tiMinus1 = ti;
     }
 }
 

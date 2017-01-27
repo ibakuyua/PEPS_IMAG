@@ -18,16 +18,15 @@ int main(){
     double maturity = 10.;
     double strike = 100.;
     int sampleNb = 200000;
-    PnlVect *scheduleStep = pnl_vect_create_from_scalar(1,maturity);
     cout << "** Instance : ";
     Asset * asset = new Asset("BNP","BNP",Change::EUR,0.03,spot,vol);
     assert(asset != NULL);
     RateModelGen **rateModels = (RateModelGen**) malloc(1 * sizeof(RateModelGen*));
     rateModels[0] = new ConstantRateModel(Change::EUR,FRR);
     assert(rateModels != NULL && rateModels[0] != NULL);
-    ModelGen *modelBS = new BlackScholesModel(1, 1, rateModels, scheduleStep);
+    ModelGen *modelBS = new BlackScholesModel(1, 1, rateModels);
     assert(modelBS != NULL);
-    PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,sampleNb,1);
+    PricerGen *pricerMC = new MonteCarloPricer(maturity, modelBS, (int)maturity, sampleNb);
     assert(pricerMC != NULL);
     ProductGen *call = new Call(pricerMC,asset,(int)maturity,strike);
     assert(call != NULL);

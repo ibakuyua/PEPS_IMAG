@@ -21,7 +21,7 @@ int main(){
     for (int d = 0; d < 6; ++d) {
         rateModels[d] = new ConstantRateModel((Change)d,0.03/365);
     }
-    ModelGen *blackScholes = new BlackScholesModel(11, 6, rateModels, nullptr);
+    ModelGen *blackScholes = new BlackScholesModel(11, 6, rateModels);
     assert(blackScholes != NULL);
     ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
     StatsFactory *stats = new StatsFactory(parser->inputData);

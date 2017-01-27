@@ -2,8 +2,17 @@
 #include "../FinancialProducts/PayOffs/PayOffFunctions.hpp"
 
 
-MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample, int nbTimeStep)
+MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbTimeStep, int nbSample)
         : PricerGen(maturity, simuModel, "Monte Carlo", nbTimeStep)
+{
+    this->nbSample = nbSample;
+    this->simuModel = simuModel;
+    this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
+    this->pathShifted = pnl_mat_create(nbTimeStep+ 1, simuModel->assetNb);
+}
+
+MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect *scheduledStep, int nbSample)
+        : PricerGen(maturity, simuModel, "Monte Carlo", scheduledStep)
 {
     this->nbSample = nbSample;
     this->simuModel = simuModel;
@@ -22,7 +31,7 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
     double estimation, espEstimation = 0, varEstimation = 0;
 
     for (int m = 0; m < nbSample; ++m) {
-        simuModel->Simulate(t, maturity, path, past, nbTimeStep);
+        simuModel->Simulate(t, maturity, path, past, nbTimeStep, scheduleSimulation);
         estimation = payOff(path,parameters,simuModel->rateModels);
         espEstimation += estimation;
         varEstimation += estimation * estimation;
@@ -88,10 +97,10 @@ void MonteCarloPricer::PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const Pn
 
     //Simulation
     if (t == 0) {
-        simuModel->Simulate(T,path,nbTimeSteps);
+        simuModel->Simulate(T,path,nbTimeSteps,scheduleSimulation);
     }
     else {
-        simuModel->Simulate(t,T,path,past, nbTimeSteps);
+        simuModel->Simulate(t,T,path,past, nbTimeSteps,scheduleSimulation);
     }
 
     //For each asset, we shift the trajectory
