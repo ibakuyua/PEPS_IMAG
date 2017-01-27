@@ -3,8 +3,8 @@
 #include "../FinancialProducts/Asset/ChangeZC.hpp"
 
 
-ModelGen::ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name)
-        :assetNb(assetNb), name(name)
+ModelGen::ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name, PnlVect *scheduleSimulation)
+        :assetNb(assetNb), name(name), scheduleSimulation(scheduleSimulation)
 {
     spot = pnl_vect_create_from_scalar(assetNb,0);
     trend = pnl_vect_create_from_scalar(assetNb,0);

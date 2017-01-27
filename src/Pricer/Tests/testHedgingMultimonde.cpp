@@ -33,13 +33,25 @@ void computePnl(){
     RateModelGen **rateModels;
     setParameters(&rateModels);
 
+    PnlVect *scheduleSimulation = pnl_vect_create(7);
+    LET(scheduleSimulation,0) = 0;
+    LET(scheduleSimulation,1) = NB_DAYS_TO_CONSTATATION_1;
+    LET(scheduleSimulation,2) = NB_DAYS_TO_CONSTATATION_2 -  NB_DAYS_TO_CONSTATATION_1;
+    LET(scheduleSimulation,3) = NB_DAYS_TO_CONSTATATION_3 -  NB_DAYS_TO_CONSTATATION_2;
+    LET(scheduleSimulation,4) = NB_DAYS_TO_CONSTATATION_4 -  NB_DAYS_TO_CONSTATATION_3;
+    LET(scheduleSimulation,5) = NB_DAYS_TO_CONSTATATION_5 -  NB_DAYS_TO_CONSTATATION_4;
+    LET(scheduleSimulation,6) = NB_DAYS_TO_CONSTATATION_6 -  NB_DAYS_TO_CONSTATATION_5;
+
     //Initialisation du Modele de BlackScholes
-    ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY,rateModels);
+    //ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels, scheduleSimulation);
+    ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels);
 
     //Initialisation du Pricer MonteCarlo
     int nbSample = 5000;
     int hedgingNb, nbTimeStep;
-    hedgingNb = nbTimeStep = (int)Multimonde::maturity; // TODO vérifier qu'on fait bien jour à jour (constructeur multimonde ?)
+    hedgingNb = 10000;
+    //nbTimeStep = 6;
+    nbTimeStep = (int)Multimonde::maturity; // TODO vérifier qu'on fait bien jour à jour (constructeur multimonde ?)
     PricerGen *pricer = new MonteCarloPricer(
             Multimonde::maturity,simuIndex,nbSample,nbTimeStep);
     assert(pricer != NULL);
@@ -69,7 +81,11 @@ void computePnl(){
         }
     }
 
-    // Market initialisation
+
+
+
+
+            // Market initialisation
     cout << " --- Simulation du marché --- \n";
     PnlMat *market = pnl_mat_create_from_zero(hedgingNb + 1, NB_ASSET);
     simuIndex->SimulateMarket(Multimonde::maturity,market,hedgingNb);
@@ -170,7 +186,7 @@ double hedging(PricerGen *pricer, double& V_iMinus1, RateModelGen ***rateModels,
 void setParameters(RateModelGen ***rateModels){
     *rateModels = (RateModelGen**) malloc(6 * sizeof(RateModelGen*));
     for (int d = 0; d < 6; ++d)
-        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03/365.);
+        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03/252.);
 }
 
 void freeParameters(RateModelGen ***rateModels){

@@ -21,7 +21,7 @@ int main(){
     cout << "** Instance : ";
     RateModelGen **rateModels;
     setParameters(&rateModels);
-    ModelGen *simuIndex = new BlackScholesModel(11, 6,rateModels);
+    ModelGen *simuIndex = new BlackScholesModel(11, 6, rateModels, nullptr);
     int nbSample = 5000;
     int hedgingNb, nbTimeStep;
     hedgingNb = nbTimeStep = (int)Multimonde::maturity; // TODO vérifier qu'on fait bien jour à jour (constructeur multimonde ?)

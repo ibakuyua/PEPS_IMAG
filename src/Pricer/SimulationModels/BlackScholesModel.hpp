@@ -29,7 +29,7 @@ public:
      * @param[in] economyNb : the number of economy
      * @param[in] rateModel : the list of rate models for each economy
      */
-    BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel);
+    BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel, PnlVect *simulationSchedule = NULL);
     virtual ~BlackScholesModel();
 
     /**

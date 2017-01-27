@@ -38,7 +38,7 @@ int main(){
     assert(rateModels != NULL && rateModels[0] != NULL);
 
     //Initialisation du Modele de BlackScholes
-    ModelGen *modelBlackScholes = new BlackScholesModel(1, 1,rateModels);
+    ModelGen *modelBlackScholes = new BlackScholesModel(1, 1, rateModels, nullptr);
     assert(modelBlackScholes != NULL);
     //Initialisation du Pricer MonteCarlo
     PricerGen *pricer = new MonteCarloPricer(maturity,modelBlackScholes,nbSample,1);

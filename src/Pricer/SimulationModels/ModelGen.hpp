@@ -34,6 +34,8 @@ public:
     AssetList *assetList; /// List of assets
     map<Change,RateModelGen*> rateModels; /// map of rateModel (one for each underlying asset economies)
 
+    PnlVect *scheduleSimulation;  // the schedule that manage the way simulating (giving brownian motion steps (in days))
+
     /**
      * Constructor
      *
@@ -45,7 +47,7 @@ public:
      * @param[in] rateModels : list of rate model (one for each change)
      * @param[in] name : the name of the model
      */
-    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name);
+    ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string name, PnlVect *scheduleSimulation = NULL);
 
     /**
      * Virtual methods

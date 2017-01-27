@@ -24,7 +24,7 @@ int main(){
     RateModelGen **rateModels = (RateModelGen**) malloc(1 * sizeof(RateModelGen*));
     rateModels[0] = new ConstantRateModel(Change::EUR,FRR);
     assert(rateModels != NULL && rateModels[0] != NULL);
-    ModelGen *modelBS = new BlackScholesModel(1,1,rateModels);
+    ModelGen *modelBS = new BlackScholesModel(1, 1, rateModels, nullptr);
     assert(modelBS != NULL);
     PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,sampleNb,(int)maturity);
     assert(pricerMC != NULL);
