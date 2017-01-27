@@ -41,7 +41,10 @@ int main(){
     ModelGen *modelBlackScholes = new BlackScholesModel(1, 1, rateModels);
     assert(modelBlackScholes != NULL);
     //Initialisation du Pricer MonteCarlo
-    PricerGen *pricer = new MonteCarloPricer(maturity, modelBlackScholes, 1, nbSample);
+    PnlVect *schedule = pnl_vect_create(2);
+    LET(schedule,0) = 4.;
+    LET(schedule,1) = 6.;
+    PricerGen *pricer = new MonteCarloPricer(maturity, modelBlackScholes, schedule, nbSample);
     assert(pricer != NULL);
     //Initialisation of Call Product
     Call *call = new Call(pricer,asset,(int) maturity,strike);
@@ -49,8 +52,8 @@ int main(){
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     call->Print();
     cout << "\n\n";
-    //Marche *marche = Marche::Instance(call);
-    //assert(marche != NULL);
+    Marche *marche = Marche::Instance(call);
+    assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     double price0, price1, ic, deltaFF;
@@ -61,7 +64,6 @@ int main(){
     cout << "--> Price : " << price0;
     cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic;
     cout << "\n--> Closed formula Price : " << price1;
-    cout << "\n --> Closed Formula Delta : " << deltaFF;
     assert(fabs(price0-price1) <= ic);
 
 
@@ -84,12 +86,37 @@ int main(){
     //Computing delta
     PnlVect *delta = pnl_vect_create(1);
     PnlVect *parameters = pnl_vect_create_from_scalar(1,strike);
-    cout << "Computing Delta ...\n";
+    cout << "\nComputing Delta ...\n";
     pricer->Delta(0,past,delta,payOffCall,parameters);
 
     cout << "Delta sur Call à 0 : \n";
-    cout << "\n---> Delta : \n";
+    cout << "\n --> Closed Formula Delta : " << deltaFF;
+    cout << "\n---> Delta computed : \n";
     pnl_vect_print(delta);
+
+    // En t
+    double t = 5.3;
+    cout << "\n\n** Computing Price at t = " << t << "\n";
+    marche->ImportCotations(CotationTypes::Simulated);
+    cout << "\nMarché (past) : \n\n";
+    PnlMat subCoursMat = pnl_mat_wrap_mat_rows(marche->cours,0,2);
+    past = pnl_mat_copy(&subCoursMat);
+    pnl_mat_print(past);
+    spot = MGET(past,past->m-1,0);
+    cout << "Spot at t : " << spot;
+    call->pricer->Price(t,past,price0,ic,call->payOff,call->parameters);
+    call->pricer->Delta(t,past,delta,call->payOff,call->parameters);
+    pnl_cf_call_bs(spot,strike,maturity-t,r,0,volatility,&price1,&deltaFF);
+    cout << "\n\n--> Price : " << price0;
+    cout << "\n--> Ic : [ " << price0 - ic/2 << " ; " << price0 + ic/2 << " ] --> width : " << ic ;
+    cout << "\n--> Closed formula Price : " << price1;
+    assert(fabs(price0-price1) <= ic);
+    cout << "Delta sur Call à t : \n";
+    cout << "\n --> Closed Formula Delta : " << deltaFF;
+    cout << "\n---> Delta computed : \n";
+    pnl_vect_print(delta);
+    cout << " \n\n\033[1;34m [CHECK]\033[0m";
+
 
     //FREEING Memory
     delete call;
