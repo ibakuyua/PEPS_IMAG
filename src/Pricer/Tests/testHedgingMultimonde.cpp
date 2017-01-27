@@ -45,9 +45,9 @@ void computePnl(){
     ModelGen *simuIndex = new BlackScholesModel(NB_ASSET, NB_ECONOMY, rateModels);
 
     //Initialisation du Pricer MonteCarlo
-    int nbSample = 5000;
-    int hedgingNb, nbTimeStep;
-    hedgingNb = (int)Multimonde::maturity;
+    int nbSample = 10000;
+    int hedgingNb;
+    hedgingNb = 200;
     PricerGen *pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
 
@@ -61,7 +61,6 @@ void computePnl(){
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     multimonde->Print();
     cout << "\n\n";
-
 
     // Market initialisation
     cout << " --- Simulation du marché --- \n";
@@ -85,14 +84,11 @@ void computePnl(){
     PnlVect *Stau_i = pnl_vect_new();
     pnl_mat_get_row(Stau_i, market, 0);
 
-
-
     double price,ic;
     PnlVect *icP = pnl_vect_create(11);
     double marketStep = Multimonde::maturity/(double)hedgingNb;
     cout << "Computing Price and Delta....\n";
     pricer->Price(0,past,price,ic,payOffMultimonde21);
-    std::cout << "Le prix en 0 est de : " << std::endl;
     pricer->Delta(0,past,deltas_iMinus1,icP,payOffMultimonde21);
     std::cout << "Le prix en 0 est de : " << price << std::endl;
     std::cout << "Les delta en 0 sont de : " << std::endl;
@@ -104,15 +100,13 @@ void computePnl(){
     LET(pnlAtDate, 0) = 0; // Par construction
     std::cout << "Marché" << std::endl;
 
-
-
     // Foreach date
     int iN = 1;
     for (int i = 1; i < pnlAtDate->size; ++i) {
         double t = i * marketStep;
         pnl_mat_get_row(Stau_i, market, i);
 
-        if ((i * marketStep) >= iN * Multimonde::maturity/ pricer->nbTimeStep){
+        if ((i * marketStep) >= iN * Multimonde::maturity / pricer->nbTimeStep){
             pnl_mat_add_row(past, past->m, Stau_i);
             iN++;
         }else{
@@ -120,17 +114,6 @@ void computePnl(){
         }
 
         LET(pnlAtDate, i) = hedging(pricer, V_iMinus1, &rateModels, deltas_iMinus1, Stau_i, past, t, marketStep, price);
-
-
-
-        // TEMPORARY INFORMATIONS
-        // TODO : delete on time
-        //std::cout << "Matrice Past" << std::endl;
-        //pnl_mat_print(past);
-        std::cout << "Le pnl de la date courante est de :" << GET(pnlAtDate,i)  << price << " à l'indice : " << i  << std::endl;
-        std::cout << "Le prix à la date courante est de :" << price << std::endl;
-        std::cout << "Les deltas sont de : " << std::endl;
-        pnl_mat_print(past);
     }
 
     // Display result
@@ -165,8 +148,6 @@ double hedging(PricerGen *pricer, double& V_iMinus1, RateModelGen ***rateModels,
     double deltas_iStau_i = pnl_vect_scalar_prod(delta_i,Stau_i);
     double deltas_iMinus1Stau_i = pnl_vect_scalar_prod(deltas_iMinus1,Stau_i);
 
-    std::cout << "Affichage des Deltas : " << std::endl;
-    //pnl_vect_print(delta_i);
     double Vi = V_iMinus1 * capitalizationFactor - (deltas_iStau_i - deltas_iMinus1Stau_i);
 
     double ic;
