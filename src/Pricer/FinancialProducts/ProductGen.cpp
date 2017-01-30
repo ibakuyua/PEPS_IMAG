@@ -9,8 +9,8 @@ ProductGen::ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffF
 {
     if (assets != NULL)
         this->pricer->simuModel->SetAssets(assets); // Obligation to do this
-    composition = pnl_vect_create(assets->size+1);
-    icComposition = pnl_vect_create(assets->size);
+    composition = pnl_vect_new();
+    icComposition = pnl_vect_new();
     pastQuotes = pnl_mat_new();
     spotQuotes = pnl_vect_new();
 }

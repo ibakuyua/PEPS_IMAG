@@ -34,7 +34,7 @@ public:
      * @param[in] product : the product
      * @return a market
      */
-    static Marche *Instance(Change domesticChange = Change::EUR, ProductGen *product = NULL);
+    static Marche *Instance(Change domesticChange = Change::EUR, ProductGen *product = NULL, int dateNb = 0);
 
     /**
      * ImportCotations : permit to fill the cotation market
@@ -71,13 +71,13 @@ public:
 private:
     static Marche *instance; /// The unique instance of market
     CotationTypes type; /// The type of current cotations in the market
-    double hedgingStep; /// The hedging step (step between two indexes of cours)
-    double modelStep; /// The model step (step between two indexes of
+    int dateNb; /// Number of date in the market
+    double dateStep; /// The market step (step between two indexes of cours)
     Change domesticChange; /// The domestic economy
     /**
      * Constructor/Destructor
      */
-    Marche(ProductGen *product, Change domesticChange);
+    Marche(ProductGen *product, Change domesticChange, int dateNb);
     ~Marche();
 };
 
