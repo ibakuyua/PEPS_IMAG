@@ -22,7 +22,7 @@ int main(){
 
 void computePnl(){
 
-    cout << "\n\n###### TEST OF HEDGING MULTIMONDE ######\n\n";
+    cout << "\n\n###### TEST OF HEDGING MULTIMONDE (SIMULATION MARKET) ######\n\n";
     cout << "** Instance : ";
     RateModelGen **rateModels;
     setParameters(&rateModels);
@@ -74,6 +74,7 @@ void computePnl(){
     multimonde->UpdatePortfolio(0.);
     multimonde->PricePortfolio(0.,prixP);
     multimonde->PriceProduct(0.,prixC,ic);
+    //cout << "\n0;" << prixC << ";" << prixP;
     cout << "\nPrice at t = 0 : " << prixC << " in [ " << prixC - ic/2.
          << " ; " << prixC + ic/2. << " ] ** width : " << ic;
     cout << "\nPortfolio price at t = 0 : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
@@ -84,6 +85,7 @@ void computePnl(){
         multimonde->PriceProduct(t,prixC,ic);
         multimonde->UpdatePortfolio(t);
         marche->GetCotations(t,spotV);
+        //cout << "\n" << t << ";" << prixC << ";" << prixP;
         cout << "\nPrice at t = " << t << " : " << prixC << " in [ " << prixC - ic/2.
              << " ; " << prixC + ic/2. << " ] ** width : " << ic;
         cout << "\nPortfolio price at t = " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
