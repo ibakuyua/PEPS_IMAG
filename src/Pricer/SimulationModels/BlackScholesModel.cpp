@@ -22,7 +22,6 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
     // Case in t != 0.
     // Resize
     pnl_mat_resize(path,stepNb + 1,assetNb);
-    pnl_vect_resize(St, path->n);
     pnl_vect_resize(valuet_iminus1, path->n);
     // Copy the past matrix in path before S_t
     for (int i = 0; i < past->m - 1; ++i)
@@ -30,6 +29,8 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
             PNL_MSET(path,i,d,MGET(past,i,d));
     // NB : The last row is S(t), doesn't belong to a step of constatation !
     pnl_mat_get_row(St, past, past->m - 1);
+    // Resize in the case where past contains more asset than path
+    pnl_vect_resize(St,path->n);
     // Compute the index after t and the first step
     int indexAftert = past->m - 1;
     double cumuledStep = 0.;
@@ -55,8 +56,8 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
     if (isInConstationDate){
         // Add the spot to path
         pnl_mat_set_row(path,St,indexAftert);
-        // Set S_timinus1
-        pnl_vect_clone(valuet_iminus1,St);
+        // Set S_timinus1 at 1.
+        pnl_vect_set_all(valuet_iminus1,1.);
     }else{
         // G_0 First gaussian vector
         pnl_vect_rng_normal_d(Gi_,path->n,rng);

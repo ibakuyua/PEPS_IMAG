@@ -17,7 +17,10 @@ int main(){
     double FRR = 0.03;
     double maturity = 20.;
     double strike = 100.;
-    int simuNb = (int)(maturity/2);
+    //int simuNb = (int)(maturity/2);
+    PnlVect *scheduleSimulation = pnl_vect_create(2);
+    LET(scheduleSimulation,0) = 13.;
+    LET(scheduleSimulation,1) = 7.;
     int sampleNb = 100000;
     cout << "** Instance : ";
     Asset * asset = new Asset("BNP","BNP",Change::EUR,0.03,spot,vol);
@@ -27,7 +30,8 @@ int main(){
     assert(rateModels != NULL && rateModels[0] != NULL);
     ModelGen *modelBS = new BlackScholesModel(1, 1, rateModels);
     assert(modelBS != NULL);
-    PricerGen *pricerMC = new MonteCarloPricer(maturity, modelBS, simuNb, sampleNb);
+    //PricerGen *pricerMC = new MonteCarloPricer(maturity, modelBS, simuNb, sampleNb);
+    PricerGen *pricerMC = new MonteCarloPricer(maturity, modelBS, scheduleSimulation, sampleNb);
     assert(pricerMC != NULL);
     ProductGen *call = new Call(pricerMC,asset,(int)maturity,strike);
     assert(call != NULL);
@@ -64,6 +68,12 @@ int main(){
              << " ; " << prixC + ic/2. << " ] ** Real = " << prixCFF;
         cout << "\nPortfolio price at " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
     }
+
+    // Final :
+    call->PriceProduct(maturity,prixC,ic);
+    call->PricePortfolio(maturity,prixP);
+    cout << "\n\nPay Off at maturity : " << prixC;
+    cout << "\nPortfolio price at maturity : " << prixP << " ---> PnL : [ " << prixP - prixC << " ]";
 
     cout << "\n\n** Delete : ";
     pnl_vect_free(&spotV);
