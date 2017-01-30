@@ -49,7 +49,7 @@ public:
      /*
      * remarks : the dynamic is dS(t) = S(t)(mu(t)dt + sigma(t).dWt)
      */
-    void SimulateMarket(double maturity, PnlMat *path, int stepNb);
+    void SimulateMarket(double maturity, PnlMat *path, int stepNb, Change domesticChange);
 
     void SetAssets(AssetList *assets);
 

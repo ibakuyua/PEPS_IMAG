@@ -34,10 +34,12 @@ public:
      * @param[in] product : the product
      * @return a market
      */
-    static Marche *Instance(ProductGen *product = NULL);
+    static Marche *Instance(Change domesticChange = Change::EUR, ProductGen *product = NULL);
 
     /**
      * ImportCotations : permit to fill the cotation market
+     *
+     * remarks : Add at the last column the 'asset' domestic ZC
      *
      * @param[in] type : type of cotations
      */
@@ -66,28 +68,16 @@ public:
      */
     void GetPastCotations(double t, PnlMat *past, bool withStepModel = false, int modelStepNb = 1);
 
-    /**
-     * SetTime : permit to set the real time of the market
-     * @param t : the new date
-     */
-    inline static void SetTime(double t){Marche::t = t;}
-    /**
-     * GetTime : permit to return the time of the market
-     * @return time
-     */
-    inline static double GetTime(){return Marche::t;}
-
-
 private:
-    static double t; /// Current time
     static Marche *instance; /// The unique instance of market
     CotationTypes type; /// The type of current cotations in the market
     double hedgingStep; /// The hedging step (step between two indexes of cours)
     double modelStep; /// The model step (step between two indexes of
+    Change domesticChange; /// The domestic economy
     /**
      * Constructor/Destructor
      */
-    Marche(ProductGen *product);
+    Marche(ProductGen *product, Change domesticChange);
     ~Marche();
 };
 

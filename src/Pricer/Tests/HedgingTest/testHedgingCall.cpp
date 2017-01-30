@@ -1,0 +1,79 @@
+#include <iostream>
+#include <assert.h>
+#include "../../FinancialProducts/Asset/Asset.hpp"
+#include "../../Marche.hpp"
+#include "../../RateModels/ConstantRateModel.hpp"
+#include "../../SimulationModels/BlackScholesModel.hpp"
+#include "../../FinancialProducts/Call.hpp"
+#include "../../Pricing/MonteCarloPricer.hpp"
+#include "pnl/pnl_finance.h"
+
+using namespace std;
+
+/////// TEST HEDGING BY SIMULATION CALL ////////
+int main(){
+    double spot = 100.;
+    double vol = 0.15;
+    double FRR = 0.03;
+    double maturity = 20.;
+    double strike = 100.;
+    int simuNb = (int)(maturity/2);
+    int sampleNb = 100000;
+    cout << "** Instance : ";
+    Asset * asset = new Asset("BNP","BNP",Change::EUR,0.03,spot,vol);
+    assert(asset != NULL);
+    RateModelGen **rateModels = (RateModelGen**) malloc(1 * sizeof(RateModelGen*));
+    rateModels[0] = new ConstantRateModel(Change::EUR,FRR);
+    assert(rateModels != NULL && rateModels[0] != NULL);
+    ModelGen *modelBS = new BlackScholesModel(1, 1, rateModels);
+    assert(modelBS != NULL);
+    PricerGen *pricerMC = new MonteCarloPricer(maturity, modelBS, simuNb, sampleNb);
+    assert(pricerMC != NULL);
+    ProductGen *call = new Call(pricerMC,asset,(int)maturity,strike);
+    assert(call != NULL);
+    Marche *marche = Marche::Instance(Change::EUR,call);
+    assert(marche != NULL);
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+
+    call->Print();
+
+    marche->ImportCotations(CotationTypes::Simulated);
+    cout << " \n\nSimulated market : \n\n";
+    pnl_mat_print(marche->cours);
+    cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
+
+    double prixC, prixCFF, prixP, ic;
+    PnlVect *spotV = pnl_vect_new();
+    // At t = 0
+    call->UpdatePortfolio(0.);
+    call->PricePortfolio(0.,prixP);
+    call->PriceProduct(0.,prixC,ic);
+    prixCFF = pnl_bs_call(spot,strike,maturity,FRR,0.,vol);
+    cout << "\nPrice at 0 : " << prixC << " in [ " << prixC - ic/2.
+         << " ; " << prixC + ic/2. << " ] ** Real = " << prixCFF;
+    cout << "\nPortfolio price at 0 : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+    // TODO : est-ce problème car on fait deux fois price product : une fois pour PriceProduct une fois pour Update d'où un pnl != 0 à 0
+    // Compute pnl at each date :
+    for (double t = 1.; t < maturity; ++t) {
+        call->PricePortfolio(t,prixP);
+        call->PriceProduct(t,prixC,ic);
+        call->UpdatePortfolio(t);
+        marche->GetCotations(t,spotV);
+        prixCFF = pnl_bs_call(GET(spotV,0),strike,maturity-t,FRR,0.,vol);
+        cout << "\nPrice at " << t << " : " << prixC << " in [ " << prixC - ic/2.
+             << " ; " << prixC + ic/2. << " ] ** Real = " << prixCFF;
+        cout << "\nPortfolio price at " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+    }
+
+    cout << "\n\n** Delete : ";
+    pnl_vect_free(&spotV);
+    delete call;
+    delete pricerMC;
+    delete modelBS;
+    delete rateModels[0];
+    free(rateModels);
+    delete asset;
+    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+
+    return EXIT_SUCCESS;
+}

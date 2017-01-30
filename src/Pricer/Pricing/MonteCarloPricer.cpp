@@ -46,6 +46,8 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
 
 void MonteCarloPricer::Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
                              PayOffFunction payOff, PnlVect *parameters) const {
+    // Resize
+    pnl_vect_resize(delta,simuModel->assetNb);
     //Get useful values
     //Maturity
     double T = maturity;

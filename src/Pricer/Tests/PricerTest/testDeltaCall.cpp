@@ -46,12 +46,11 @@ int main(){
     Call *call = new Call(pricer,asset,(int) 3,strike);
 
     assert(call != NULL);
+    Marche *marche = Marche::Instance(Change::EUR,call);
+    assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
     call->Print();
     cout << "\n\n";
-    Marche *marche = Marche::Instance(call);
-    assert(marche != NULL);
-    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     double myPrice, myIc, price, deltaFF;
 

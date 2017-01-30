@@ -30,7 +30,7 @@ int main(){
     assert(pricerMC != NULL);
     ProductGen *call = new Call(pricerMC,asset,(int)maturity,strike);
     assert(call != NULL);
-    Marche *marche = Marche::Instance(call);
+    Marche *marche = Marche::Instance(Change::EUR,call);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 

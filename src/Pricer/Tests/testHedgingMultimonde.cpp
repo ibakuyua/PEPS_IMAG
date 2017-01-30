@@ -43,7 +43,7 @@ void computePnl(){
     //Initialisation du Pricer MonteCarlo
     int nbSample = 10000;
     int hedgingNb;
-    hedgingNb = 2000;
+    hedgingNb = 200;
     PricerGen *pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
 
@@ -61,7 +61,7 @@ void computePnl(){
     // Market initialisation
     cout << " --- Simulation du marché --- \n";
     PnlMat *market = pnl_mat_create_from_zero(hedgingNb + 1, 11);
-    simuIndex->SimulateMarket(Multimonde::maturity,market,hedgingNb);
+    simuIndex->SimulateMarket(Multimonde::maturity,market,hedgingNb,Change::EUR);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     //PAst Initialisation

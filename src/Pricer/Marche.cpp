@@ -1,11 +1,10 @@
 #include "Marche.hpp"
 
-double Marche::t = 0;
 Marche *Marche::instance = NULL;
 
-Marche *Marche::Instance(ProductGen *product) {
+Marche *Marche::Instance(Change domesticChange, ProductGen *product) {
     if (instance == NULL && product != NULL)
-        instance = new Marche(product);
+        instance = new Marche(product, domesticChange);
     return instance;
 }
 
@@ -15,7 +14,7 @@ void Marche::ImportCotations(CotationTypes type) {
     switch (type)
     {
         case CotationTypes::Simulated :
-            product->pricer->simuModel->SimulateMarket(product->pricer->maturity, cours, product->hedgingDateNb);
+            product->pricer->simuModel->SimulateMarket(product->pricer->maturity, cours, product->hedgingDateNb, domesticChange);
             break;
         default:
             break;
@@ -38,10 +37,11 @@ void Marche::GetPastCotations(double hedgingDate, PnlMat *past, bool withStepMod
     if (withStepModel){
         // Spot initialisation
         PnlVect *quotes_t = pnl_vect_new();
-        pnl_mat_resize(past,1,product->assets->size);
-        pnl_mat_set_row(past,product->pricer->simuModel->spot,1);
+        pnl_mat_get_row(quotes_t,cours,0);
+        pnl_mat_resize(past,1,cours->n);
+        pnl_mat_set_row(past,quotes_t,0);
         int k = 1;
-        for (int i = 1; i <= hedgingDate; ++i) {
+        for (int i = 1; i < hedgingIndex; ++i) {
             if (i % (int)(step/hedgingStep) == 0)
             {
                 pnl_mat_get_row(quotes_t,cours,i);
@@ -49,17 +49,22 @@ void Marche::GetPastCotations(double hedgingDate, PnlMat *past, bool withStepMod
                 k++;
             }
         }
+        if (hedgingIndex > 0) { // add spot
+            pnl_mat_get_row(quotes_t,cours,hedgingIndex);
+            pnl_mat_add_row(past,k,quotes_t);
+        }
         pnl_vect_free(&quotes_t);
     }
     else
-        pnl_mat_extract_subblock(past,cours,0,hedgingIndex,0,cours->n);
+        pnl_mat_extract_subblock(past,cours,0,hedgingIndex+1,0,cours->n);
 }
 
-Marche::Marche(ProductGen *product)
-    : product(product)
+Marche::Marche(ProductGen *product, Change domesticChange)
+        : product(product)
 {
-        cours = pnl_mat_create_from_zero(product->hedgingDateNb, product->assets->size);
-        hedgingStep = product->pricer->maturity / product->hedgingDateNb;
+    cours = pnl_mat_create_from_zero(product->hedgingDateNb+1, product->assets->size+1);
+    hedgingStep = product->pricer->maturity / product->hedgingDateNb;
+    this->domesticChange = domesticChange;
 }
 
 Marche::~Marche() {
