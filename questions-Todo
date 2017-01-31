@@ -1,17 +1,14 @@
---> Amélioration : r non constant : bootstrapping sur bond ? => Aléatoire ? i.e. à chaque t, la courbe des taux diffère.
-
-Partie fonctionnelle :
-
---> Comment on gère le temps dans l'appli web ? on simule le marché (style forward test) ou on se base sur la date d'aujourd'hui avec les vrais valeurs des cours sur les indices passés
-
---> Pourquoi sur le poly le seul risque est le risque de capital ? 
-
---> Page 10 du poly : à quoi correspond les frais ? 
-
 ===> Régime switché
-
-
 
 /!\ Pourquoi le Nikkei descend toujours proche de 0 comme indice ?
 Faire un csv avec toutes les cotes depuis 3 ans et faire dans la classe stat une méthode prenant t,T pour
 faire les calibrages sur une fenêtre d'estimation
+
+===> Back test : fenetre d'estimation ?
+
+===> Demo : montrer l'architecture 
+            montrer le pricing et les deltas du call
+	    montrer le hedging du call
+	    montrer le pricing de multimonde en 0
+	    montrer le hedging de multimonde + graph PnL
+

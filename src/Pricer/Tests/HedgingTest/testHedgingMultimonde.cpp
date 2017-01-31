@@ -11,16 +11,19 @@
 
 using namespace std;
 
-void computePnl();
+void computePnl(int hedgingNb);
 void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
-int main(){
-    computePnl();
+int main(int argc, char** argv){
+    int hedgingNb(50);
+    if (argc > 1)
+        hedgingNb = atoi(argv[1]);
+    computePnl(hedgingNb);
     return EXIT_SUCCESS;
 }
 
-void computePnl(){
+void computePnl(int hedgingNb){
 
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE (SIMULATION MARKET) ######\n\n";
     cout << "** Instance : ";
@@ -42,7 +45,6 @@ void computePnl(){
 
     //Initialisation du Pricer MonteCarlo
     int nbSample = 10000;
-    int hedgingNb = 50;
     double maturity = Multimonde::maturity;
     PricerGen *pricer = new MonteCarloPricer(maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
