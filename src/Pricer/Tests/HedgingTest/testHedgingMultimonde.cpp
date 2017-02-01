@@ -69,6 +69,8 @@ void computePnl(int hedgingNb){
     marche->ImportCotations(CotationTypes::Simulated);
     cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
+    cout << "Market : \n\n";
+    //pnl_mat_print(marche->cours);
 
     double prixC, prixP, ic;
     PnlVect *spotV = pnl_vect_new();
@@ -76,10 +78,12 @@ void computePnl(int hedgingNb){
     multimonde->UpdatePortfolio(0.);
     multimonde->PricePortfolio(0.,prixP);
     multimonde->PriceProduct(0.,prixC,ic);
-    //cout << "\n0;" << prixC << ";" << prixP;
-    cout << "\nPrice at t = 0 : " << prixC << " in [ " << prixC - ic/2.
+    cout << "\n0;" << prixC << ";" << prixP;
+    for (int i = 0; i < 11; ++i)
+        cout << ";" << GET(multimonde->composition,i);
+    /*cout << "\nPrice at t = 0 : " << prixC << " in [ " << prixC - ic/2.
          << " ; " << prixC + ic/2. << " ] ** width : " << ic;
-    cout << "\nPortfolio price at t = 0 : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+    cout << "\nPortfolio price at t = 0 : " << prixP << " PnL [ " << prixP - prixC << " ] \n";*/
     // Compute pnl at each date :
     double hedgingStep = maturity / (double)hedgingNb;
     for (double t = hedgingStep; t < maturity; t += hedgingStep) {
@@ -87,10 +91,12 @@ void computePnl(int hedgingNb){
         multimonde->PriceProduct(t,prixC,ic);
         multimonde->UpdatePortfolio(t);
         marche->GetCotations(t,spotV);
-        //cout << "\n" << t << ";" << prixC << ";" << prixP;
-        cout << "\nPrice at t = " << t << " : " << prixC << " in [ " << prixC - ic/2.
+        cout << "\n" << t << ";" << prixC << ";" << prixP;
+        for (int i = 0; i < 11; ++i)
+            cout << ";" << GET(multimonde->composition,i);
+        /*cout << "\nPrice at t = " << t << " : " << prixC << " in [ " << prixC - ic/2.
              << " ; " << prixC + ic/2. << " ] ** width : " << ic;
-        cout << "\nPortfolio price at t = " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+        cout << "\nPortfolio price at t = " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";*/
     }
 
     // Final :

@@ -13,7 +13,7 @@ using namespace std;
 /////// TEST HEDGING BY SIMULATION CALL ////////
 int main(){
     double spot = 100.;
-    double vol = 0.15;
+    double vol = 0.07;
     double FRR = 0.03;
     double maturity = 20.;
     double strike = 100.;
