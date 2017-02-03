@@ -5,7 +5,7 @@ int main(){
 
     std::string path = "testPEPS.csv";
 
-    ParseCSV *parser = new ParseCSV(path,1995,07,16,2);
+    ParseCSV *parser = new ParseCSV(path,1995,07,17,2);
 
     std::cout << "Nombre de lignes : " << parser->inputData->m << std::endl;
 

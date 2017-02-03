@@ -79,9 +79,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         string tmpStartMonthString;
         int tmpStartYear = 0;
         string tmpStartYearString;
-        char* tmp;
 
-        stringstream ss;
         while(b){
             getline(FILE,line);
             tmpStartDayString = line.substr(0,2);
@@ -107,14 +105,12 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         }
 
 
-        //FILE.clear();
-        //FILE.seekg(FILE.beg);
         double tmpDouble;
         char tmpChar;
 
         string tmpString;
+        stringstream ss;
         stringstream sss;
-        //getline(FILE,line);
         ss << line;
         getline(ss,tmpString,',');
         for(int j = 0; j < n; j++){
@@ -128,8 +124,6 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
 
         }
 
-
-
         for(int i = 1; i < numberToParse; i++){
             while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
@@ -138,6 +132,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
                 FILE >> tmpChar;
             }
         }
+        FILE.close();
 
     }else
         std::cout << "Fichier CSV inexistant  !!!!!!!!!!" << endl;
