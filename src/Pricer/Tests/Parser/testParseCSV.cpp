@@ -3,6 +3,8 @@
 #include "../../Stats/Parser/ParseCSV.h"
 int main(){
 
+    cout << "\n\n###### TEST OF THE PARSER ######\n\n";
+
     std::string path = "../data/dataPEPS.csv";
 
     ParseCSV *parser = new ParseCSV(path);

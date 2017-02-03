@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <iostream>
 #include <assert.h>
-#include "../Pricing/PricerGen.hpp"
-#include "../Pricing/MonteCarloPricer.hpp"
-#include "../FinancialProducts/Multimonde.hpp"
-#include "../SimulationModels/BlackScholesModel.hpp"
-#include "../RateModels/ConstantRateModel.hpp"
-#include "../Stats/Parser/ParseCSV.h"
+#include "../../Pricing/PricerGen.hpp"
+#include "../../Pricing/MonteCarloPricer.hpp"
+#include "../../FinancialProducts/Multimonde.hpp"
+#include "../../SimulationModels/BlackScholesModel.hpp"
+#include "../../RateModels/ConstantRateModel.hpp"
+#include "../../Stats/Parser/ParseCSV.h"
 
 using namespace std;
 

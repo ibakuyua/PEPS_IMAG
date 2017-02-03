@@ -70,7 +70,7 @@ public:
     /**
      * Delta : permit to give the delta of a product
      *
-     * remarks : Return the gradient of the price (one line is corresponding to one asset)
+     * remarks : Return the gradient of the price (one line is corresponding to one risk asset)
      *
      * @param[in] t : the date to price the product
      * @param[in] past : the past values if any (the last is the spot at t)

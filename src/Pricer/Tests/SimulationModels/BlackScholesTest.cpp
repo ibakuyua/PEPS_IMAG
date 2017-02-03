@@ -35,7 +35,7 @@ int main(){
     blackScholes->Simulate(maturity,path,stepNb);
     pnl_mat_print(path);
     cout << "\n\n** Simulation market : \n\n";
-    blackScholes->SimulateMarket(maturity,path,stepNb);
+    blackScholes->SimulateMarket(maturity,path,stepNb,Change::EUR);
     pnl_mat_print(path);
     // Free
     cout << "\n\n** Delete : ";

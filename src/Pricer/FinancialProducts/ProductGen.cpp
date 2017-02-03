@@ -9,36 +9,42 @@ ProductGen::ProductGen(string nom, PricerGen *pricer, int hedgingDateNb, PayOffF
 {
     if (assets != NULL)
         this->pricer->simuModel->SetAssets(assets); // Obligation to do this
+    composition = pnl_vect_new();
+    icComposition = pnl_vect_new();
+    pastQuotes = pnl_mat_new();
+    spotQuotes = pnl_vect_new();
 }
 
 ProductGen::~ProductGen() {
+    pnl_vect_free(&composition);
+    pnl_vect_free(&icComposition);
 }
 
 
 void ProductGen::PricePortfolio(double t, double &price) const {
-    PnlVect *quotes = pnl_vect_new();
     Marche *market = Marche::Instance(); // There is only one instance of market
-    market->GetCotations(t,quotes);
-    price = pnl_vect_scalar_prod(composition,quotes);
-    pnl_vect_free(&quotes);
+    market->GetCotations(t,spotQuotes);
+    price = pnl_vect_scalar_prod(composition,spotQuotes);
 }
 
 void ProductGen::PriceProduct(double t, double &price, double &ic) const {
-    PnlMat *past = pnl_mat_new();
     Marche *market = Marche::Instance();
-    market->GetPastCotations(t,past,true,pricer->nbTimeStep);
-    pricer->Price(t, past, price, ic, payOff, parameters);
-    pnl_mat_free(&past);
+    market->GetPastCotations(t,pastQuotes,true,pricer->nbTimeStep);
+    pricer->Price(t, pastQuotes, price, ic, payOff, parameters);
 }
 
-void ProductGen::MAJPortfolio() {
-    double t = Marche::GetTime();
-    PnlMat *past = pnl_mat_new();
+void ProductGen::UpdatePortfolio(double t) {
     Marche *market = Marche::Instance();
-    market->GetPastCotations(t,past,true,pricer->nbTimeStep);
-    PnlVect *icP = pnl_vect_create(assets->size);
-    pricer->Delta(t,past,composition,icP,payOff,parameters);
-    pnl_mat_free(&past);
+    market->GetPastCotations(t,pastQuotes,true,pricer->nbTimeStep);
+    market->GetCotations(t,spotQuotes);
+    pricer->Delta(t,pastQuotes,composition,icComposition,payOff,parameters);
+    pnl_vect_resize(composition,composition->size+1);
+    PNL_SET(composition,composition->size-1,0.); // For the scalar prod (0 * R1(t))
+    double prix, ic;
+    pricer->Price(t,pastQuotes,prix,ic,payOff,parameters);
+    double compoFreeRiskAsset = prix - pnl_vect_scalar_prod(composition,spotQuotes);
+    compoFreeRiskAsset /= GET(spotQuotes,spotQuotes->size-1); // R1(t)
+    PNL_SET(composition,composition->size-1,compoFreeRiskAsset);
 }
 
 

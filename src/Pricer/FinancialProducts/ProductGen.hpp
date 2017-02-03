@@ -30,7 +30,8 @@ public:
     /**
      * Hedging Portfolio
      */
-    PnlVect *composition; /// Composition of the portfolio with underlying assets
+    PnlVect *composition; /// Composition of the portfolio with underlying assets and free risk asset at the last row
+    PnlVect *icComposition; /// IC for underlying risk asset composition
 
     /**
      * Constructor/Destructor
@@ -75,11 +76,13 @@ public:
     /**
      * MAJPortfolio : permit to upgrade the portfolio (new composition to hedge)
      *
-     * remarks : MAJ from the current date contained in the market
+     * @param[in] t : the date to update
      *
      */
-    virtual void MAJPortfolio();
-
+    virtual void UpdatePortfolio(double t);
+private:
+    PnlMat *pastQuotes; /**< Quotations until t of the market */
+    PnlVect *spotQuotes; /**< Quotations at t */
 };
 
 

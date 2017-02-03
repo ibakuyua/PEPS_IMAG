@@ -22,14 +22,15 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
     // Case in t != 0.
     // Resize
     pnl_mat_resize(path,stepNb + 1,assetNb);
-    pnl_vect_resize(St, path->n);
     pnl_vect_resize(valuet_iminus1, path->n);
     // Copy the past matrix in path before S_t
     for (int i = 0; i < past->m - 1; ++i)
-        for (int d = 0; d < past->n; ++d)
+        for (int d = 0; d < path->n; ++d) // Get only the choosed number of asset (maybe past can have more asset)
             PNL_MSET(path,i,d,MGET(past,i,d));
     // NB : The last row is S(t), doesn't belong to a step of constatation !
     pnl_mat_get_row(St, past, past->m - 1);
+    // Resize in the case where past contains more asset than path
+    pnl_vect_resize(St,path->n);
     // Compute the index after t and the first step
     int indexAftert = past->m - 1;
     double cumuledStep = 0.;
@@ -55,8 +56,8 @@ void BlackScholesModel::Simulate(double t, double maturity, PnlMat *path, const 
     if (isInConstationDate){
         // Add the spot to path
         pnl_mat_set_row(path,St,indexAftert);
-        // Set S_timinus1
-        pnl_vect_clone(valuet_iminus1,St);
+        // Set S_timinus1 at 1.
+        pnl_vect_set_all(valuet_iminus1,1.);
     }else{
         // G_0 First gaussian vector
         pnl_vect_rng_normal_d(Gi_,path->n,rng);
@@ -322,22 +323,25 @@ BlackScholesModel::~BlackScholesModel() {
     // Base destructor is called here
 }
 
-void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb) {
+void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb, Change domesticChange) {
+    // Resize
+    pnl_mat_resize(path,stepNb + 1,assetNb + 1); // Add the domestic ZC
     // Step Initialisation
     double step = maturity/(double)stepNb;
     double sqrtStep = sqrt(step);
     double addTrendForZC, ti_minus1;
     // Spot Initialisation
-    for (int d = 0; d < path->n; ++d)
+    for (int d = 0; d < path->n - 1; ++d)
         PNL_MSET(path, 0, d, GET(spot,d));
+    PNL_MSET(path,0,path->n-1, 1.);
     double sigma_d, trend_d, Sd_tiMinus1, LdGi, Sd_ti;
     // For each time
     for (int i = 1; i < path->m; ++i) {
         ti_minus1 = (i-1) * step;
-        pnl_vect_rng_normal_d(Gi_,path->n,rng); // Gi gaussian vector
+        pnl_vect_rng_normal_d(Gi_,path->n-1,rng); // Gi gaussian vector
         LGi_ =  pnl_mat_mult_vect(choleskyCorr,Gi_); // All the LdGi
         // For each asset
-        for (int d = 0; d < path->n; ++d) {
+        for (int d = 0; d < path->n - 1; ++d) {
             sigma_d = GET(volatility,d);
             trend_d = GET(trend,d);
             Sd_tiMinus1 = PNL_MGET(path, (i-1), d);
@@ -352,6 +356,8 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
 
             PNL_MSET(path,i,d,Sd_ti);
         }
+        // For the domestic free risk asset
+        PNL_MSET(path,i,path->n-1,exp(rateModels[Change::EUR]->GetIntegralRate(0.,ti_minus1+step)));
     }
 }
 

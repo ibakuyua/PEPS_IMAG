@@ -105,11 +105,14 @@ public:
     /**
      * SimulateMarket : permit to simulate a market
      *
+     * remarks : simulate assetNb+1 asset, the last is the domestic free risk asset
+     *
      * @param[in] maturity : the maturity for the simulation
      * @param[out] path : the result of the simulation
      * @param[in] stepNb : the number of step of constatation
+     * @param[in] domesticChange : the domestic ZC change
      */
-    virtual void SimulateMarket(double maturity, PnlMat *path, int stepNb) = 0;
+    virtual void SimulateMarket(double maturity, PnlMat *path, int stepNb, Change domesticChange) = 0;
 
     /**
      * Destructor
