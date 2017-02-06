@@ -17,11 +17,11 @@ int main(){
     cout << "** Instance : ";
 
     //Useful datas
-    double strike = 100.;
+    double strike = 90;
     double trend = 0.03;
     double spot = 100.;
-    double volatility = 0.15;
-    double r = 0.03;
+    double volatility = 0.5;
+    double r = 0.05;
     double maturity = 10.;
     int nbSample = 200000;
 
