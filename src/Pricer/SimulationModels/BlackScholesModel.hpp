@@ -17,9 +17,8 @@ public:
     PnlMat *choleskyCorr; /**< For the correlation between indexes */
     PnlVect *Gi_; /**< Gaussian vector */
     PnlVect *LGi_; /**< Multiplication between choleskyCorr and Gi*/
-    PnlVect *St; /**< For the simulation*/
-
-    PnlVect *scheduleSimulation;  /**< the schedule that manage the way simulating (giving brownian motion steps  */
+    PnlVect *St; /**< For the simulation */
+    PnlVect *valuet_iminus1; /**< For the simulation */
 
     /**
      * Constructor / Destructor
@@ -31,7 +30,7 @@ public:
      * @param[in] economyNb : the number of economy
      * @param[in] rateModel : the list of rate models for each economy
      */
-    BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel, PnlVect *simulationSchedule = NULL);
+    BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel);
     virtual ~BlackScholesModel();
 
     /**
@@ -43,14 +42,14 @@ public:
      *           is for this simulation : dS_i(t) = S_i(t)(r_i(t)dt + sigma(t).dWt)`
      *           with r_i the free risk rate in the economy i
      */
-    void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb);
-    void Simulate(double maturity, PnlMat *path, int stepNb);
+    void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb, PnlVect *simulationSchedule = NULL);
+    void Simulate(double maturity, PnlMat *path, int stepNb, PnlVect *simulationSchedule = NULL);
     void GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix);
 
      /*
      * remarks : the dynamic is dS(t) = S(t)(mu(t)dt + sigma(t).dWt)
      */
-    void SimulateMarket(double maturity, PnlMat *path, int stepNb);
+    void SimulateMarket(double maturity, PnlMat *path, int stepNb, Change domesticChange);
 
     void SetAssets(AssetList *assets);
 

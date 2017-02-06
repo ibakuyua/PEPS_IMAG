@@ -12,6 +12,13 @@
 # Produit Multimonde           #
 #                              #
 ################################
+---------------- Compilation --------------
+
+Avant tout, il faut changer les valeurs du CMakeList dans la section add PnL
+set(CMAKE_PREFIX_PATH path_lib)
+include_directories(path_include)
+
+Ensuite dans build, 'cmake ..' puis 'make'
 
 ---------------- Résumé -------------------
 

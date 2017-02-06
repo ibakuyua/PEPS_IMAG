@@ -20,15 +20,24 @@ public:
 
 
     /**
-     * Constructor / Destructor
+     * Constructor 1
      *
      * @param[in] maturity : maturity of the model
      * @param[in] simuModel : the simulation model
      * @param[in] nbSample : the number of sample to estimate the expectation
      * @param[in] nbTimeStep : the number of time step
      */
-    MonteCarloPricer(double maturity, ModelGen *simuModel, int nbSample = NB_SAMPLE_DEFAULT,
-                     int nbTimeStep = NB_TIME_STEP_DEFAULT);
+    MonteCarloPricer(double maturity, ModelGen *simuModel,
+                     int nbTimeStep = NB_TIME_STEP_DEFAULT, int nbSample = NB_SAMPLE_DEFAULT);
+    /**
+      * Constructor 2
+      *
+      * @param[in] maturity : maturity of the model
+      * @param[in] simuModel : the simulation model
+      * @param[in] nbSample : the number of sample to estimate the expectation
+      * @param[in] scheduledStep : in the case of different steps
+      */
+    MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect* scheduledStep, int nbSample = NB_SAMPLE_DEFAULT);
     virtual ~MonteCarloPricer();
 
     /**
@@ -37,7 +46,7 @@ public:
     void Price(double t, PnlMat *past, double &price, double &ic,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
-    void Delta(double t, PnlMat *past, PnlVect *delta,
+    void Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
     void PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const;
