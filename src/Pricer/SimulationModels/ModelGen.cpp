@@ -16,6 +16,23 @@ ModelGen::ModelGen(int assetNb, int economyNb, RateModelGen **rateModels, string
     pnl_rng_sseed(rng, time(NULL));
 }
 
+void ModelGen::ShiftAsset(PnlMat *path_shifted, const PnlMat *path, int d, double h, double t, double timestep) {
+    // Index i after t
+    int indexAfter_t = (t / timestep - (int)(t / timestep) < 0.000000001)
+                       ? (int)(t/timestep)
+                       : (int)(t/timestep) + 1;
+    //int indexAfter_t = (int)(t / timestep) + 1;
+    // path_shifted is path with asset d shifted after t
+
+    pnl_mat_clone(path_shifted, path);
+    
+    for (int i = indexAfter_t; i < path->m; ++i) {
+        if (i != 0)
+            MLET(path_shifted,i,d) *= (1+h);
+
+    }
+}
+
 void ModelGen::SetAssets(AssetList *assets) {
     if (assets->size != assetNb)
         throw domain_error("SetAssets : list asset doesn't contain "

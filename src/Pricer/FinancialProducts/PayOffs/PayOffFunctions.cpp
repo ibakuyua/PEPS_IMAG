@@ -4,27 +4,26 @@
 
 #include "../../ProductInfo/infoMultimonde.hpp"
 
-////// Attention : les calculs d'actifs sans risques se font sur des intégrales de largeur en unité celle utilisée pour le calibrage
-
 //################ PayOff Multimonde21 avec actifs en euros #########################
 
 double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateModelGen *> &rateModels) {
+    int nbStep = path->m; // TODO : bien mettre à jour la taille de path !
     bool isConstated[6] = {false, false, false, false,false,false};
     int constatationIndexes[6] =
             {
-                    (int)NB_DAYSWRK_TO_CONSTATATION_1,
-                    (int)NB_DAYSWRK_TO_CONSTATATION_2,
-                    (int)NB_DAYSWRK_TO_CONSTATATION_3,
-                    (int)NB_DAYSWRK_TO_CONSTATATION_4,
-                    (int)NB_DAYSWRK_TO_CONSTATATION_5,
-                    (int)NB_DAYSWRK_TO_CONSTATATION_6
+                    (int)(nbStep * NB_DAYSWRK_TO_CONSTATATION_1 / (double)NB_DAYSWRK_TO_MATURITY),
+                    (int)(nbStep * NB_DAYSWRK_TO_CONSTATATION_2 / (double)NB_DAYSWRK_TO_MATURITY),
+                    (int)(nbStep * NB_DAYSWRK_TO_CONSTATATION_3 / (double)NB_DAYSWRK_TO_MATURITY),
+                    (int)(nbStep * NB_DAYSWRK_TO_CONSTATATION_4 / (double)NB_DAYSWRK_TO_MATURITY),
+                    (int)(nbStep * NB_DAYSWRK_TO_CONSTATATION_5 / (double)NB_DAYSWRK_TO_MATURITY),
+                    (int)(nbStep * NB_DAYSWRK_TO_CONSTATATION_6 / (double)NB_DAYSWRK_TO_MATURITY)
             };
     Change changeByIndex[6] =
             {
                     Change::EUR,
                     Change::GBP,
                     Change::USD,
-                    Change::CNY,
+                    Change::HKD,
                     Change::JPY,
                     Change::AUD
             };

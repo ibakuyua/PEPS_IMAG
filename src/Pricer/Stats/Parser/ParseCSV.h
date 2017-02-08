@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -14,6 +16,9 @@ public:
     PnlMat *inputData;
 
     ParseCSV(string path);
+
+    ParseCSV(string path, int startYearOfEstimation,int startMonth, int startDay, int numberToParse);
+
     ~ParseCSV();
 
 

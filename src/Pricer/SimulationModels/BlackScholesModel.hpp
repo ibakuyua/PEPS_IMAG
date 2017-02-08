@@ -17,7 +17,8 @@ public:
     PnlMat *choleskyCorr; /**< For the correlation between indexes */
     PnlVect *Gi_; /**< Gaussian vector */
     PnlVect *LGi_; /**< Multiplication between choleskyCorr and Gi*/
-    PnlVect *St; /**< For the simulation*/
+    PnlVect *St; /**< For the simulation */
+    PnlVect *valuet_iminus1; /**< For the simulation */
 
     /**
      * Constructor / Destructor
@@ -41,16 +42,14 @@ public:
      *           is for this simulation : dS_i(t) = S_i(t)(r_i(t)dt + sigma(t).dWt)`
      *           with r_i the free risk rate in the economy i
      */
-    void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb);
-    void Simulate(double maturity, PnlMat *path, int stepNb);
-    void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
-                    int d, double h, double t, double timestep);
+    void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb, PnlVect *simulationSchedule = NULL);
+    void Simulate(double maturity, PnlMat *path, int stepNb, PnlVect *simulationSchedule = NULL);
     void GetParametersFromStats(StatsFactory *stats, PnlVect **trend, PnlMat **volMatrix);
 
      /*
      * remarks : the dynamic is dS(t) = S(t)(mu(t)dt + sigma(t).dWt)
      */
-    void SimulateMarket(double maturity, PnlMat *path, int stepNb);
+    void SimulateMarket(double maturity, PnlMat *path, int stepNb, Change domesticChange);
 
     void SetAssets(AssetList *assets);
 

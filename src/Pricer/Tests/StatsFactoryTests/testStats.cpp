@@ -7,6 +7,7 @@
 #include "../../Stats/Parser/ParseCSV.h"
 int main(){
 
+    cout << "\n\n###### TEST OF THE STAT FACTORY ######\n\n";
     PnlMat* quotes = pnl_mat_create_from_zero(4,3);
     ParseCSV*  parser = new ParseCSV("../data/dataPEPS.csv");
     

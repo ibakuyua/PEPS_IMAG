@@ -46,8 +46,7 @@ int main(){
         MLET(path,date,0) = values[d][0];
         for (int i = 1; i < 6; ++i) { // Chaque indice
             MLET(path,date,i) = values[d][i];
-            double test = exp(rateModels[(Change)i]->GetIntegralRate(date,(int)NB_DAYSWRK_TO_MATURITY));
-            MLET(path,date,i+5) = test;
+            MLET(path,date,i+5) = exp(rateModels[(Change)i]->GetIntegralRate(date,(int)NB_DAYSWRK_TO_MATURITY));
 
         }
     }

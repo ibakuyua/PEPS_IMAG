@@ -24,13 +24,13 @@ int main(){
     RateModelGen **rateModels = (RateModelGen**) malloc(1 * sizeof(RateModelGen*));
     rateModels[0] = new ConstantRateModel(Change::EUR,FRR);
     assert(rateModels != NULL && rateModels[0] != NULL);
-    ModelGen *modelBS = new BlackScholesModel(1,1,rateModels);
+    ModelGen *modelBS = new BlackScholesModel(1, 1, rateModels);
     assert(modelBS != NULL);
-    PricerGen *pricerMC = new MonteCarloPricer(maturity,modelBS,sampleNb,(int)maturity);
+    PricerGen *pricerMC = new MonteCarloPricer(maturity, modelBS, (int)maturity, sampleNb);
     assert(pricerMC != NULL);
     ProductGen *call = new Call(pricerMC,asset,(int)maturity,strike);
     assert(call != NULL);
-    Marche *marche = Marche::Instance(call);
+    Marche *marche = Marche::Instance(Change::EUR,call);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
@@ -56,7 +56,6 @@ int main(){
     pnl_mat_print(past);
     spot = MGET(past,past->m-1,0);
     cout << "Spot at t : " << spot;
-    // TODO change with PriceProduct when marcheGetPast will be done
     call->pricer->Price(t,past,price0,ic,call->payOff,call->parameters);
     price1 = pnl_bs_call(spot,strike,maturity-t,FRR,0,vol);
     cout << "\n\n--> Price : " << price0;

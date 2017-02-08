@@ -73,20 +73,15 @@ AssetList *Multimonde::GetAssetListFromStat(StatsFactory *stats, ModelGen *simuM
     myAssets[5] = new Asset(
             "X_SPASX200","X_SPASX200",Change::EUR,GET(trendEur,5),SPOT_XSPASX200,GET(volEur,5));
     myAssets[6] = new ChangeZC(
-            "EUR/GBP","EUR/GBP",Change::EUR,Change::GBP,GET(trendEur,6),
-            SPOT_GBP * exp(simuModel->rateModels[Change::GBP]->GetIntegralRate(0,maturity)),GET(volEur,6));
+            "EUR/GBP","EUR/GBP",Change::EUR,Change::GBP,GET(trendEur,6), SPOT_GBP ,GET(volEur,6));
     myAssets[7] = new ChangeZC(
-            "EUR/USD","EUR/USD",Change::EUR,Change::USD,GET(trendEur,7),
-            SPOT_USD * exp(simuModel->rateModels[Change::USD]->GetIntegralRate(0,maturity)),GET(volEur,7));
+            "EUR/USD","EUR/USD",Change::EUR,Change::USD,GET(trendEur,7), SPOT_USD ,GET(volEur,7));
     myAssets[8] = new ChangeZC(
-            "EUR/CNY","EUR/CNY",Change::EUR,Change::CNY,GET(trendEur,8),
-            SPOT_CNY * exp(simuModel->rateModels[Change::CNY]->GetIntegralRate(0,maturity)),GET(volEur,8));
+            "EUR/HKD","EUR/HKD",Change::EUR,Change::HKD,GET(trendEur,8), SPOT_HKD ,GET(volEur,8));
     myAssets[9] = new ChangeZC(
-            "EUR/JPY","EUR/JPY",Change::EUR,Change::JPY,GET(trendEur,9),
-            SPOT_JPY * exp(simuModel->rateModels[Change::JPY]->GetIntegralRate(0,maturity)),GET(volEur,9));
+            "EUR/JPY","EUR/JPY",Change::EUR,Change::JPY,GET(trendEur,9), SPOT_JPY ,GET(volEur,9));
     myAssets[10] = new ChangeZC(
-            "EUR/AUD","EUR/AUD",Change::EUR,Change::AUD,GET(trendEur,10),
-            SPOT_AUD * exp(simuModel->rateModels[Change::AUD]->GetIntegralRate(0,maturity)),GET(volEur,10));
+            "EUR/AUD","EUR/AUD",Change::EUR,Change::AUD,GET(trendEur,10), SPOT_AUD ,GET(volEur,10));
 
     // Delete
     pnl_vect_free(&trend);

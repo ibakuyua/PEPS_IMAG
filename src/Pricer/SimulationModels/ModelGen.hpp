@@ -50,6 +50,18 @@ public:
     /**
      * Virtual methods
      */
+     /**
+      * ShiftAsset : permit to shift the asset number d in a path
+      *
+      * @param[out] path_shifted : the new path
+      * @param[in] path : the path to shift
+      * @param[in] d : index of asset to shift
+      * @param[in] h : the shift
+      * @param[in] t : the current date
+      * @param[in] timestep : the time step
+      */
+    virtual void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
+                            int d, double h, double t, double timestep);
     /**
      * SetAssets : Permit to set properly the list of asset
      *
@@ -65,7 +77,6 @@ public:
      * Virtual methods [Pur]
      */
     /**
-     * // TODO : Améliorer ce truc
      * GetParametersFromStats : permit to obtain parameter model easily
      *
      * @param[in] stats : the statistic measures
@@ -81,28 +92,27 @@ public:
      * @param[out] path : the result of the simulation
      * @param[in] past : the past values (the last is S(t) the spot at the date t)
      * @param[in] stepNb : the number of step of constatation
+     * @param[in] simulationSchedule : in the case of different step
      *
      */
-    virtual void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb) = 0;
+    virtual void Simulate(double t, double maturity, PnlMat *path, const PnlMat *past, int stepNb, PnlVect *simulationSchedule = NULL) = 0;
     /**
      * Simulate : permit to simulate at the date 0 a path for each asset
      */
-    virtual void Simulate(double maturity, PnlMat *path, int stepNb) = 0;
-
-
-    virtual void ShiftAsset(PnlMat *path_shifted, const PnlMat *path,
-                    int d, double h, double t, double timestep) = 0;
-
+    virtual void Simulate(double maturity, PnlMat *path, int stepNb, PnlVect *simulationScheduled = NULL) = 0;
 
 
     /**
      * SimulateMarket : permit to simulate a market
      *
+     * remarks : simulate assetNb+1 asset, the last is the domestic free risk asset
+     *
      * @param[in] maturity : the maturity for the simulation
      * @param[out] path : the result of the simulation
      * @param[in] stepNb : the number of step of constatation
+     * @param[in] domesticChange : the domestic ZC change
      */
-    virtual void SimulateMarket(double maturity, PnlMat *path, int stepNb) = 0;
+    virtual void SimulateMarket(double maturity, PnlMat *path, int stepNb, Change domesticChange) = 0;
 
     /**
      * Destructor

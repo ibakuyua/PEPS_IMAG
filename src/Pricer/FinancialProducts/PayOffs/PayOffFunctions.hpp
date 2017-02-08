@@ -25,7 +25,6 @@ double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,R
  * Pay off for the product multimonde21
  *
  * remarks : the pay off is a function of each asset in the domestic economy
- * remarks : the timeStep must be in term of days and maturity also
  *
  * CONVENTION :
  * -parameter is not used
@@ -34,7 +33,7 @@ double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,R
  * -path[][2] contain the index Xp500 in euro   - path[][3] contain the index Xhangseng in euro
  * -path[][4] contain the index Xnikkei in euro - path[][5] contain the index Xspasx200 in euro
  * -path[][6] contain the ZC XRgbp in euro      - path[][7] contain the ZC XRusd in euro
- * -path[][8] contain the ZC XRcny in euro      - path[][9] contain the ZC XRjpy in euro
+ * -path[][8] contain the ZC XRhkd in euro      - path[][9] contain the ZC XRjpy in euro
  * -path[][10] contain the ZC XRaud in euro
  */
 double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels);

@@ -21,7 +21,7 @@ int main(){
     for (int d = 0; d < 6; ++d) {
         rateModels[d] = new ConstantRateModel((Change)d,0.03/365);
     }
-    ModelGen *blackScholes = new BlackScholesModel(11,6,rateModels);
+    ModelGen *blackScholes = new BlackScholesModel(11, 6, rateModels);
     assert(blackScholes != NULL);
     ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
     StatsFactory *stats = new StatsFactory(parser->inputData);
@@ -35,7 +35,7 @@ int main(){
     blackScholes->Simulate(maturity,path,stepNb);
     pnl_mat_print(path);
     cout << "\n\n** Simulation market : \n\n";
-    blackScholes->SimulateMarket(maturity,path,stepNb);
+    blackScholes->SimulateMarket(maturity,path,stepNb,Change::EUR);
     pnl_mat_print(path);
     // Free
     cout << "\n\n** Delete : ";
