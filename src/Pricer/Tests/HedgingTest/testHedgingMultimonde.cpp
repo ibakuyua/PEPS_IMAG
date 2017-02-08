@@ -50,6 +50,7 @@ void computePnl(int hedgingNb){
     assert(pricer != NULL);
 
     //Import of stats
+    //ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",2010,01,01,120);
     ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
     assert(parser != NULL);
     StatsFactory *stats = new StatsFactory(parser->inputData);

@@ -2,7 +2,7 @@
 
 
 std::ostream& operator<<(std::ostream& os,Change c){
-   const char* txt[] = {"EUR", "GBP", "USD", "CNY", "JPY", "AUD"};
+   const char* txt[] = {"EUR", "GBP", "USD", "HKD", "JPY", "AUD"};
    return os << txt[(int)c];
 }
 
