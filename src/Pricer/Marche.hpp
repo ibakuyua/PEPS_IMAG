@@ -43,7 +43,7 @@ public:
      *
      * @param[in] type : type of cotations
      */
-    void ImportCotations(CotationTypes type);
+    void ImportCotations(CotationTypes type,int startYear = 0,int startMonth = 0,int startDay = 0, string path = "");
 
     /**
      * Permit to obtain the cotations for the date t
