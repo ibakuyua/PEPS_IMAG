@@ -12,3 +12,4 @@ faire les calibrages sur une fenêtre d'estimation
 	    montrer le pricing de multimonde en 0
 	    montrer le hedging de multimonde + graph PnL
 
+===> Pourquoi pas mettre une liste de produit dans la classe statique marché ? 

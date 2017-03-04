@@ -75,6 +75,21 @@ add_executable(test_HedgingCall.te src/Pricer/Tests/HedgingTest/testHedgingCall.
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_HedgingCall.te ${LIBS})
 
+#Unit tests
+#AssetCreation
+add_executable(test_unit_assetCreation.te src/Pricer/Tests/Unitaires/creationAsset.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp
+        ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+target_link_libraries(test_unit_assetCreation.te ${LIBS})
+
+#ListAssetCreation
+add_executable(test_unit_ListOfAssetCreation.te src/Pricer/Tests/Unitaires/creationListAsset.cpp src/Pricer/FinancialProducts/Asset/Asset.cpp src/Pricer/FinancialProducts/Asset/AssetList.cpp
+        ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+target_link_libraries(test_unit_ListOfAssetCreation.te ${LIBS})
+
+
+
 # Global executable
 add_executable(test_pricer_multimonde.te src/Pricer/Tests/PricerTest/testPricerMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
