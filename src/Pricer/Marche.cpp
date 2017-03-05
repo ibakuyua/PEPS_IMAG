@@ -49,7 +49,7 @@ void Marche::ImportCotations(CotationTypes type,int startYear,int startMonth,int
             ParseCSV *parser = new ParseCSV(path,startYear,startMonth,startDay,this->dateNb + 1);
             //fill(&cours,parser->inputData);
             for(int j = 0; j < cours->n -1; j++){
-                MLET(cours,0,j) = MGET(parser->inputData,0,j);
+                MLET(cours,0,j) = MGET(parser->outputData,0,j);
             }
             PNL_MSET(cours,0,cours->n-1, exp(product->pricer->simuModel->rateModels[Change::EUR]->GetIntegralRate(0.,ti_minus1+step)));
 
@@ -57,7 +57,7 @@ void Marche::ImportCotations(CotationTypes type,int startYear,int startMonth,int
             for(int i = 1; i < cours->m; i++){
                 ti_minus1 = (i-1) * step;
                 for(int j = 0; j < cours->n - 1; j++){
-                    MLET(cours,i,j) = MGET(parser->inputData,i,j);
+                    MLET(cours,i,j) = MGET(parser->outputData,i,j);
                 }
                 PNL_MSET(cours,i,cours->n-1,exp(product->pricer->simuModel->rateModels[Change::EUR]->GetIntegralRate(0.,ti_minus1+step)));
             }

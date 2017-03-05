@@ -52,7 +52,7 @@ void computePnl(int hedgingNb){
     string path = "../data/dataPEPS.csv";
     //Import of stats
     ParseCSV *parser = new ParseCSV(path,2012,10,07,120);
-    //ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
+    //ParseCSV *parser = new ParseCSV(path);
     assert(parser != NULL);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     assert(stats != NULL);
@@ -68,7 +68,7 @@ void computePnl(int hedgingNb){
 
     multimonde->Print();
 
-/*
+
  // Forward test
     marche->ImportCotations(CotationTypes::Simulated);
     cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
@@ -76,21 +76,23 @@ void computePnl(int hedgingNb){
     cout << "Market : \n\n";
     pnl_mat_print(marche->cours);
 
-*/
 
 
+/*
     //Backward test
     marche->ImportCotations(CotationTypes::Historical,2017,12,01,path);
     cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
     pnl_mat_print(marche->cours);
+*/
 
 
 
 
 
     double prixC, prixP, ic;
+    double PnL = 0.;
     PnlVect *spotV = pnl_vect_new();
     // At t = 0
     multimonde->UpdatePortfolio(0.);
@@ -101,7 +103,9 @@ void computePnl(int hedgingNb){
         cout << ";" << GET(multimonde->composition,i);*/
     cout << "\nPrice at t = 0 : " << prixC << " in [ " << prixC - ic/2.
          << " ; " << prixC + ic/2. << " ] ** width : " << ic;
+    PnL = prixP - prixC;
     cout << "\nPortfolio price at t = 0 : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+    cout << "\nPnL cumulated [ " << PnL << " ] \n";
     // Compute pnl at each date :
     double hedgingStep = maturity / (double)hedgingNb;
     for (double t = hedgingStep; t < maturity; t += hedgingStep) {
@@ -114,14 +118,18 @@ void computePnl(int hedgingNb){
             cout << ";" << GET(multimonde->composition,i);*/
         cout << "\nPrice at t = " << t << " : " << prixC << " in [ " << prixC - ic/2.
              << " ; " << prixC + ic/2. << " ] ** width : " << ic;
+        PnL += prixP - prixC;
         cout << "\nPortfolio price at t = " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+        cout << "\nPnL cumulated [ " << PnL << " ] \n";
     }
 
     // Final :
     multimonde->PriceProduct(maturity,prixC,ic);
     multimonde->PricePortfolio(maturity,prixP);
     cout << "\n\nPay Off at maturity : " << prixC;
-    cout << "\nPortfolio price at maturity : " << prixP << " ---> PnL : [ " << prixP - prixC << " ]";
+    PnL += prixP - prixC;
+    cout << "\nPortfolio price at maturity : " << prixP << " PnL : [ " << prixP - prixC  << " ]";
+    cout << "\n\n ------> PnL cumulated at maturity [ " << PnL << " ] \n";
 
     cout << "\n\n** Delete : ";
     pnl_vect_free(&spotV);

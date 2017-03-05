@@ -10,7 +10,7 @@
 
 using namespace std;
 
-/////// TEST HEDGING BY SIMULATION CALL ////////
+/////// TEST HEDGING CALL BY SIMULATION ////////
 int main(){
     double spot = 100.;
     double vol = 0.07;
@@ -47,6 +47,7 @@ int main(){
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
 
     double prixC, prixCFF, prixP, ic;
+    double PnL = 0;
     PnlVect *spotV = pnl_vect_new();
     // At t = 0
     call->UpdatePortfolio(0.);
@@ -57,6 +58,8 @@ int main(){
     cout << "\nPrice at 0 : " << prixC << " in [ " << prixC - ic/2.
          << " ; " << prixC + ic/2. << " ] ** Real = " << prixCFF;
     cout << "\nPortfolio price at 0 : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+    PnL = prixP - prixC;
+    cout << "PnL cumlulated : [ " << PnL << " ]\n";
     // TODO : est-ce problème car on fait deux fois price product : une fois pour PriceProduct une fois pour Update d'où un pnl != 0 à 0
     // Compute pnl at each date :
     for (double t = 1.; t < maturity; ++t) {
@@ -69,13 +72,17 @@ int main(){
         cout << "\nPrice at " << t << " : " << prixC << " in [ " << prixC - ic/2.
              << " ; " << prixC + ic/2. << " ] ** Real = " << prixCFF;
         cout << "\nPortfolio price at " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
+        PnL += prixP - prixC;
+        cout << "PnL cumlulated : [ " << PnL << " ]\n";
     }
 
     // Final :
     call->PriceProduct(maturity,prixC,ic);
     call->PricePortfolio(maturity,prixP);
     cout << "\n\nPay Off at maturity : " << prixC;
-    cout << "\nPortfolio price at maturity : " << prixP << " ---> PnL : [ " << prixP - prixC << " ]";
+    cout << "\nPortfolio price at maturity : " << prixP << " PnL : [ " << prixP - prixC << " ]";
+    PnL += prixP - prixC;
+    cout << "\n\n ----> PnL cumlulated : [ " << PnL << " ]\n";
 
     cout << "\n\n** Delete : ";
     pnl_vect_free(&spotV);
