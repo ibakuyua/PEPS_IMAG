@@ -27,7 +27,7 @@ int main(){
 
 
     //StatsFactory* statsFactory1 = new StatsFactory(quotes);
-    StatsFactory* statsFactory2 = new StatsFactory(parser->inputData);
+    StatsFactory* statsFactory2 = new StatsFactory(parser->outputData);
 /*
     std::cout << "Matrice of quotes : " << std::endl;
     pnl_mat_print(statsFactory1->quotes_);

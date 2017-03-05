@@ -36,7 +36,7 @@ int main(){
     PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
     ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
-    StatsFactory *stats = new StatsFactory(parser->inputData);
+    StatsFactory *stats = new StatsFactory(parser->outputData);
     Multimonde *multimonde = new Multimonde(pricer,hedgingNb,stats);
     assert(multimonde != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";

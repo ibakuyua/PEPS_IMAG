@@ -33,13 +33,9 @@ public:
 
 private:
     void ComputeLogReturnsFromQuotes();
-
     void ComputeMeanFromLogReturns();
-
     void ComputeCovarFromLogReturns();
-
     void ComputeVolFromCovar();
-
     void ComputeCorrelFromCovar();
 
 };

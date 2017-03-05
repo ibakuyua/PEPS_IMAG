@@ -9,12 +9,12 @@ int main(){
 
     ParseCSV *parser = new ParseCSV(path);
 
-    std::cout << "Nombre de lignes : " << parser->inputData->m << std::endl;
+    std::cout << "Nombre de lignes : " << parser->outputData->m << std::endl;
 
-    std::cout << "Nombre de colonnes : " << parser->inputData->n << std::endl;
+    std::cout << "Nombre de colonnes : " << parser->outputData->n << std::endl;
 
 
-    pnl_mat_print(parser->inputData);
+    pnl_mat_print(parser->outputData);
 
 
     return 0;

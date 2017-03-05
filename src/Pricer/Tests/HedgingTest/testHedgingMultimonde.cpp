@@ -53,7 +53,7 @@ void computePnl(int hedgingNb){
     //ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",2010,01,01,120);
     ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
     assert(parser != NULL);
-    StatsFactory *stats = new StatsFactory(parser->inputData);
+    StatsFactory *stats = new StatsFactory(parser->outputData);
     assert(stats != NULL);
 
     //Initialisation of Multimonde Product

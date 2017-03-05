@@ -13,7 +13,7 @@
  */
 class ProductGen {
 public:
-    /*
+    /**
      * Members
      */
     string nom; /// Name of the product
@@ -21,7 +21,7 @@ public:
     AssetList *assets; /// List of underlying assets
     int hedgingDateNb; /// Number of hedging dates (must be > nbTimeStep date)
 
-    /*
+    /**
      * PayOff
      */
     PayOffFunction payOff; /// A payOff function
