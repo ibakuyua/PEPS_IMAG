@@ -49,9 +49,10 @@ void computePnl(int hedgingNb){
     PricerGen *pricer = new MonteCarloPricer(maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
 
+    string path = "../data/dataPEPS.csv";
     //Import of stats
-    //ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",2010,01,01,120);
-    ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
+    ParseCSV *parser = new ParseCSV(path,2012,10,07,120);
+    //ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
     assert(parser != NULL);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     assert(stats != NULL);
@@ -67,11 +68,27 @@ void computePnl(int hedgingNb){
 
     multimonde->Print();
 
+/*
+ // Forward test
     marche->ImportCotations(CotationTypes::Simulated);
     cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
-    //pnl_mat_print(marche->cours);
+    pnl_mat_print(marche->cours);
+
+*/
+
+
+    //Backward test
+    marche->ImportCotations(CotationTypes::Historical,2017,12,01,path);
+    cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
+    cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
+    cout << "Market : \n\n";
+    pnl_mat_print(marche->cours);
+
+
+
+
 
     double prixC, prixP, ic;
     PnlVect *spotV = pnl_vect_new();

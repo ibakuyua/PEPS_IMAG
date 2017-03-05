@@ -23,7 +23,7 @@ int main(){
     }
     ModelGen *blackScholes = new BlackScholesModel(11, 6, rateModels);
     assert(blackScholes != NULL);
-    ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv");
+    ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",2015,07,01,150);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     AssetList *assetList = Multimonde::GetAssetListFromStat(stats,blackScholes);
     blackScholes->SetAssets(assetList);
