@@ -35,5 +35,12 @@ namespace MvcApplication1.Controllers
 
             return View();
         }
+
+        public ActionResult Backtest()
+        {
+            ViewBag.Message = "Backtesting";
+
+            return View();
+        }
     }
 }

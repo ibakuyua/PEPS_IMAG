@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Backtest";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+
+<form method="post">
+    <fieldset>
+        <legend>Entrez les paramètres pour le backtest</legend>
+        <div>
+            <label>
+                Entrez les paramètres pour le backtest pour un Multimonde d'échéance 2017
+            </label>
+        </div>
+        <div>
+            <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+            <input type="number" name="nbSamples" value="" />
+        </div>
+        <div>
+            <label for="nbRebalancements">Nombre de rebalancements:</label>
+            <input type="number" name="nbRebalancements" value="" />
+        </div>
+        <div>
+        <label>&nbsp;</label>
+        <input type="submit" value="Lancer le backtest" class="submit" />
+        </div>
+    </fieldset>
+</form>
