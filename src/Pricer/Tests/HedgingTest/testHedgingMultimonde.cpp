@@ -68,27 +68,24 @@ void computePnl(int hedgingNb){
 
     multimonde->Print();
 
-
+/*
  // Forward test
     marche->ImportCotations(CotationTypes::Simulated);
     cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
     pnl_mat_print(marche->cours);
+    */
 
 
 
-/*
+
     //Backward test
-    marche->ImportCotations(CotationTypes::Historical,2017,12,01,path);
-    cout << " \n\nSimulated market : " << marche->cours->m << " quotes : ";
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,12,01,path);
+    cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
     pnl_mat_print(marche->cours);
-*/
-
-
-
 
 
     double prixC, prixP, ic;

@@ -30,43 +30,17 @@ void fill(PnlMat **cours , PnlMat *data){
 }
 
 void Marche::ImportCotations(CotationTypes type,int startYear,int startMonth,int startDay, string path) {
-    // TODO faire les autres
     this->type = type;
     switch (type)
     {
         case CotationTypes::Simulated :
             product->pricer->simuModel->SimulateMarket(product->pricer->maturity, cours, this->dateNb, domesticChange);
             break;
-        case CotationTypes::Historical :
-        std::cout << int(product->pricer->maturity);
-            //TODO NOW
-            int maturity = product->pricer->maturity;
-            int ti_minus1;
-        std::cout << "Maturity : " << maturity << std::endl;
-            double step = maturity/(double)(product->hedgingDateNb+1);
-
-            pnl_mat_resize(cours,this->dateNb + 1,product->assets->size + 1);
-            ParseCSV *parser = new ParseCSV(path,startYear,startMonth,startDay,this->dateNb + 1);
-            //fill(&cours,parser->inputData);
-            for(int j = 0; j < cours->n -1; j++){
-                MLET(cours,0,j) = MGET(parser->outputData,0,j);
-            }
-            PNL_MSET(cours,0,cours->n-1, exp(product->pricer->simuModel->rateModels[Change::EUR]->GetIntegralRate(0.,ti_minus1+step)));
-
-
-            for(int i = 1; i < cours->m; i++){
-                ti_minus1 = (i-1) * step;
-                for(int j = 0; j < cours->n - 1; j++){
-                    MLET(cours,i,j) = MGET(parser->outputData,i,j);
-                }
-                PNL_MSET(cours,i,cours->n-1,exp(product->pricer->simuModel->rateModels[Change::EUR]->GetIntegralRate(0.,ti_minus1+step)));
-            }
-
-            delete(parser);
+        case CotationTypes::HistoricalMultimonde :
+            ImportHistoricalCotationsForMultimonde(startYear, startMonth, startDay, path);
             break;
-        //default:
-
-
+        default:
+            break;
     }
 }
 
@@ -121,4 +95,44 @@ Marche::Marche(ProductGen *product, Change domesticChange, int dateNb)
 
 Marche::~Marche() {
     pnl_mat_free(&cours);
+}
+
+void Marche::ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path) {
+    // Resize
+    pnl_mat_resize(cours,this->dateNb + 1,product->assets->size + 1);
+    // Step initialization
+    double maturity = product->pricer->maturity;
+    double step = maturity/(double)this->dateNb;
+    double ti;
+    // Define the association between change and index of the CSV
+
+
+    // Parse the CSV
+    ParseCSV *parser = new ParseCSV(path,startYear,startMonth,startDay,this->dateNb + 1);
+    // Fill the datas
+    // For each time (/!\ be carreful of the order in the CSV file) //
+    for (int i = 0; i < cours->m; ++i) {
+        ti = (cours->m - 1 - i) * step;
+        // For eurostock
+        MLET(cours,cours->m - 1 - i,0) = MGET(parser->outputData,i,0);
+        // For each foreign index : X * I
+        for (int d = 1; d < 6; ++d)
+            MLET(cours,cours->m - 1 - i,d) =
+                    MGET(parser->outputData,i,d+5) * MGET(parser->outputData,i,d);
+        // For each free risk asset : X * R
+        for (int d = 6; d < 11; ++d) {
+            MLET(cours,cours->m - 1 - i,d) = MGET(parser->outputData,i,d)
+                              * exp(product->pricer->simuModel->
+                    rateModels[product->assets->assets[d]->isChange.second]->GetIntegralRate(0,ti)
+                                   );
+        }
+        // For domestic free risk
+        MLET(cours,cours->m - 1 - i,11) =
+                exp(product->pricer->simuModel->rateModels[EUR]->GetIntegralRate(0,ti));
+    }
+    // Change the spot value for the multimonde21
+    for (int d = 0; d < 11; ++d)
+        product->assets->assets[d]->spot = MGET(cours,0,d);
+
+    delete(parser);
 }

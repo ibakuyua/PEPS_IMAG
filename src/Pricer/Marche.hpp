@@ -10,7 +10,7 @@
  */
 typedef enum {
     Real = 0,
-    Historical = 1,
+    HistoricalMultimonde = 1,
     Simulated = 2
 }CotationTypes;
 
@@ -42,6 +42,10 @@ public:
      * remarks : Add at the last column the 'asset' domestic ZC
      *
      * @param[in] type : type of cotations
+     * @param[in] startYear : start year for the historical cotations
+     * @param[in] startMonth : start month for the historical cotations
+     * @param[in] startDay : start day for the historical cotations
+     * @param[in] path : the data path for the historical cotations
      */
     void ImportCotations(CotationTypes type,int startYear = 0,int startMonth = 0,int startDay = 0, string path = "");
 
@@ -79,6 +83,12 @@ private:
      */
     Marche(ProductGen *product, Change domesticChange, int dateNb);
     ~Marche();
+
+    /**
+     * Permit to get the historical cotations for multimonde21
+     */
+    void ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path);
+
 };
 
 
