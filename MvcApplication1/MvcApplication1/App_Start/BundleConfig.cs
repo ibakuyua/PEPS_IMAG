@@ -8,6 +8,12 @@ namespace MvcApplication1
         // Pour plus d'informations sur Bundling, accédez à l'adresse http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                      "~/Scripts/jquery-2.1.4.min.js",
+                      "~/Scripts/highstock.js",
+                      "~/Scripts/site.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
