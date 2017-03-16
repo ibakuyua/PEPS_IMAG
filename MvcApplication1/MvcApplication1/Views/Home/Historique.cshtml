@@ -1,32 +1,32 @@
 ﻿@{
     ViewBag.Title = "Historique";
 }
-
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../Content/Site.css" type="text/css">
     <script src="~/Scripts/jquery-2.1.4.js"></script>
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="/Scripts/site.js"></script>
     <title>HighStock example</title>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             chartInitialize("stockChart", '@Url.Action("GetSerie", "Home", new { name = "Test"} ) ');
         });
     </script>
 </head>
-
+<body>
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     <h2>@ViewBag.Message</h2>
 </hgroup>
 
 <p>Générer les graphes</p>
+
 
 <label>
     <input type="checkbox" id="SP500" value="choixSousJacent" />S&P500(USD)
@@ -54,5 +54,6 @@
 </label>
 
 <div id="stockChart" style="height: 550px"></div>
+</body>
 
-
+</html>
