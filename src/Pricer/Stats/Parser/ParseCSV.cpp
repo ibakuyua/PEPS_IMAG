@@ -78,7 +78,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
 
         while(b){
             getline(FILE,line);
-            if (line.c_str()!="")
+            if (line.c_str()=="")
                 continue;
             tmpStartDayString = line.substr(0,2);
             tmpStartDay = atoi(tmpStartDayString.c_str());
