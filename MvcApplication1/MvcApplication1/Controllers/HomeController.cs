@@ -55,26 +55,30 @@ namespace MvcApplication1.Controllers
         /// </remarks>
         public ActionResult GetSerie()
         {
-
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
-            var initial = new DateTime(2010, 10, 1);
-            string contenu = "";
-            int ligne;
-            string separator = "";
-            for (ligne = 1; ligne < allLines.Length; ligne++ )
-            {
-                string[] data = allLines[ligne].Split(',');
-                string[] date = data[0].Split('/');
-                var dateFormate = new DateTime(Int32.Parse(date[2]),Int32.Parse(date[1]),Int32.Parse(date[0]));
-                contenu = contenu + separator + "[" + (dateFormate - initial).TotalMilliseconds.ToString() + "," + data[1] + "]";
-                separator = ",";
-            }
-            var result = "[" + contenu + "]";
-            result = "[[0,8],[1,7]]";
+            //System.IO.File.WriteAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\json.txt", CSVtoJSON());
+            string result = "[" + String.Join(",",CSVtoJSON() ) + "]";
+            //System.IO.File.WriteAllText(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\json.txt", result);
             return Content(result, "application/json");
         }
 
         #region Private methods
+
+        string[] CSVtoJSON()
+        {
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
+            var initial = new DateTime(1970, 1, 1);
+            List<string> listData = new List<string>();
+            int ligne;
+            for (ligne = 1; ligne < allLines.Length; ligne++)
+            {
+                string[] data = allLines[ligne].Split(',');
+                string[] date = data[0].Split('/');
+                var dateFormate = new DateTime(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0]));
+                listData.Add( "[" + (dateFormate - initial).TotalMilliseconds.ToString() + "," + data[1] + "]");
+            }
+
+            return listData.ToArray();
+        }
 
 
         #endregion
