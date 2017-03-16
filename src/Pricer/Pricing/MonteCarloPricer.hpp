@@ -5,6 +5,7 @@
 
 #define NB_SAMPLE_DEFAULT 40000
 #define NB_TIME_STEP_DEFAULT 100
+#define DISCRETISATION_STEP 0.1
 
 /**
  * MonteCarloPricer
@@ -57,7 +58,7 @@ private:
      */
     PnlMat *path; /**< path for simulation : allocated just one time */
     PnlMat *pathShifted; /*! pathShifted for delta simulation : initialized one times only*/
-    double h = 0.000001; /**< h : step for derivation*/
+    double h = DISCRETISATION_STEP; /**< h : step for derivation*/
 };
 
 

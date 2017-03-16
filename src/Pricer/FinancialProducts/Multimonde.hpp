@@ -15,7 +15,7 @@ public:
     /**
      * Members
      */
-    static constexpr double maturity = NB_DAYSWRK_TO_MATURITY; /// The maturity of the product in working days
+    static double maturity;
 
     /**
      * Constructor : all the underlying asset are in the domestic economy

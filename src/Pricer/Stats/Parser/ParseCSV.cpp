@@ -1,12 +1,8 @@
-//
-// Created by ruimyb on 1/17/17.
-//
-
 #include "ParseCSV.h"
 
 
 ParseCSV::ParseCSV(string path) {
-    inputData = pnl_mat_new();
+    outputData = pnl_mat_new();
     char delimiter = ',';
 
     ifstream FILE(path,ios::in);
@@ -24,7 +20,7 @@ ParseCSV::ParseCSV(string path) {
         while(getline(FILE,line))
             m++;
 
-        pnl_mat_resize(inputData,m,n);
+        pnl_mat_resize(outputData,m,n);
 
         FILE.clear();
         FILE.seekg(FILE.beg);
@@ -35,7 +31,7 @@ ParseCSV::ParseCSV(string path) {
             while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
                 FILE >> tmpDouble;
-                MLET(inputData,i,j) = tmpDouble;
+                MLET(outputData,i,j) = tmpDouble;
                 FILE >> tmpChar;
             }
         }
@@ -51,7 +47,7 @@ ParseCSV::ParseCSV(string path) {
 ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int numberToParse){
 
     //Creation of the pnl_mat
-    inputData = pnl_mat_new();
+    outputData = pnl_mat_new();
     //Delimiter used to parse
     char delimiter = ',';
     //Declaration + Openning of the FILE
@@ -70,7 +66,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
             }
             curChar = FILE.get();
         }
-        pnl_mat_resize(inputData,m,n);
+        pnl_mat_resize(outputData,m,n);
 
         bool b = true;
         int tmpStartDay = 0;
@@ -114,23 +110,25 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         stringstream ss;
         stringstream sss;
         ss << line;
-        getline(ss,tmpString,',');
+        getline(ss,tmpString,delimiter);
         for(int j = 0; j < n; j++){
 
-            getline(ss,tmpString,',');
+            getline(ss,tmpString,delimiter);
             sss << tmpString;
             sss >> tmpDouble;
             sss.str("");
             sss.clear();
-            MLET(inputData,0,j) = tmpDouble;
+            MLET(outputData,0,j) = tmpDouble;
 
         }
 
         for(int i = 1; i < numberToParse; i++){
+            std::cout << "Itération : " << i << std::endl;
+           // std::cout << MGET(inputData,i-1,1)
             while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
                 FILE >> tmpDouble;
-                MLET(inputData,i,j) = tmpDouble;
+                MLET(outputData,i,j) = tmpDouble;
                 FILE >> tmpChar;
             }
         }
@@ -145,6 +143,6 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
 }
 
 ParseCSV::~ParseCSV() {
-    pnl_mat_free(&inputData);
+    pnl_mat_free(&outputData);
 }
 

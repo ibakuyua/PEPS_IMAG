@@ -357,7 +357,7 @@ void BlackScholesModel::SimulateMarket(double maturity, PnlMat *path, int stepNb
             PNL_MSET(path,i,d,Sd_ti);
         }
         // For the domestic free risk asset
-        PNL_MSET(path,i,path->n-1,exp(rateModels[Change::EUR]->GetIntegralRate(0.,ti_minus1+step)));
+        PNL_MSET(path,i,path->n-1,exp(rateModels[domesticChange]->GetIntegralRate(0.,ti_minus1+step)));
     }
 }
 

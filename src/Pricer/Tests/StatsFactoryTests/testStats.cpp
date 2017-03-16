@@ -9,7 +9,7 @@ int main(){
 
     cout << "\n\n###### TEST OF THE STAT FACTORY ######\n\n";
     PnlMat* quotes = pnl_mat_create_from_zero(4,3);
-    ParseCSV*  parser = new ParseCSV("../data/dataPEPS.csv");
+    ParseCSV*  parser = new ParseCSV("../data/dataPEPS.csv",2015,01,07,12);
     
     std::cout << "Test avec les données en dur :" << std::endl;
     MLET(quotes,0,0) = 2.0;
@@ -27,7 +27,7 @@ int main(){
 
 
     //StatsFactory* statsFactory1 = new StatsFactory(quotes);
-    StatsFactory* statsFactory2 = new StatsFactory(parser->inputData);
+    StatsFactory* statsFactory2 = new StatsFactory(parser->outputData);
 /*
     std::cout << "Matrice of quotes : " << std::endl;
     pnl_mat_print(statsFactory1->quotes_);
