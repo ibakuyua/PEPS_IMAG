@@ -15,17 +15,36 @@
 Pour pricer le produit, vous devez d'abord préciser la date du début du pricing puis appuyer sur le bouton Pricer.
 </p>
 
-    <form>
-        <label>Veuillez donner la date de début de pricing</label>
-        <input type="date" name="PricingDate" max="2021-01-01"><br>
-    </form>
 
 <div class="price">
-    <button id="boutonPrice" type="button">Pricer</button> 
-    <div class="affiche" style="visibility: hidden">86.56</div>
+    @using (Html.BeginForm()) {
+        <form>Veuillez donner la date de début de pricing</form>
+        @Html.Label("Date")
+        @Html.TextBox("Date")
+        <br />
+        @Html.Label("Prix")
+        object prixMultimonde;
+        if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
+        {
+            <form>@prixMultimonde.ToString()</form>
+        }
+        else
+        {
+            <form>0.00</form>
+        }
+        
+        
+        @Html.ActionLink("Calcul", "Index", new { id = 1 })
+        //<input type="submit" value="calculer" />
+        
+        @*<input type="date" name="PricingDate" max="2021-01-01"><br>*@
+
+        @*<button id="boutonPrice" type="button" value="button">Pricer</button>
+        <label id="labelPrice" class="affiche" style="visibility: hidden" >86.56</label>*@
+    }
 </div>
 <script type="text/javascript" charset="utf-8">
-    function price() {
+    /*function price() {
         $(document).find("div.price").children()[1].style.visibility = "visible"
     }
 
@@ -33,5 +52,5 @@ Pour pricer le produit, vous devez d'abord préciser la date du début du pricin
         document.getElementById("boutonPrice").addEventListener("click", price, false);
     }
 
-    window.addEventListener("load", initialize, false);
+    window.addEventListener("load", initialize, false);*/
 </script>
