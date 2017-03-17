@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Change";
+}
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="~/Scripts/jquery-2.1.4.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="/Scripts/site.js"></script>
+    <title>HighStock example</title>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            chartInitialize("GBPEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "GBPEUR" }) ');
+        });
+
+        function MAJChart() {
+
+            var nom = $('input[name=change]:checked').val();
+
+            if (nom == "GBPEUR") {
+                chartUpdate("GBPEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "GBPEUR" }) ');
+            }
+
+            if (nom == "USDEUR") {
+                chartUpdate("USDEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "USDEUR" }) ');
+            }
+
+            if (nom == "HKDEUR") {
+                chartUpdate("HKDEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "HKDEUR" }) ');
+            }
+
+            if (nom == "JPYEUR") {
+                chartUpdate("JPYEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "JPYEUR" }) ');
+            }
+
+            if (nom == "AUDEUR") {
+                chartUpdate("AUDEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "AUDEUR" }) ');
+            }
+
+        };
+    </script>
+</head>
+<body>
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>@ViewBag.Message</h2>
+    </hgroup>
+    <div>
+        <form>
+            <input type="radio" name="change" value="GBPEUR" checked> GBP/EUR
+            <input type="radio" name="change" value="USDEUR"> USD/EUR
+            <input type="radio" name="change" value="HKDEUR"> HKD/EUR
+            <input type="radio" name="change" value="JPYEUR"> JPY/EUR
+            <input type="radio" name="change" value="AUDEUR"> AUD/EUR
+        </form>
+    </div>
+    <button onclick="MAJChart()">Mettre à jour</button>
+    <div id="changeChart" style="height: 550px"></div>
+
+
+</body>
+
+</html>

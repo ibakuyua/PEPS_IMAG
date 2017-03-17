@@ -14,9 +14,43 @@
     <title>HighStock example</title>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            chartInitialize("stockChart", '@Url.Action("GetSerie", "Home", new { name = "Test"} ) ');
-        });
+    $(document).ready(function () {
+        chartInitialize("SP500", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "SP500" }) ');
+    });
+
+        function MAJChart() {
+
+            var nom = $('input[name=cours]:checked').val();
+
+       if (nom == "SP500") {
+           chartUpdate("SP500", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "SP500" }) ');
+        }
+
+        if (nom == "EuroStoxx500") {
+            chartUpdate("EuroStoxx500", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "EuroStoxx500" }) ');
+        }
+
+        if (nom == "FTSE100") {
+            chartUpdate("FTSE100", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "FTSE100" }) ');
+        }
+
+        if (nom == "HangSeng") {
+            chartUpdate("HangSeng", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "HangSeng" }) ');
+        }
+
+        if (nom == "Nikkei225") {
+            chartUpdate("Nikkei225", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "Nikkei225" }) ');
+        }
+
+        if (nom == "EuroStoxx500") {
+            chartUpdate("EuroStoxx500", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "EuroStoxx500" }) ');
+        }
+
+            if (nom == "SPASX200") {
+                chartUpdate("SPASX200", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "SPASX200" }) ');
+            }
+
+    };
     </script>
 </head>
 <body>
@@ -24,36 +58,20 @@
     <h1>@ViewBag.Title.</h1>
     <h2>@ViewBag.Message</h2>
 </hgroup>
-
-<p>Générer les graphes</p>
-
-
-<label>
-    <input type="checkbox" id="SP500" value="choixSousJacent" />S&P500(USD)
-    <br />
-    <input type="checkbox" id="EuroStoxx500" value="choixSousJacent" />Eur Stoxx 50(EUR)
-    <br />
-    <input type="checkbox" id="Nikkei225" value="choixSousJacent" />Nikkei 225(JPY)
-    <br />
-    <input type="checkbox" id="HangSeng" value="choixSousJacent" />Hang Seng(HKD)
-    <br />
-    <input type="checkbox" id="FTSE100" value="choixSousJacent" />FTSE 100(GBP)
-    <br />
-    <input type="checkbox" id="SPASX200" value="choixSousJacent" />SP ASX 200(AUD)
-    <br />
-    <input type="checkbox" id="USDEUR" value="choixSousJacent" />USD->EUR
-    <br />
-    <input type="checkbox" id="GBPEUR" value="choixSousJacent" />GBP -> EUR
-    <br />
-    <input type="checkbox" id="JPYEUR" value="choixSousJacent" />JPY -> EUR
-    <br />
-    <input type="checkbox" id="CNYEUR" value="choixSousJacent" />HKD -> EUR
-    <br />
-    <input type="checkbox" id="AUDEUR" value="choixSousJacent" />AUD -> EUR
-
-</label>
-
+    <div>
+        <form>
+            <input type="radio" name="cours" value="HangSeng"> HangSeng
+            <input type="radio" name="cours" value="Nikkei225"> Nikkei225
+            <input type="radio" name="cours" value="SPASX200"> SPASX200
+            <input type="radio" name="cours" value="EuroStoxx500"> EuroStoxx500
+            <input type="radio" name="cours" value="FTSE100"> FTSE100
+            <input type="radio" name="cours" value="SP500" checked> S&P500                
+        </form>
+    </div>
+    <button onclick="MAJChart()">Mettre à jour</button>
 <div id="stockChart" style="height: 550px"></div>
+   
+
 </body>
 
 </html>
