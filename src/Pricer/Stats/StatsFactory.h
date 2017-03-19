@@ -29,6 +29,8 @@ public:
      * @param[in] quotes : the quotes of the underlying assets
      */
     StatsFactory(PnlMat *quotes);
+
+    void UpdateStatsFactory();
     ~StatsFactory();
 
 private:
