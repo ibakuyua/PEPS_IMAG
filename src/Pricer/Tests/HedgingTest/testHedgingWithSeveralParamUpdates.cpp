@@ -102,14 +102,6 @@ void computePnl(int hedgingNb){
     for (double t = hedgingStep; t < maturity; t += hedgingStep) {
 
 
-        //Update of parameters
-        for (int i = 0; i < 11; ++i) {
-            delete multimonde->assets->assets[i];
-        }
-        delete multimonde->assets;
-
-        delete parser;
-        delete stats;
         /*
          *
          * Trouver un moyen facile d'ajouter des jours afin de pouvoir parser corectement
@@ -117,15 +109,15 @@ void computePnl(int hedgingNb){
          */
 
 
-        //Import of stats
-        ParseCSV *parser = new ParseCSV(path,2012,10,07,120);
+        //update of stats
+        parser->Update(path,2012,10,07,120);
         //ParseCSV *parser = new ParseCSV(path);
         assert(parser != NULL);
-        StatsFactory *stats = new StatsFactory(parser->outputData);
+        stats->UpdateStatsFactory();
         assert(stats != NULL);
 
-        multimonde->assets = Multimonde::GetAssetListFromStat(stats, pricer->simuModel);
-        multimonde->pricer->simuModel->SetAssets(multimonde->assets);
+        multimonde->UpdateAssetListFromStat(stats, pricer->simuModel);
+        //multimonde->pricer->simuModel->SetAssets(multimonde->assets);
 
 
 
