@@ -99,3 +99,110 @@ AssetList *Multimonde::GetAssetListFromStat(StatsFactory *stats, ModelGen *simuM
     return new AssetList(11,myAssets,correlationMatrixEur,true);
 }
 
+
+void Multimonde::UpdateAssetListFromStat(StatsFactory *stats, ModelGen *simuModel) {
+    // Creation of the BlackScholes parameters in global economy
+    // thanks to statistics in asset in their economy
+    PnlVect *trend;
+    PnlMat *volMatrix;
+    simuModel->GetParametersFromStats(stats,&trend,&volMatrix);
+
+    // Creation of the BlackScoles parameters in euro economy
+    PnlVect *trendEur = pnl_vect_copy(trend);
+    PnlVect *sigma_i = pnl_vect_create(11);
+    PnlVect *sigma_X_i = pnl_vect_create(11);
+    // Compute trend and vol matrix in euro
+    LET(trendEur,0) = GET(trend,0);
+    PnlMat *volMatrixEur = pnl_mat_copy(volMatrix);
+    for (int i = 1; i < 6; ++i) {
+        pnl_mat_get_col(sigma_i,volMatrix,i); // Get sigma_i
+        pnl_mat_get_col(sigma_X_i,volMatrix,i+5); // Get sigma_X_i
+        // Xmu_i = mu_i + mu_X_i + sigma_i.sigma_X_i
+        LET(trendEur,i) = GET(trend,i) + GET(trend,i+5)
+                          + pnl_vect_scalar_prod(sigma_i,sigma_X_i);
+        // Xsigma_i = sigma_i + sigma_X_i
+        PnlVect *xsigma_i = pnl_vect_copy(sigma_i);
+        pnl_vect_plus_vect(xsigma_i,sigma_X_i);
+        pnl_mat_set_col(volMatrixEur,xsigma_i,i);
+    }
+    // compute volatility = sqrt(sigma_i^2)
+    PnlVect *volEur = pnl_vect_create(11);
+    for (int i = 0; i < 11; ++i) {
+        pnl_mat_get_col(sigma_i,volMatrixEur,i);
+        LET(volEur,i) = sqrt(pnl_vect_scalar_prod(sigma_i,sigma_i));
+    }
+    // Compute correlation matrix
+    PnlMat *volMatrixEurT = pnl_mat_transpose(volMatrixEur);
+    PnlMat *covMatrixEur = pnl_mat_mult_mat(volMatrixEur,volMatrixEurT);
+    PnlMat *correlationMatrixEur = pnl_mat_create_from_scalar(11,11,1.);
+    for (int i = 0; i < 11; ++i) {
+        for (int j = 0; j < i; ++j) { // rho_ij = ( sigma.sigmaT_ij ) / ( sigma_i * sigma_j )
+            double rho_ij = MGET(covMatrixEur,i,j) / ( GET(volEur,i) * GET(volEur,j) );
+            MLET(correlationMatrixEur,i,j) = rho_ij;
+            MLET(correlationMatrixEur,j,i) = rho_ij;
+        }
+    }
+    // Creation of the assets
+    Asset **myAssets = (Asset**) malloc(11 * sizeof(Asset*));
+
+
+    //EUR50 Update
+    assets->assets[0]->trend = GET(trendEur,0);
+    assets->assets[0]->volatility = GET(volEur,0);
+
+    //X_FTSE Update
+    assets->assets[1]->trend = GET(trendEur,1);
+    assets->assets[1]->volatility = GET(volEur,1);
+
+
+    //X_P500 Update
+    assets->assets[2]->trend = GET(trendEur,2);
+    assets->assets[2]->volatility = GET(volEur,2);
+
+    //X_HANGSENG Update
+    assets->assets[3]->trend = GET(trendEur,3);
+    assets->assets[3]->volatility = GET(volEur,3);
+
+    //X_NIKKEI
+    assets->assets[4]->trend = GET(trendEur,4);
+    assets->assets[4]->volatility = GET(volEur,4);
+
+    //X_SPASX200
+    assets->assets[5]->trend = GET(trendEur,5);
+    assets->assets[5]->volatility = GET(volEur,5);
+
+    //EUR/GBP
+    assets->assets[6]->trend = GET(trendEur,6);
+    assets->assets[6]->volatility = GET(volEur,6);
+
+    //EUR/USD
+    assets->assets[7]->trend = GET(trendEur,7);
+    assets->assets[7]->volatility = GET(volEur,7);
+
+    //EUR/HKD
+    assets->assets[8]->trend = GET(trendEur,8);
+    assets->assets[8]->volatility = GET(volEur,8);
+
+    //EUR/JPY
+    assets->assets[9]->trend = GET(trendEur,9);
+    assets->assets[9]->volatility = GET(volEur,9);
+
+    //EUR/AUD
+    assets->assets[10]->trend = GET(trendEur,10);
+    assets->assets[10]->volatility = GET(volEur,10);
+
+
+    // Delete
+    pnl_vect_free(&trend);
+    pnl_vect_free(&trendEur);
+    pnl_vect_free(&volEur);
+    pnl_mat_free(&volMatrix);
+    pnl_vect_free(&sigma_i);
+    pnl_vect_free(&sigma_X_i);
+    pnl_mat_free(&volMatrixEur);
+    pnl_mat_free(&volMatrixEurT);
+    pnl_mat_free(&covMatrixEur);
+    //pnl_mat_free(&correlationMatrixEur); // deleted in the destructor of assetlist
+
+}
+
