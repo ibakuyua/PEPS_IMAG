@@ -16,7 +16,7 @@ void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
 int main(int argc, char** argv){
-    int hedgingNb(100);
+    int hedgingNb(80);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -55,6 +55,8 @@ void computePnl(int hedgingNb){
     int year = 2012;
     int month = 10;
     int day = 7;
+    double totalDaysOld = ((year + (month/12.0))*365 + day);
+    double totalDaysNew= totalDaysOld;
 
     ParseCSV *parser = new ParseCSV(path,year,month,day,120);
     //ParseCSV *parser = new ParseCSV(path);
@@ -102,23 +104,27 @@ void computePnl(int hedgingNb){
     for (double t = hedgingStep; t < maturity; t += hedgingStep) {
 
 
-        /*
-         *
-         * Trouver un moyen facile d'ajouter des jours afin de pouvoir parser corectement
-         *
-         */
+        totalDaysNew += hedgingStep*365./252.;
+
+        //We update stats every 200 days
+        if(totalDaysNew - totalDaysOld > 200){
+            std::cout << "UPDATE OF STATS !!!!" << std::endl;
+            year = (totalDaysNew/365);
+            month = (totalDaysNew - year*365)/30;
+            day = totalDaysNew - year*365 - month*30;
 
 
-        //update of stats
-        parser->Update(path,2012,10,07,120);
-        //ParseCSV *parser = new ParseCSV(path);
-        assert(parser != NULL);
-        stats->UpdateStatsFactory();
-        assert(stats != NULL);
+            parser->Update(path,year,month,day,120);
+            assert(parser != NULL);
+            //update of stats
+            stats->UpdateStatsFactory();
+            assert(stats != NULL);
 
-        multimonde->UpdateAssetListFromStat(stats, pricer->simuModel);
-        //multimonde->pricer->simuModel->SetAssets(multimonde->assets);
+            //Update of the AssetList POINTER !!!!
+            multimonde->UpdateAssetListFromStat(stats, pricer->simuModel);
+            totalDaysOld = totalDaysNew;
 
+        }
 
 
         multimonde->PricePortfolio(t,prixP);

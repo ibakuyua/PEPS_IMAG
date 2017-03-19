@@ -123,8 +123,6 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         }
 
         for(int i = 1; i < numberToParse; i++){
-            std::cout << "Itération : " << i << std::endl;
-           // std::cout << MGET(inputData,i-1,1)
             while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
                 FILE >> tmpDouble;
@@ -222,8 +220,6 @@ void ParseCSV::Update(string path, int startYear, int startMonth, int startDay, 
         }
 
         for(int i = 1; i < numberToParse; i++){
-            std::cout << "Itération : " << i << std::endl;
-            // std::cout << MGET(inputData,i-1,1)
             while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
                 FILE >> tmpDouble;
