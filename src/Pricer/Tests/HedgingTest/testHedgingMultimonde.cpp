@@ -133,7 +133,7 @@ void computePnl(int hedgingNb){
     // Compute pnl at each date :
     double hedgingStep = maturity / (double)hedgingNb;
     for (double t = hedgingStep; t < maturity; t += hedgingStep) {
-        totalDays += hedgingStep*365./252.;
+        totalDays +=  hedgingStep*365./252.;
         multimonde->PricePortfolio(t,prixP);
         multimonde->PriceProduct(t,prixC,ic);
         multimonde->UpdatePortfolio(t);
@@ -147,15 +147,16 @@ void computePnl(int hedgingNb){
             day = (int)totalDays - year*365 - month*30;
             if(month == 0){
                 year = year - 1;
-                month = ((int)totalDays - year*365)/30;
+                month = 12;
                 day = (int)totalDays - year*365 - month*30;
+                day = (day > 30) ? 30 : day;
             }
             if(day == 0){
                 if(month == 2){
                     day = 28;
                 }else if(month > 1){
                     day = 30;
-                    month -= 1;
+                    month --;
                 }else{
                     day = 30;
                     month = 12;
@@ -166,6 +167,7 @@ void computePnl(int hedgingNb){
                     day = 28;
                 }
             }
+
 
             std::cout << "\n" << year << "-" << month << "-" << day;
 
@@ -204,8 +206,9 @@ void computePnl(int hedgingNb){
         day = (int)totalDays - year*365 - month*30;
         if(month == 0){
             year = year - 1;
-            month = ((int)totalDays - year*365)/30;
+            month = 12;
             day = (int)totalDays - year*365 - month*30;
+            day = (day > 30) ? 30 : day;
         }
         if(day == 0){
             if(month == 2){
