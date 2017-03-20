@@ -30,6 +30,25 @@ namespace MvcApplication1.Controllers
             {"AUDEUR",11}
         };
 
+        Dictionary<string, int> backtest = new Dictionary<string, int>()
+        {
+            {"PrixPrdt",1},
+            {"PrixPf",2},
+            {"EuroStoxx500",3},
+            {"FTSE100",4},
+            {"SP500",5},
+            {"HangSeng",6},
+            {"Nikkei225",7},
+            {"SPASX200",8},
+            {"GBPEUR",9},
+            {"USDEUR",10},
+            {"HKDEUR",11},
+            {"JPYEUR",12},
+            {"AUDEUR",13},
+            {"PnL",14},
+            {"PnLCummule",15}
+        };
+
         public ActionResult Index(int id = 0)
         {
             /*ViewBag.Message = "Pricer Multimonde.";
@@ -102,6 +121,13 @@ namespace MvcApplication1.Controllers
             return Content(result, "application/json");
         }
 
+        public ActionResult GetSerieBackTest(string name)
+        {
+            int index = backtest[name];
+            string result = "[" + String.Join(",", backtestToJson(index)) + "]";
+            return Content(result, "application/json");
+        }
+
         #region Private methods
 
         string[] CSVtoJSON(int underlyer)
@@ -117,6 +143,23 @@ namespace MvcApplication1.Controllers
                 string[] date = data[0].Split('/');
                 var dateFormate = new DateTime(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0]));
                 listData.Add( "[" + (dateFormate - initial).TotalMilliseconds.ToString() + "," + data[underlyer] + "]");
+            }
+
+            return listData.ToArray();
+        }
+
+        string[] backtestToJson(int underlyer)
+        {
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\test1.csv");
+            var initial = new DateTime(1970, 1, 1);
+            List<string> listData = new List<string>();
+            int ligne;
+            for (ligne = 0; ligne < allLines.Length; ligne++)
+            {
+                string[] data = allLines[ligne].Split(',');
+                string[] date = data[0].Split('-');
+                var dateFormate = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+                listData.Add("[" + (dateFormate - initial).TotalMilliseconds.ToString() + "," + data[underlyer] + "]");
             }
 
             return listData.ToArray();
