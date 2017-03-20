@@ -108,11 +108,12 @@ namespace MvcApplication1.Controllers
 
         string[] CSVtoJSON(int underlyer)
         {
+            //METTRE le chemin absolu du fichier
             string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
-            for (ligne = 1; ligne < 400; ligne++)
+            for (ligne = 1; ligne < 450; ligne++)
             {
                 string[] data = allLines[ligne].Split(',');
                 string[] date = data[0].Split('/');
