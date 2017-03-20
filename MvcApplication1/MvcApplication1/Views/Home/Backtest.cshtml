@@ -7,26 +7,52 @@
     <h2>@ViewBag.Message</h2>
 </hgroup>
 
+<html>
+<body>
+    <form method="post">
+        <fieldset>
+            <legend>Entrez les paramètres pour le backtest</legend>
+            <div>
+                <label>
+                    Entrez les paramètres pour le backtest pour un Multimonde d'échéance 2017
+                </label>
+            </div>
+            <div>
+                <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+                <input type="number" name="nbSamples" value="" />
+            </div>
+            <div>
+                <label for="nbRebalancements">Nombre de rebalancements:</label>
+                <input type="number" name="nbRebalancements" value="" />
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <input type="submit" value="Lancer le backtest" class="submit" />
+            </div>
+        </fieldset>
+    </form>
 
-<form method="post">
-    <fieldset>
-        <legend>Entrez les paramètres pour le backtest</legend>
-        <div>
-            <label>
-                Entrez les paramètres pour le backtest pour un Multimonde d'échéance 2017
-            </label>
-        </div>
-        <div>
-            <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
-            <input type="number" name="nbSamples" value="" />
-        </div>
-        <div>
-            <label for="nbRebalancements">Nombre de rebalancements:</label>
-            <input type="number" name="nbRebalancements" value="" />
-        </div>
-        <div>
-        <label>&nbsp;</label>
-        <input type="submit" value="Lancer le backtest" class="submit" />
-        </div>
-    </fieldset>
-</form>
+    <div>
+        <select id="Affichage">
+            <option value="PnL" selected>PnL</option>
+            <option value="Prix">Prix</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="USDEUR">Delta USD/EUR</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="HangSeng">Delta HangSeng</option>
+            <option value="Nikkei225">Delta Nikkei225</option>
+            <option value="SPASX200">Delta SPASX200</option>
+            <option value="EuroStoxx500">Delta EuroStoxx500</option>
+            <option value="FTSE100">Delta FTSE100</option>
+            <option value="SP500">Delta S&P500</option>
+        </select>
+
+    </div>
+    <button id="afficher">Choisir l'affichage</button>
+</body>
+</html>

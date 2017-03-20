@@ -19,8 +19,8 @@
     });
 
         function MAJChart() {
-
-            var nom = $('input[name=cours]:checked').val();
+            var select = document.getElementById("cours");
+            var nom = select.options[select.selectedIndex].value;
 
        if (nom == "SP500") {
            chartUpdate("SP500", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "SP500" }) ');
@@ -58,16 +58,15 @@
     <h1>@ViewBag.Title.</h1>
     <h2>@ViewBag.Message</h2>
 </hgroup>
-    <div>
-        <form>
-            <input type="radio" name="cours" value="HangSeng"> HangSeng
-            <input type="radio" name="cours" value="Nikkei225"> Nikkei225
-            <input type="radio" name="cours" value="SPASX200"> SPASX200
-            <input type="radio" name="cours" value="EuroStoxx500"> EuroStoxx500
-            <input type="radio" name="cours" value="FTSE100"> FTSE100
-            <input type="radio" name="cours" value="SP500" checked> S&P500                
-        </form>
-    </div>
+
+    <select id="cours">
+        <option value="HangSeng">HangSeng</option>
+        <option value="Nikkei225">Nikkei225</option>
+        <option value="SPASX200">SPASX200</option>
+        <option value="EuroStoxx500">EuroStoxx500</option>
+        <option value="FTSE100">FTSE100</option>
+        <option value="SP500" selected>S&P500</option>
+    </select>
     <button onclick="MAJChart()">Mettre à jour</button>
 <div id="stockChart" style="height: 550px"></div>
    

@@ -98,9 +98,7 @@ namespace MvcApplication1.Controllers
         public ActionResult GetSerie(string name)
         {
             int index = stocks[name];
-            //System.IO.File.WriteAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\json.txt", CSVtoJSON());
             string result = "[" + String.Join(",",CSVtoJSON(index) ) + "]";
-            //System.IO.File.WriteAllText(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\json.txt", result);
             return Content(result, "application/json");
         }
 
@@ -108,11 +106,12 @@ namespace MvcApplication1.Controllers
 
         string[] CSVtoJSON(int underlyer)
         {
+            //METTRE le chemin absolu du fichier
             string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
-            for (ligne = 1; ligne < 400; ligne++)
+            for (ligne = 1; ligne < 450; ligne++)
             {
                 string[] data = allLines[ligne].Split(',');
                 string[] date = data[0].Split('/');
