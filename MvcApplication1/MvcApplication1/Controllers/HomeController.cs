@@ -98,9 +98,7 @@ namespace MvcApplication1.Controllers
         public ActionResult GetSerie(string name)
         {
             int index = stocks[name];
-            //System.IO.File.WriteAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\json.txt", CSVtoJSON());
             string result = "[" + String.Join(",",CSVtoJSON(index) ) + "]";
-            //System.IO.File.WriteAllText(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\json.txt", result);
             return Content(result, "application/json");
         }
 

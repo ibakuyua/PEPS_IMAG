@@ -21,7 +21,8 @@
 
         function MAJChart() {
 
-            var nom = $('input[name=change]:checked').val();
+            var select = document.getElementById("change");
+            var nom = select.options[select.selectedIndex].value;
 
             if (nom == "GBPEUR") {
                 chartUpdate("GBPEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "GBPEUR" }) ');
@@ -51,15 +52,14 @@
         <h1>@ViewBag.Title.</h1>
         <h2>@ViewBag.Message</h2>
     </hgroup>
-    <div>
-        <form>
-            <input type="radio" name="change" value="GBPEUR" checked> GBP/EUR
-            <input type="radio" name="change" value="USDEUR"> USD/EUR
-            <input type="radio" name="change" value="HKDEUR"> HKD/EUR
-            <input type="radio" name="change" value="JPYEUR"> JPY/EUR
-            <input type="radio" name="change" value="AUDEUR"> AUD/EUR
-        </form>
-    </div>
+
+    <select id="change">
+        <option value="GBPEUR" selected>GBP/EUR</option>
+        <option value="USDEUR">USD/EUR</option>
+        <option value="HKDEUR">HKD/EUR</option>
+        <option value="JPYEUR">JPY/EUR</option>
+        <option value="AUDEUR" >AUD/EUR</option>
+    </select>
     <button onclick="MAJChart()">Mettre à jour</button>
     <div id="changeChart" style="height: 550px"></div>
 

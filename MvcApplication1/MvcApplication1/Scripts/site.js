@@ -36,9 +36,11 @@ function chartInitialize(name,id, url) {
 
     // initialize chart
     $("#" + id).highcharts('StockChart', {
-        rangeSelector: { selected: 5 },
+        rangeSelector: { enabled: false },
         series: null,
-
+        navigator: {
+            enabled: false
+        },
         yAxis: [
             { title: { text: "Cours de l'indice" } },
             {
