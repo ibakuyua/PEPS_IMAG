@@ -55,7 +55,7 @@ void computePnl(int hedgingNb){
 
     int year = 2011;
     int month = 4;
-    int day = 13;
+    int day = 6;
     double totalDays = ((year + (month/12.0))*365 + day);
 
     ParseCSV *parser = new ParseCSV(path,year,month,day,120);
@@ -107,7 +107,7 @@ void computePnl(int hedgingNb){
     double pnlAtDate = prixP - prixC;
     double pnl = pnlAtDate;
 
-    ofstream fichier("../data/test.csv", ios::out | ios::trunc);  // ouverture en écriture avec effacement du fichier ouvert
+    ofstream fichier("../data/test1.csv", ios::out | ios::trunc);  // ouverture en écriture avec effacement du fichier ouvert
     string delimiter = ",";
     if(fichier)
     {
@@ -142,9 +142,33 @@ void computePnl(int hedgingNb){
         pnl += pnlAtDate;
         if(fichier)
         {
-            year = (totalDays/365);
-            month = (totalDays - year*365)/30;
-            day = totalDays - year*365 - month*30;
+            year = (int)totalDays/365;
+            month = ((int)totalDays - year*365)/30;
+            day = (int)totalDays - year*365 - month*30;
+            if(month == 0){
+                year = year - 1;
+                month = ((int)totalDays - year*365)/30;
+                day = (int)totalDays - year*365 - month*30;
+            }
+            if(day == 0){
+                if(month == 2){
+                    day = 28;
+                }else if(month > 1){
+                    day = 30;
+                    month -= 1;
+                }else{
+                    day = 30;
+                    month = 12;
+                    year = year - 1;
+                }
+            }else if(day > 28){
+                if (month == 2){
+                    day = 28;
+                }
+            }
+
+            std::cout << "\n" << year << "-" << month << "-" << day;
+
             fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
 
             for (int i = 0; i < 11; ++i){
@@ -175,9 +199,30 @@ void computePnl(int hedgingNb){
     if(fichier)
     {
         totalDays += hedgingStep*365./252.;
-        year = (totalDays/365);
-        month = (totalDays - year*365)/30;
-        day = totalDays - year*365 - month*30;
+        year = (int)totalDays/365;
+        month = ((int)totalDays - year*365)/30;
+        day = (int)totalDays - year*365 - month*30;
+        if(month == 0){
+            year = year - 1;
+            month = ((int)totalDays - year*365)/30;
+            day = (int)totalDays - year*365 - month*30;
+        }
+        if(day == 0){
+            if(month == 2){
+                day = 28;
+            }else if(month > 1){
+                day = 30;
+                month -= 1;
+            }else{
+                day = 30;
+                month = 12;
+                year = year - 1;
+            }
+        }else if(day > 28){
+            if (month == 2){
+                day = 28;
+            }
+        }
         fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
 
         for (int i = 0; i < 11; ++i){
