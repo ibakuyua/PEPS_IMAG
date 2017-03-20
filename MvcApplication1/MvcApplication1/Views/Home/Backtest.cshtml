@@ -2,13 +2,34 @@
     ViewBag.Title = "Backtest";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
 
 <html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="~/Scripts/jquery-2.1.4.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="/Scripts/site.js"></script>
+    <title>HighStock example</title>
+
+    <script type="text/javascript">
+
+
+        function MAJChart() {
+            var select = document.getElementById("affichage");
+            var nom = select.options[select.selectedIndex].value;
+        };
+    </script>
+</head>
 <body>
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>@ViewBag.Message</h2>
+    </hgroup>
+
     <form method="post">
         <fieldset>
             <legend>Entrez les paramètres pour le backtest</legend>
@@ -29,30 +50,38 @@
                 <label>&nbsp;</label>
                 <input type="submit" value="Lancer le backtest" class="submit" />
             </div>
+
+
+            <div>
+                <select id="affichage">
+                    <option value="PnL" selected>PnL</option>
+                    <option value="PnLCummule">PnL cummulé</option>
+                    <option value="PrixPrdt">Prix du produit</option>
+                    <option value="PrixPf">Prix du portefeuille</option>
+                    <option value="HKDEUR">Delta HKD/EUR</option>
+                    <option value="JPYEUR">Delta JPY/EUR</option>
+                    <option value="AUDEUR">Delta AUD/EUR</option>
+                    <option value="GBPEUR">Delta GBP/EUR</option>
+                    <option value="USDEUR">Delta USD/EUR</option>
+                    <option value="HKDEUR">Delta HKD/EUR</option>
+                    <option value="JPYEUR">Delta JPY/EUR</option>
+                    <option value="AUDEUR">Delta AUD/EUR</option>
+                    <option value="HangSeng">Delta HangSeng</option>
+                    <option value="Nikkei225">Delta Nikkei225</option>
+                    <option value="SPASX200">Delta SPASX200</option>
+                    <option value="EuroStoxx500">Delta EuroStoxx500</option>
+                    <option value="FTSE100">Delta FTSE100</option>
+                    <option value="SP500">Delta S&P500</option>
+                </select>
+
+            </div>
+            <div>
+                <button id="afficher">Choisir l'affichage</button>
+            </div>
         </fieldset>
     </form>
 
-    <div>
-        <select id="Affichage">
-            <option value="PnL" selected>PnL</option>
-            <option value="Prix">Prix</option>
-            <option value="HKDEUR">Delta HKD/EUR</option>
-            <option value="JPYEUR">Delta JPY/EUR</option>
-            <option value="AUDEUR">Delta AUD/EUR</option>
-            <option value="GBPEUR">Delta GBP/EUR</option>
-            <option value="USDEUR">Delta USD/EUR</option>
-            <option value="HKDEUR">Delta HKD/EUR</option>
-            <option value="JPYEUR">Delta JPY/EUR</option>
-            <option value="AUDEUR">Delta AUD/EUR</option>
-            <option value="HangSeng">Delta HangSeng</option>
-            <option value="Nikkei225">Delta Nikkei225</option>
-            <option value="SPASX200">Delta SPASX200</option>
-            <option value="EuroStoxx500">Delta EuroStoxx500</option>
-            <option value="FTSE100">Delta FTSE100</option>
-            <option value="SP500">Delta S&P500</option>
-        </select>
 
-    </div>
-    <button id="afficher">Choisir l'affichage</button>
+    <div id="backtestChart" style="height: 550px"></div>
 </body>
 </html>
