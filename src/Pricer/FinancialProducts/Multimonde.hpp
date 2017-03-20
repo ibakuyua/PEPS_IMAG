@@ -44,6 +44,8 @@ public:
       * @return the asset list of multimonde product
       */
      static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
+
+     void UpdateAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
 };
 
 

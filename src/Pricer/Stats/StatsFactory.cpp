@@ -20,6 +20,29 @@ StatsFactory::StatsFactory(PnlMat *quotes):quotes_(quotes){
 
 }
 
+//Ajout benji
+void StatsFactory::UpdateStatsFactory(){
+
+
+    pnl_mat_resize(logReturns_,quotes_->m - 1, quotes_->n);
+    ComputeLogReturnsFromQuotes();
+
+    pnl_vect_resize(mean_,quotes_->n);
+    ComputeMeanFromLogReturns();
+
+    pnl_mat_resize(covar_,quotes_->n,quotes_->n);
+    ComputeCovarFromLogReturns();
+
+    pnl_vect_resize(vol_,quotes_->n);
+    ComputeVolFromCovar();
+
+    pnl_mat_resize(correl_,quotes_->n, quotes_->n);
+    ComputeCorrelFromCovar();
+
+}
+
+
+
 StatsFactory::~StatsFactory(){
 
     pnl_vect_free(&vol_);
