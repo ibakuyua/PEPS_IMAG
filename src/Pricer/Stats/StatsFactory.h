@@ -1,6 +1,5 @@
 #ifndef PEPS_IMAG_STATSFACTORY_H
 #define PEPS_IMAG_STATSFACTORY_H
-#define DLLEXP   __declspec( dllexport )
 
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"

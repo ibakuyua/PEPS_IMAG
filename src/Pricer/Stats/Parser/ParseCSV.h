@@ -1,6 +1,6 @@
 #ifndef PEPS_IMAG_PARSECSV_H
 #define PEPS_IMAG_PARSECSV_H
-#define DLLEXP   __declspec( dllexport )
+
 
 #include "pnl/pnl_matrix.h"
 #include <fstream>
@@ -24,7 +24,7 @@ public:
      *
      * @param path : path to the file
      */
-	DLLEXP ParseCSV(string path);
+	ParseCSV(string path);
     /**
      * Constructor 2 (convert only from a start date to an end date)
      *
@@ -34,7 +34,7 @@ public:
      * @param startDay : start day date
      * @param numberToParse : number of date to parse
      */
-	DLLEXP ParseCSV(string path, int startYearOfEstimation, int startMonth, int startDay, int numberToParse);
+	ParseCSV(string path, int startYearOfEstimation, int startMonth, int startDay, int numberToParse);
 
     /**
      * Update (convert only from a start date to an end date)
@@ -51,7 +51,7 @@ public:
     /**
      * Destructor
      */
-	DLLEXP ~ParseCSV();
+	~ParseCSV();
 };
 
 
