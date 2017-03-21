@@ -1,7 +1,10 @@
 #include "Multimonde.hpp"
 #include "Asset/ChangeZC.hpp"
 
+
+
 double Multimonde::maturity = NB_DAYSWRK_TO_MATURITY;
+
 
 Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats)
     : ProductGen("Multimonde21", pricer, hedgingDateNb, payOffMultimonde21)
@@ -98,4 +101,5 @@ AssetList *Multimonde::GetAssetListFromStat(StatsFactory *stats, ModelGen *simuM
 
     return new AssetList(11,myAssets,correlationMatrixEur,true);
 }
+
 

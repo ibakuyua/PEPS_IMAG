@@ -1,5 +1,6 @@
 #ifndef PRICING_MULTIMONDE_HPP
 #define PRICING_MULTIMONDE_HPP
+#define DLLEXP   __declspec( dllexport )
 
 #include "../ProductInfo/infoMultimonde.hpp"
 #include "ProductGen.hpp"
@@ -15,7 +16,7 @@ public:
     /**
      * Members
      */
-    static double maturity;
+	DLLEXP static double maturity;
 
     /**
      * Constructor : all the underlying asset are in the domestic economy
@@ -28,11 +29,11 @@ public:
      *          4 : Xnikkei   | 5 : Xspasx200  | 6 : XRgbp | 7 : XRusd
      *          8 : XRcny     | 9 : XRjpy      | 10: XRaud
      */
-    Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats);
+	DLLEXP Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats);
     /**
      * Destructor
      */
-    ~Multimonde();
+	DLLEXP ~Multimonde();
     /**
      * Static methods
      */
@@ -43,7 +44,9 @@ public:
       * @param simuModel the modele used to simulate
       * @return the asset list of multimonde product
       */
-     static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
+	DLLEXP static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
+
+	
 };
 
 

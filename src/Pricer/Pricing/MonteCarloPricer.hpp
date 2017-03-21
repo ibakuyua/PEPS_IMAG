@@ -1,6 +1,6 @@
 #ifndef PRICING_MONTECARLOPRICER_HPP
 #define PRICING_MONTECARLOPRICER_HPP
-
+#define DLLEXP   __declspec( dllexport )
 #include "PricerGen.hpp"
 
 #define NB_SAMPLE_DEFAULT 40000
@@ -28,7 +28,7 @@ public:
      * @param[in] nbSample : the number of sample to estimate the expectation
      * @param[in] nbTimeStep : the number of time step
      */
-    MonteCarloPricer(double maturity, ModelGen *simuModel,
+	DLLEXP MonteCarloPricer(double maturity, ModelGen *simuModel,
                      int nbTimeStep = NB_TIME_STEP_DEFAULT, int nbSample = NB_SAMPLE_DEFAULT);
     /**
       * Constructor 2
@@ -38,19 +38,19 @@ public:
       * @param[in] nbSample : the number of sample to estimate the expectation
       * @param[in] scheduledStep : in the case of different steps
       */
-    MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect* scheduledStep, int nbSample = NB_SAMPLE_DEFAULT);
-    virtual ~MonteCarloPricer();
+	DLLEXP MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect* scheduledStep, int nbSample = NB_SAMPLE_DEFAULT);
+	DLLEXP virtual ~MonteCarloPricer();
 
     /**
      * Overriding methods
      */
-    void Price(double t, PnlMat *past, double &price, double &ic,
+	DLLEXP void Price(double t, PnlMat *past, double &price, double &ic,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
-    void Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
+	DLLEXP void Delta(double t, PnlMat *past, PnlVect *delta, PnlVect *ic,
                PayOffFunction payOff, PnlVect *parameters = NULL) const;
 
-    void PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const;
+	DLLEXP void PayOffSimulationShiftedDiff(PnlVect *payOffDiff, const PnlMat *past, double t, PayOffFunction payOff, PnlVect *parameters) const;
 
 private:
     /**

@@ -1,6 +1,6 @@
 #ifndef PRICING_CONSTANTRATEMODEL_HPP
 #define PRICING_CONSTANTRATEMODEL_HPP
-
+#define DLLEXP   __declspec( dllexport )
 
 #include "RateModelGen.hpp"
 
@@ -15,14 +15,14 @@ public:
     /**
      * Constructors / Destructor
      */
-    ConstantRateModel(Change devise, double theFRR = FRR_DEFAULT);
-    ~ConstantRateModel();
+	DLLEXP ConstantRateModel(Change devise, double theFRR = FRR_DEFAULT);
+	DLLEXP ~ConstantRateModel();
     /**
      * Implement virtual function
      */
-    double GetRate(double maturity) const;
+	DLLEXP double GetRate(double maturity) const;
 
-    virtual double GetIntegralRate(double t, double maturity) const;
+	DLLEXP virtual double GetIntegralRate(double t, double maturity) const;
 };
 
 

@@ -1,6 +1,6 @@
 #ifndef PRICING_BLACKSCHOLESINDEXMODEL_HPP
 #define PRICING_BLACKSCHOLESINDEXMODEL_HPP
-
+#define DLLEXP   __declspec( dllexport )
 
 #include "ModelGen.hpp"
 
@@ -30,8 +30,8 @@ public:
      * @param[in] economyNb : the number of economy
      * @param[in] rateModel : the list of rate models for each economy
      */
-    BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel);
-    virtual ~BlackScholesModel();
+	DLLEXP BlackScholesModel(int assetNb, int economyNb, RateModelGen **rateModel);
+	DLLEXP virtual ~BlackScholesModel();
 
     /**
      * Overriding virtual method

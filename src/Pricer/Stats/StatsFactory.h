@@ -1,5 +1,6 @@
 #ifndef PEPS_IMAG_STATSFACTORY_H
 #define PEPS_IMAG_STATSFACTORY_H
+#define DLLEXP   __declspec( dllexport )
 
 #include "pnl/pnl_vector.h"
 #include "pnl/pnl_matrix.h"
@@ -28,8 +29,8 @@ public:
      *
      * @param[in] quotes : the quotes of the underlying assets
      */
-    StatsFactory(PnlMat *quotes);
-    ~StatsFactory();
+	DLLEXP StatsFactory(PnlMat *quotes);
+	DLLEXP ~StatsFactory();
 
 private:
     void ComputeLogReturnsFromQuotes();

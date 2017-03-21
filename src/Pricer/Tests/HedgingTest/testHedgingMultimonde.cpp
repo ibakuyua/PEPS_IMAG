@@ -9,6 +9,7 @@
 #include "../../Stats/Parser/ParseCSV.h"
 #include "../../Marche.hpp"
 
+
 using namespace std;
 
 void computePnl(int hedgingNb);
@@ -143,6 +144,8 @@ void computePnl(int hedgingNb){
     cout << "########################################\n\n";
 
 }
+
+
 
 
 void setParameters(RateModelGen ***rateModels){

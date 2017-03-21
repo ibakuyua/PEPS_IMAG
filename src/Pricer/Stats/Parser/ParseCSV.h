@@ -1,5 +1,6 @@
 #ifndef PEPS_IMAG_PARSECSV_H
 #define PEPS_IMAG_PARSECSV_H
+#define DLLEXP   __declspec( dllexport )
 
 #include "pnl/pnl_matrix.h"
 #include <fstream>
@@ -13,17 +14,17 @@ using namespace std;
 /**
  * Class which permit to parse a CSV of quotations
  */
-class ParseCSV {
+class ParseCSV{
 public:
 
-    PnlMat *outputData; /// The data contained in the CSV converted in PnlMat
+	PnlMat *outputData; /// The data contained in the CSV converted in PnlMat
 
     /**
      * Constructor
      *
      * @param path : path to the file
      */
-    ParseCSV(string path);
+	DLLEXP ParseCSV(string path);
     /**
      * Constructor 2 (convert only from a start date to an end date)
      *
@@ -33,12 +34,12 @@ public:
      * @param startDay : start day date
      * @param numberToParse : number of date to parse
      */
-    ParseCSV(string path, int startYearOfEstimation,int startMonth, int startDay, int numberToParse);
+	DLLEXP ParseCSV(string path, int startYearOfEstimation, int startMonth, int startDay, int numberToParse);
 
     /**
      * Destructor
      */
-    ~ParseCSV();
+	DLLEXP ~ParseCSV();
 };
 
 
