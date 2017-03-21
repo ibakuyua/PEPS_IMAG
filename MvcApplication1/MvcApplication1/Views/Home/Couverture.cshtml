@@ -1,85 +1,99 @@
 ﻿@{
     ViewBag.Title = "Portefeuille de couverture";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
-
-
-<table border="1" style="width:100%">
-    <tr>
-        <th>Delta</th>
-        <th>Sous-jacents</th>
-        <th>Taux de change associé</th>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>Euro Stoxx 50(EUR)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>S&P 500(USD)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>Nikkei 225(JPY)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>Hang Seng(HKD)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>FTSE 100(GBP)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>SP ASX 200(AUD)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>ZC(USD -> EUR)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>ZC(GBP -> EUR)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>ZC(JPY -> EUR)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>ZC(HKD -> EUR)</td>
-        <td>test</td>
-    </tr>
-    <tr>
-        <td>test</td>
-        <td>ZC(AUD -> EUR)</td>
-        <td>test</td>
-    </tr>
-
-</table>
-
-
-<fieldset>
-    <div>
-        <label for="date">Date du portefeuille du couverture:</label>
-        <input type="date" name="date" value="" />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Portefeuille de couverture
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    @Html.ActionLink("Multimonde 2021", "Index", "Home")
+                </li>
+                <li>Portefeuille de couverture</li>
+            </ol>
+        </div>
     </div>
-    <div>
-        <label>&nbsp;</label>
-        <input type="submit" value="Donner la composition" class="submit" />
-    </div>
-</fieldset>
+    @*<hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>@ViewBag.Message</h2>
+    </hgroup>*@
+
+
+    <table border="1" style="width:100%">
+        <tr>
+            <th>Delta</th>
+            <th>Sous-jacents</th>
+            <th>Taux de change associé</th>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>Euro Stoxx 50(EUR)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>S&P 500(USD)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>Nikkei 225(JPY)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>Hang Seng(HKD)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>FTSE 100(GBP)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>SP ASX 200(AUD)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>ZC(USD -> EUR)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>ZC(GBP -> EUR)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>ZC(JPY -> EUR)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>ZC(HKD -> EUR)</td>
+            <td>test</td>
+        </tr>
+        <tr>
+            <td>test</td>
+            <td>ZC(AUD -> EUR)</td>
+            <td>test</td>
+        </tr>
+
+    </table>
+
+
+    <fieldset>
+        <div>
+            <label for="date">Date du portefeuille du couverture:</label>
+            <input type="date" name="date" value="" />
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="submit" value="Donner la composition" class="submit" />
+        </div>
+    </fieldset>
+</div>

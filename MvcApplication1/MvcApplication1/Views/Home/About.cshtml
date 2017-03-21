@@ -1,21 +1,32 @@
 ﻿@{
     ViewBag.Title = "A propos";
 }
-
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
-
-<article>
-    <p>
-    Le produit Multimonde est un produit structuré sur un panier d’indices initialement composé des 6 grands indices mondiaux suivants : <b>Euro Stoxx 50</b> pour la zone euro,<b> S&P 500</b> pour les Etats-Unis, <b>Nikkei 225</b> pour le Japon,<b> Hang Seng</b> pour la Chine, <b>FTSE 100</b> pour le Royaume-Uni, <b>S&P ASX 200</b> pour l’Australie. Ces indices sont pris dividendes non réinvestis.
-</p>
-    <p>
-    Chaque année, on enregistre les performances des différents indices qui composent le panier. On retient alors l'indice le plus performant et on le retire du panier. On conserve sa performance pour calculer plus tard le flux final du produit. Ainsi, à l'échéance du fonds, le panier est vide et on dispose des 6 performances enregistrées. Alors, le porteur se voit recevoir la somme de ces 6 performances. Notons que les performances des indices sont enregistrées dans une fourchette (capé-flooré) de <b>{-15%;+15%}</b>.
-</p>
-    <p>
-    Pour réaliser son objectif, le gestionnaire le fonds conclura des achats ventes sur les différents indices ainsi que d'autres actifs pour couvrire les différents risques liés à ce produit. 
-    </p>
-</article>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Description du produit
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    @Html.ActionLink("Multimonde 2021", "Index", "Home")
+                </li>
+                <li class="active">Description du produit</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                Le produit Multimonde est un produit structuré sur un panier d’indices initialement composé des 6 grands indices mondiaux suivants : <b>Euro Stoxx 50</b> pour la zone euro,<b> S&P 500</b> pour les Etats-Unis, <b>Nikkei 225</b> pour le Japon,<b> Hang Seng</b> pour la Chine, <b>FTSE 100</b> pour le Royaume-Uni, <b>S&P ASX 200</b> pour l’Australie. Ces indices sont pris dividendes non réinvestis.
+            </p>
+            <p>
+                Chaque année, on enregistre les performances des différents indices qui composent le panier. On retient alors l'indice le plus performant et on le retire du panier. On conserve sa performance pour calculer plus tard le flux final du produit. Ainsi, à l'échéance du fonds, le panier est vide et on dispose des 6 performances enregistrées. Alors, le porteur se voit recevoir la somme de ces 6 performances. Notons que les performances des indices sont enregistrées dans une fourchette (capé-flooré) de <b>{-15%;+15%}</b>.
+            </p>
+            <p>
+                Pour réaliser son objectif, le gestionnaire le fonds conclura des achats ventes sur les différents indices ainsi que d'autres actifs pour couvrire les différents risques liés à ce produit.
+            </p>
+        </div>
+    </div>
+</div>
 

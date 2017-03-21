@@ -20,40 +20,55 @@
     </script>
 </head>
 <body>
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Historique
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        @Html.ActionLink("Multimonde 2021", "Index", "Home")
+                    </li>
+                    <li>Historique</li>
+                </ol>
+            </div>
+        </div>
+        @*<hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+            <h2>@ViewBag.Message</h2>
+        </hgroup>*@
 
-<p>Générer les graphes</p>
+        <p>Générer les graphes</p>
 
 
-<label>
-    <input type="checkbox" id="SP500" value="choixSousJacent" />S&P500(USD)
-    <br />
-    <input type="checkbox" id="EuroStoxx500" value="choixSousJacent" />Eur Stoxx 50(EUR)
-    <br />
-    <input type="checkbox" id="Nikkei225" value="choixSousJacent" />Nikkei 225(JPY)
-    <br />
-    <input type="checkbox" id="HangSeng" value="choixSousJacent" />Hang Seng(HKD)
-    <br />
-    <input type="checkbox" id="FTSE100" value="choixSousJacent" />FTSE 100(GBP)
-    <br />
-    <input type="checkbox" id="SPASX200" value="choixSousJacent" />SP ASX 200(AUD)
-    <br />
-    <input type="checkbox" id="USDEUR" value="choixSousJacent" />USD->EUR
-    <br />
-    <input type="checkbox" id="GBPEUR" value="choixSousJacent" />GBP -> EUR
-    <br />
-    <input type="checkbox" id="JPYEUR" value="choixSousJacent" />JPY -> EUR
-    <br />
-    <input type="checkbox" id="CNYEUR" value="choixSousJacent" />HKD -> EUR
-    <br />
-    <input type="checkbox" id="AUDEUR" value="choixSousJacent" />AUD -> EUR
+        <label>
+            <input type="checkbox" id="SP500" value="choixSousJacent" />S&P500(USD)
+            <br />
+            <input type="checkbox" id="EuroStoxx500" value="choixSousJacent" />Eur Stoxx 50(EUR)
+            <br />
+            <input type="checkbox" id="Nikkei225" value="choixSousJacent" />Nikkei 225(JPY)
+            <br />
+            <input type="checkbox" id="HangSeng" value="choixSousJacent" />Hang Seng(HKD)
+            <br />
+            <input type="checkbox" id="FTSE100" value="choixSousJacent" />FTSE 100(GBP)
+            <br />
+            <input type="checkbox" id="SPASX200" value="choixSousJacent" />SP ASX 200(AUD)
+            <br />
+            <input type="checkbox" id="USDEUR" value="choixSousJacent" />USD->EUR
+            <br />
+            <input type="checkbox" id="GBPEUR" value="choixSousJacent" />GBP -> EUR
+            <br />
+            <input type="checkbox" id="JPYEUR" value="choixSousJacent" />JPY -> EUR
+            <br />
+            <input type="checkbox" id="CNYEUR" value="choixSousJacent" />HKD -> EUR
+            <br />
+            <input type="checkbox" id="AUDEUR" value="choixSousJacent" />AUD -> EUR
 
-</label>
+        </label>
 
-<div id="stockChart" style="height: 550px"></div>
+        <div id="stockChart" style="height: 550px"></div>
+        </div>
 </body>
 
 </html>

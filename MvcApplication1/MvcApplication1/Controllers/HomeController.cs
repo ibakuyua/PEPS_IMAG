@@ -15,28 +15,20 @@ namespace MvcApplication1.Controllers
     public class HomeController : Controller
     {
 
-        public ActionResult Index(int id = 0)
+        public ActionResult Index(double id = 0)
         {
             ViewBag.Message = "Pricer Multimonde.";
             double prixMultimonde = 0;
+            
             Price priceM2021 = new Price();
-            if (id == 1)
+            if (id == -1)
             {
-                prixMultimonde = priceM2021.prix;
-                //priceM2021.test();
+                priceM2021.computing_multimonde();
+                prixMultimonde = priceM2021.get_prix();
             }
             ViewData.Add("prixMultimonde", prixMultimonde);
             return View();
         }
-
-        private void goBtn_Click()
-        {
-            // Retrieve the values of the parameters in the TextBoxes
-            Price priceM2021 = new Price();
-            double prixM2021 = priceM2021.prix;
-            
-        }
-
 
         public ActionResult About()
         {
