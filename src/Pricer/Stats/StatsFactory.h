@@ -29,9 +29,11 @@ public:
      *
      * @param[in] quotes : the quotes of the underlying assets
      */
-	DLLEXP StatsFactory(PnlMat *quotes);
-	DLLEXP ~StatsFactory();
 
+    StatsFactory(PnlMat *quotes);
+
+    void UpdateStatsFactory();
+    ~StatsFactory();
 private:
     void ComputeLogReturnsFromQuotes();
     void ComputeMeanFromLogReturns();

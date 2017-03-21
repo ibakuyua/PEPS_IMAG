@@ -2,31 +2,152 @@
     ViewBag.Title = "Backtest";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="~/Scripts/jquery-2.1.4.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="/Scripts/site.js"></script>
+    <title>HighStock example</title>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        chartInitialize("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
+    });
+
+    function MAJChart() {
+
+        var select = document.getElementById("affichage");
+        var nom = select.options[select.selectedIndex].value;
+
+            if (nom == "GBPEUR") {
+                chartUpdate("GBPEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "GBPEUR" }) ');
+            }
+
+            if (nom == "USDEUR") {
+                chartUpdate("USDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "USDEUR" }) ');
+            }
+
+            if (nom == "HKDEUR") {
+                chartUpdate("HKDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HKDEUR" }) ');
+            }
+
+            if (nom == "JPYEUR") {
+                chartUpdate("JPYEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "JPYEUR" }) ');
+            }
+
+            if (nom == "AUDEUR") {
+                chartUpdate("AUDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "AUDEUR" }) ');
+            }
+
+            if (nom == "SP500") {
+                chartUpdate("SP500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SP500" }) ');
+            }
+
+            if (nom == "EuroStoxx500") {
+                chartUpdate("EuroStoxx500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "EuroStoxx500" }) ');
+            }
+
+            if (nom == "FTSE100") {
+                chartUpdate("FTSE100", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "FTSE100" }) ');
+            }
+
+            if (nom == "HangSeng") {
+                chartUpdate("HangSeng", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HangSeng" }) ');
+            }
+
+            if (nom == "Nikkei225") {
+                chartUpdate("Nikkei225", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "Nikkei225" }) ');
+            }
+
+            if (nom == "SPASX200") {
+                chartUpdate("SPASX200", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SPASX200" }) ');
+            }
+
+            if (nom == "PrixPrdt") {
+                chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
+                alert("Prix Prdt");
+            }
+            if (nom == "PrixPf") {
+                chartUpdate("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
+                alert("PrixPf");
+            }
+
+            if (nom == "PnL") {
+                chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
+                alert("PnL");
+            }
+
+            if (nom == "PnLCummule") {
+                chartUpdate("PnLCummule", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ');
+                alert("PnL Cummulé");
+            }
+        };
+    </script>
+</head>
+<body>
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>@ViewBag.Message</h2>
+    </hgroup>
+
+    <form method="post">
+        <fieldset>
+            <legend>Entrez les paramètres pour le backtest</legend>
+            <div>
+                <label>
+                    Entrez les paramètres pour le backtest pour un Multimonde d'échéance 2017
+                </label>
+            </div>
+            <div>
+                <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+                <input type="number" name="nbSamples" value="" />
+            </div>
+            <div>
+                <label for="nbRebalancements">Nombre de rebalancements:</label>
+                <input type="number" name="nbRebalancements" value="" />
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <input type="submit" value="Lancer le backtest" class="submit" />
+            </div>
 
 
-<form method="post">
-    <fieldset>
-        <legend>Entrez les paramètres pour le backtest</legend>
-        <div>
-            <label>
-                Entrez les paramètres pour le backtest pour un Multimonde d'échéance 2017
-            </label>
-        </div>
-        <div>
-            <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
-            <input type="number" name="nbSamples" value="" />
-        </div>
-        <div>
-            <label for="nbRebalancements">Nombre de rebalancements:</label>
-            <input type="number" name="nbRebalancements" value="" />
-        </div>
-        <div>
-        <label>&nbsp;</label>
-        <input type="submit" value="Lancer le backtest" class="submit" />
-        </div>
-    </fieldset>
-</form>
+            <div>
+                <select id="affichage">
+                    <option value="PnL">PnL</option>
+                    <option value="PnLCummule">PnL cummulé</option>
+                    <option value="PrixPrdt">Prix du produit</option>
+                    <option value="PrixPf" selected>Prix du portefeuille</option>
+                    <option value="HKDEUR">Delta HKD/EUR</option>
+                    <option value="JPYEUR">Delta JPY/EUR</option>
+                    <option value="AUDEUR">Delta AUD/EUR</option>
+                    <option value="GBPEUR">Delta GBP/EUR</option>
+                    <option value="USDEUR">Delta USD/EUR</option>
+                    <option value="HKDEUR">Delta HKD/EUR</option>
+                    <option value="JPYEUR">Delta JPY/EUR</option>
+                    <option value="AUDEUR">Delta AUD/EUR</option>
+                    <option value="HangSeng">Delta HangSeng</option>
+                    <option value="Nikkei225">Delta Nikkei225</option>
+                    <option value="SPASX200">Delta SPASX200</option>
+                    <option value="EuroStoxx500">Delta EuroStoxx500</option>
+                    <option value="FTSE100">Delta FTSE100</option>
+                    <option value="SP500">Delta S&P500</option>
+                </select>
+
+            </div>
+            <div>
+                <button onclick="MAJChart()">Choisir l'affichage</button>
+            </div>
+        </fieldset>
+    </form>
+
+
+    <div id="backtestChart" style="height: 550px"></div>
+</body>
+</html>

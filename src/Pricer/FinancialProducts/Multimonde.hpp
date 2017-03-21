@@ -44,9 +44,11 @@ public:
       * @param simuModel the modele used to simulate
       * @return the asset list of multimonde product
       */
-	DLLEXP static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
 
-	
+     static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
+
+     void UpdateAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
+
 };
 
 

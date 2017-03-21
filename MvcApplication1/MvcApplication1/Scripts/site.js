@@ -1,4 +1,4 @@
-﻿function chart_addSerie(chart, data) {
+﻿function chart_addSerie(chart, data, name) {
     /// <summary>
     /// Add a serie to a chart.
     /// </summary>
@@ -7,7 +7,7 @@
     "use strict";
 
     // add serie
-    var serie = { name: 'CAC 40', data: data };
+    var serie = { name: name, data: data };
     serie.marker = {
         enabled: true,
         radius: 2
@@ -15,7 +15,7 @@
     chart.addSeries(serie);
 }
 
-function chartInitialize(id, url) {
+function chartInitialize(name,id, url) {
     /// <summary>
     /// Initialize a chart in french language.
     /// </summary>
@@ -36,14 +36,16 @@ function chartInitialize(id, url) {
 
     // initialize chart
     $("#" + id).highcharts('StockChart', {
-        rangeSelector: { selected: 1 },
+        rangeSelector: { enabled: false },
         series: null,
-
+        navigator: {
+            enabled: false
+        },
         yAxis: [
-            { title: { text: "Ma série" } },
+            { title: { text: "Cours de l'indice" } },
             {
                 gridLineWidth: 0,
-                plotLines: [{ color: '#FF0000', width: 2, value: 0 }]
+                plotLines: [{ color: '#FF0000', width: 2, value: 0 }, { color: '#00FF00', width: 2, value: 0 }]
             },
         ],
         tooltip: {
@@ -56,7 +58,18 @@ function chartInitialize(id, url) {
     $.get(url,
         null,
         function (result) {
-            chart_addSerie(Highcharts.charts[0], result);
+            chart_addSerie(Highcharts.charts[0], result,name);
         },
         "json");
+}
+
+function chartUpdate(name, id, url) {
+    Highcharts.charts[0].series[0].remove(true);
+    $.get(url,
+        null,
+        function (result) {
+            chart_addSerie(Highcharts.charts[0], result, name);
+        },
+        "json");
+
 }
