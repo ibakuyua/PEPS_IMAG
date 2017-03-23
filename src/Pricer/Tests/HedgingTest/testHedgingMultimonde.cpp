@@ -12,13 +12,13 @@
 
 
 using namespace std;
-
+void getDate(int &year, int&month, int&day, double &totalDays);
 void computePnl(int hedgingNb);
 void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
 int main(int argc, char** argv){
-    int hedgingNb(5);
+    int hedgingNb(80);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -98,8 +98,6 @@ void computePnl(int hedgingNb){
 
 
     double prixC, prixP, ic;
-    double PnL = 0.;
-    PnlVect *spotV = pnl_vect_new();
     // At t = 0
     multimonde->UpdatePortfolio(0.);
     multimonde->PricePortfolio(0.,prixP);
@@ -108,14 +106,18 @@ void computePnl(int hedgingNb){
     double pnlAtDate = prixP - prixC;
     double pnl = pnlAtDate;
 
-    ofstream fichier("../data/test1.csv", ios::out | ios::trunc);  // ouverture en écriture avec effacement du fichier ouvert
+    ofstream fichier("../data/testRebalancementBiMensuel.csv", ios::out | ios::trunc);  // ouverture en écriture avec effacement du fichier ouvert
     string delimiter = ",";
     if(fichier)
     {
         fichier << year << "-" << month << "-" << day << delimiter << prixC << delimiter << prixP;
         for (int i = 0; i < 11; ++i){
             double tmpDelta = GET(multimonde->composition,i);
-            fichier << delimiter << tmpDelta;
+            if(tmpDelta != 0){
+                fichier << delimiter << tmpDelta;
+            }else{
+                fichier << delimiter << "0.0";
+            }
         }
 
         fichier << delimiter <<pnlAtDate << delimiter << pnl;
@@ -138,47 +140,22 @@ void computePnl(int hedgingNb){
         multimonde->PricePortfolio(t,prixP);
         multimonde->PriceProduct(t,prixC,ic);
         multimonde->UpdatePortfolio(t);
-        marche->GetCotations(t,spotV);
         pnlAtDate = prixP - prixC;
         pnl += pnlAtDate;
         if(fichier)
         {
-            year = (int)totalDays/365;
-            month = ((int)totalDays - year*365)/30;
-            day = (int)totalDays - year*365 - month*30;
-            if(month == 0){
-                year = year - 1;
-                month = 12;
-                day = (int)totalDays - year*365 - month*30;
-                day = (day > 30) ? 30 : day;
-            }
-            if(day == 0){
-                if(month == 2){
-                    day = 28;
-                }else if(month > 1){
-                    day = 30;
-                    month --;
-                }else{
-                    day = 30;
-                    month = 12;
-                    year = year - 1;
-                }
-            }else if(day > 28){
-                if (month == 2){
-                    day = 28;
-                }
-            }
-
-
+            getDate(year,month,day,totalDays);
             std::cout << "\n" << year << "-" << month << "-" << day;
-
             fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
 
             for (int i = 0; i < 11; ++i){
                 double tmpDelta = GET(multimonde->composition,i);
-                fichier << delimiter << tmpDelta;
+                if(tmpDelta != 0){
+                    fichier << delimiter << tmpDelta;
+                }else{
+                    fichier << delimiter << "0.0";
+                }
             }
-
             fichier << delimiter << prixP - prixC << delimiter << pnl;
             fichier << '\n';
 
@@ -202,31 +179,7 @@ void computePnl(int hedgingNb){
     if(fichier)
     {
         totalDays += hedgingStep*365./252.;
-        year = (int)totalDays/365;
-        month = ((int)totalDays - year*365)/30;
-        day = (int)totalDays - year*365 - month*30;
-        if(month == 0){
-            year = year - 1;
-            month = 12;
-            day = (int)totalDays - year*365 - month*30;
-            day = (day > 30) ? 30 : day;
-        }
-        if(day == 0){
-            if(month == 2){
-                day = 28;
-            }else if(month > 1){
-                day = 30;
-                month -= 1;
-            }else{
-                day = 30;
-                month = 12;
-                year = year - 1;
-            }
-        }else if(day > 28){
-            if (month == 2){
-                day = 28;
-            }
-        }
+        getDate(year,month,day,totalDays);
         fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
 
         for (int i = 0; i < 11; ++i){
@@ -258,7 +211,6 @@ void computePnl(int hedgingNb){
 
 
     cout << "\n\n** Delete : ";
-    pnl_vect_free(&spotV);
     delete multimonde;
     delete pricer;
     delete simuIndex;
@@ -285,3 +237,34 @@ void freeParameters(RateModelGen ***rateModels){
     }
     delete *rateModels;
 }
+
+void getDate(int &year, int&month, int&day, double &totalDays){
+
+    year = (int)totalDays/365;
+    month = ((int)totalDays - year*365)/30;
+    day = (int)totalDays - year*365 - month*30;
+    if(month == 0){
+        year = year - 1;
+        month = 12;
+        day = (int)totalDays - year*365 - month*30;
+        day = (day > 30) ? 30 : day;
+    }
+    if(day == 0){
+        if(month == 2){
+            day = 28;
+        }else if(month > 1){
+            day = 30;
+            month -= 1;
+        }else{
+            day = 30;
+            month = 12;
+            year = year - 1;
+        }
+    }else if(day > 28){
+        if (month == 2){
+            day = 28;
+        }
+    }
+
+}
+

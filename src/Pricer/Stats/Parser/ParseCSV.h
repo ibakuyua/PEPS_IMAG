@@ -5,7 +5,7 @@
 #include "pnl/pnl_matrix.h"
 #include <fstream>
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <sstream>
 #include <cstdlib>
 

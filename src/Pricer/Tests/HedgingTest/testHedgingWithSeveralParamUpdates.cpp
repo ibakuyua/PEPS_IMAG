@@ -10,13 +10,13 @@
 #include "../../Marche.hpp"
 
 using namespace std;
-
+void getDate(int &year, int&month, int&day, double &totalDays);
 void computePnl(int hedgingNb);
 void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
 int main(int argc, char** argv){
-    int hedgingNb(80);
+    int hedgingNb(1500);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -50,16 +50,18 @@ void computePnl(int hedgingNb){
     assert(pricer != NULL);
 
     string path = "../data/dataPEPS.csv";
+    string pathResult = "../data/testRebalancementJournalierParamUpdate.csv";
+
     //Import of stats
 
-    int year = 2012;
-    int month = 10;
-    int day = 7;
-    double totalDaysOld = ((year + (month/12.0))*365 + day);
-    double totalDaysNew= totalDaysOld;
+    int year = 2010;
+    int month = 11;
+    int day = 15;
+    double totalDays = ((year + (month/12.0))*365 + day);
+    double totalDaysOld = totalDays;
+
 
     ParseCSV *parser = new ParseCSV(path,year,month,day,120);
-    //ParseCSV *parser = new ParseCSV(path);
     assert(parser != NULL);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     assert(stats != NULL);
@@ -75,9 +77,8 @@ void computePnl(int hedgingNb){
 
     multimonde->Print();
 
-
     //Backward test
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,12,01,path);
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,03,17,path);
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
@@ -85,15 +86,36 @@ void computePnl(int hedgingNb){
 
 
     double prixC, prixP, ic;
-    double PnL = 0.;
-    PnlVect *spotV = pnl_vect_new();
     // At t = 0
     multimonde->UpdatePortfolio(0.);
     multimonde->PricePortfolio(0.,prixP);
     multimonde->PriceProduct(0.,prixC,ic);
-    cout << "\n0;" << prixC << ";" << prixP;
-    for (int i = 0; i < 11; ++i)
-        cout << ";" << GET(multimonde->composition,i);
+    ofstream fichier(pathResult, ios::out | ios::trunc);  // ouverture en écriture avec effacement du fichier ouvert
+    string delimiter = ",";
+    double pnlAtDate = prixP - prixC;
+    double pnl = pnlAtDate;
+    if(fichier)
+    {
+        fichier << year << "-" << month << "-" << day << delimiter << prixC << delimiter << prixP;
+        for (int i = 0; i < 11; ++i){
+            double tmpDelta = GET(multimonde->composition,i);
+            if(tmpDelta != 0){
+                fichier << delimiter << tmpDelta;
+            }else{
+                fichier << delimiter << "0.0";
+            }
+        }
+
+        fichier << delimiter <<pnlAtDate << delimiter << pnl;
+        fichier << '\n';
+
+    }
+    else
+        cerr << "Impossible d'ouvrir le fichier !" << endl;
+
+    //cout << "\n0;" << prixC << ";" << prixP;
+    //for (int i = 0; i < 11; ++i)
+    //    cout << ";" << GET(multimonde->composition,i);
     /*cout << "\nPrice at t = 0 : " << prixC << " in [ " << prixC - ic/2.
          << " ; " << prixC + ic/2. << " ] ** width : " << ic;
     PnL = prixP - prixC;
@@ -104,16 +126,14 @@ void computePnl(int hedgingNb){
     for (double t = hedgingStep; t < maturity; t += hedgingStep) {
 
 
-        totalDaysNew += hedgingStep*365./252.;
+        totalDays += hedgingStep*365./252.;
 
         //We update stats every 200 days
-        if(totalDaysNew - totalDaysOld > 200){
+        if(totalDays - totalDaysOld > 10){
             std::cout << "UPDATE OF STATS !!!!" << std::endl;
-            year = (totalDaysNew/365);
-            month = (totalDaysNew - year*365)/30;
-            day = totalDaysNew - year*365 - month*30;
+            getDate(year,month,day,totalDays);
 
-            parser->Update(path,year,month,day,120);
+            parser->Update(path,year,month,day,80);
             assert(parser != NULL);
             //update of stats
             stats->UpdateStatsFactory();
@@ -121,38 +141,65 @@ void computePnl(int hedgingNb){
 
             //Update of the AssetList POINTER !!!!
             multimonde->UpdateAssetListFromStat(stats, pricer->simuModel);
-            totalDaysOld = totalDaysNew;
-
+            totalDaysOld = totalDays;
         }
 
 
         multimonde->PricePortfolio(t,prixP);
         multimonde->PriceProduct(t,prixC,ic);
         multimonde->UpdatePortfolio(t);
-        marche->GetCotations(t,spotV);
-        cout << "\n" << t << ";" << prixC << ";" << prixP;
-        //for (int i = 0; i < 11; ++i)
-            //cout << ";" << GET(multimonde->composition,i);
-        cout << "\nPrice at t = " << t << " : " << prixC << " in [ " << prixC - ic/2.
-             << " ; " << prixC + ic/2. << " ] ** width : " << ic;
-        PnL += prixP - prixC;
-        cout << "\nPortfolio price at t = " << t << " : " << prixP << " PnL [ " << prixP - prixC << " ] \n";
-        cout << "\nPnL cumulated [ " << PnL << " ] \n";
+        pnlAtDate = prixP - prixC;
+        pnl += pnlAtDate;
+        if(fichier)
+        {
+            getDate(year,month,day,totalDays);
+            std::cout << "\n" << year << "-" << month << "-" << day;
+            fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
+
+            for (int i = 0; i < 11; ++i){
+                double tmpDelta = GET(multimonde->composition,i);
+                if(tmpDelta != 0){
+                    fichier << delimiter << tmpDelta;
+                }else{
+                    fichier << delimiter << "0.0";
+                }
+            }
+            fichier << delimiter << prixP - prixC << delimiter << pnl;
+            fichier << '\n';
+
+        }
+        else
+            cerr << "Impossible d'ouvrir le fichier !" << endl;
+
     }
 
     // Final :
     multimonde->PriceProduct(maturity,prixC,ic);
     multimonde->PricePortfolio(maturity,prixP);
-    cout << "\n" << maturity << ";" << prixC << ";" << prixP;
-    for (int i = 0; i < 11; ++i)
-        cout << ";0";
-    cout << "\n\nPay Off at maturity : " << prixC;
-    PnL += prixP - prixC;
-    cout << "\nPortfolio price at maturity : " << prixP << " PnL : [ " << prixP - prixC  << " ]";
-    cout << "\n\n ------> PnL cumulated at maturity [ " << PnL << " ] \n";
+    pnlAtDate = prixP - prixC;
+    pnl += pnlAtDate;
+    if(fichier)
+    {
+        totalDays += hedgingStep*365./252.;
+        getDate(year,month,day,totalDays);
+        fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
 
+        for (int i = 0; i < 11; ++i){
+            fichier << delimiter << "0.0";
+        }
+
+        fichier << delimiter << prixP - prixC << delimiter << pnl;
+        fichier << '\n';
+        fichier.close();
+    }
+    else
+        cerr << "Impossible d'ouvrir le fichier !" << endl;
+
+
+
+
+    //DELETE
     cout << "\n\n** Delete : ";
-    pnl_vect_free(&spotV);
     delete multimonde;
     delete pricer;
     delete simuIndex;
@@ -176,4 +223,34 @@ void freeParameters(RateModelGen ***rateModels){
         delete (*rateModels)[i];
     }
     delete *rateModels;
+}
+
+void getDate(int &year, int&month, int&day, double &totalDays){
+
+    year = (int)totalDays/365;
+    month = ((int)totalDays - year*365)/30;
+    day = (int)totalDays - year*365 - month*30;
+    if(month == 0){
+        year = year - 1;
+        month = 12;
+        day = (int)totalDays - year*365 - month*30;
+        day = (day > 30) ? 30 : day;
+    }
+    if(day == 0){
+        if(month == 2){
+            day = 28;
+        }else if(month > 1){
+            day = 30;
+            month -= 1;
+        }else{
+            day = 30;
+            month = 12;
+            year = year - 1;
+        }
+    }else if(day > 28){
+        if (month == 2){
+            day = 28;
+        }
+    }
+
 }
