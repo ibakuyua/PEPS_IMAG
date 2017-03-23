@@ -41,7 +41,7 @@ add_executable(test_blackScholes.te src/Pricer/Tests/SimulationModels/BlackSchol
 target_link_libraries(test_blackScholes.te ${LIBS})
 #Test for pricer
 add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp
-        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
+        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES} ${STATS_SOURCE_FILES})
 target_link_libraries(test_pricerCall-MCBS.te ${LIBS})
 add_executable(test_DeltaCall.te src/Pricer/Tests/PricerTest/testDeltaCall.cpp src/Pricer/FinancialProducts/Call.cpp
         src/Pricer/Pricing/MonteCarloPricer.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
