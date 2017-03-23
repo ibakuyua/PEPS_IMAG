@@ -46,7 +46,6 @@ int main(){
     cout << "\n--> Closed formula Price : " << price1;
     assert(fabs(price0-price1) <= ic);
 
-    // TODO : problème si t tombe sur un pas de constatation ! past a un élément de plus
     double t = maturity / 2. + 0.3;
     cout << "\n\n** Computing Price at t = " << t << "\n";
     marche->ImportCotations(CotationTypes::Simulated);
