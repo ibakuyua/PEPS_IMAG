@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-//using Wrapper;
+using Wrapper;
 using MvcApplication1.Models;
 using System.IO;
 using System.Globalization;
@@ -113,18 +113,40 @@ namespace MvcApplication1.Controllers
             {"PnLCummule",15}
         };
 
-        public ActionResult Index(int id = 0)
+        private static int GetNumberOfWorkingDays(DateTime start, DateTime stop)
         {
-            ViewBag.Message = "Pricer Multimonde.";
+            int days = 0;
+            while (start <= stop)
+            {
+                if (start.DayOfWeek != DayOfWeek.Saturday && start.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    ++days;
+                }
+                start = start.AddDays(1);
+            }
+            return days;
+        }
+
+        public ActionResult Index(int id = 0, string date = "01.01.2001")
+        {
+            ViewBag.Message = "Pricer Multimonde";
             double prixMultimonde = 0;
-            
-            /**Price priceM2021 = new Price();
+            double ICMultimonde = 0;
+
+            Price priceM2021 = new Price();
             if (id == -1)
             {
-                priceM2021.computing_multimonde();
+                DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
+                DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
+                int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin);
+                priceM2021.computing_multimonde(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
                 prixMultimonde = priceM2021.get_prix();
+                ICMultimonde= priceM2021.get_ic();
+                
             }
-            ViewData.Add("prixMultimonde", prixMultimonde);**/
+
+            ViewData.Add("prixMultimonde", prixMultimonde);
+            ViewData.Add("ICMultimonde", ICMultimonde);
             return View();
         }
 
@@ -157,11 +179,26 @@ namespace MvcApplication1.Controllers
             return View();
         }
 
+        public ActionResult Forward()
+        {
+            ViewBag.Message = "Forward";
+
+            return View();
+        }
+        public ActionResult HandleFormForwardTest(int nbSample, int nbReb, double pas)
+        {
+            return View("Backtest");
+        }
+
         public ActionResult Backtest()
         {
             ViewBag.Message = "Backtesting";
 
             return View();
+        }
+        public ActionResult HandleFormBackTest(int nbSample, int nbReb, double pas)
+        {
+            return View("Backtest");
         }
 
         /// <summary>
@@ -190,7 +227,7 @@ namespace MvcApplication1.Controllers
         string[] CSVtoJSON(int underlyer)
         {
             //METTRE le chemin absolu du fichier
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
@@ -207,7 +244,7 @@ namespace MvcApplication1.Controllers
 
         string[] backtestToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\test1.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\test1.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
