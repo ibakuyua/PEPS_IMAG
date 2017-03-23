@@ -22,13 +22,16 @@
 
 
     <div class="row well">
+   
         <div class="col-lg-8 col-md-8">
-            <p>Date de début de Calcul :</p>
-            @Html.TextBox("Date")
-            <p>Prix obtenu : </p>
-            @using (Html.BeginForm())
-            {
+        @using (Html.BeginForm())
+        {
+        <p>Date de début de Calcul (au format jj/mm/aaaa):</p>
+                string date = "01/01/2001";
+                @Html.TextBox("Date", date)
+                ViewData.Add("Date", date);
                 object prixMultimonde;
+                <p>Prix obtenu : </p>
                 if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
                 {
                     <div>@prixMultimonde.ToString()</div>
@@ -37,12 +40,14 @@
                 {
                     <div>0.00</div>
                 }
+            
             }
-
         </div>
         <div class="col-lg-4 col-md-4">
-            @Html.ActionLink("Pricer", "Index", new { id = -1 }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Pricer", "Index", new { id = -1, date = "01/01/2001" }, new { @class = "btn btn-primary" })
         </div>
+    }
+
     </div>
 
 </div>

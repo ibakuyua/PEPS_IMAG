@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Wrapper;
+//using Wrapper;
 using MvcApplication1.Models;
 using System.IO;
 using System.Globalization;
@@ -14,6 +14,69 @@ namespace MvcApplication1.Controllers
 {
     public class HomeController : Controller
     {
+
+        DateTime[] holidays = new DateTime[]{
+           /*******2015******/
+            new DateTime(2015,11,11),
+            new DateTime(2015,12,25),
+           /*******2016******/
+           new DateTime(2016,1,1),
+           new DateTime(2016,3,28),
+           new DateTime(2016,5,16),
+           new DateTime(2016,7,14),
+           new DateTime(2016,8,15),
+           new DateTime(2016,11,1),
+           new DateTime(2016,11,11),
+           /*******2017******/
+           new DateTime(2017,4,17),
+           new DateTime(2017,5,1),
+           new DateTime(2017,5,8),
+           new DateTime(2017,5,25),
+           new DateTime(2017,6,5),
+           new DateTime(2017,7,14),
+           new DateTime(2017,8,15),
+           new DateTime(2017,11,1),
+           new DateTime(2017,12,25),
+           /*******2018******/
+           new DateTime(2018,1,1),
+           new DateTime(2018,4,2),
+           new DateTime(2018,5,1),
+           new DateTime(2018,5,8),
+           new DateTime(2018,5,10),
+           new DateTime(2018,5,21),
+           new DateTime(2018,8,15),
+           new DateTime(2018,11,1),
+           new DateTime(2018,12,25),
+           /*******2019******/
+           new DateTime(2019,1,1),
+           new DateTime(2019,4,22),
+           new DateTime(2019,5,1),
+           new DateTime(2019,5,8),
+           new DateTime(2019,5,30),
+           new DateTime(2019,6,10),
+           new DateTime(2019,8,15),
+           new DateTime(2019,11,1),
+           new DateTime(2019,11,11),
+           new DateTime(2019,12,25),
+           /*******2020******/
+           new DateTime(2020,1,1),
+           new DateTime(2020,4,13),
+           new DateTime(2020,5,1),
+           new DateTime(2020,5,8),
+           new DateTime(2020,5,21),
+           new DateTime(2020,6,1),
+           new DateTime(2020,7,14),
+           new DateTime(2020,11,11),
+           new DateTime(2020,12,25),
+           /*******2021******/
+           new DateTime(2021,1,1),
+           new DateTime(2021,4,5),
+           new DateTime(2021,5,13),
+           new DateTime(2021,5,24),
+           new DateTime(2021,7,14),
+           new DateTime(2021,11,1),
+           new DateTime(2021,11,11),
+        };
 
 
         Dictionary<string, int> stocks = new Dictionary<string, int>()
@@ -55,13 +118,13 @@ namespace MvcApplication1.Controllers
             ViewBag.Message = "Pricer Multimonde.";
             double prixMultimonde = 0;
             
-            Price priceM2021 = new Price();
+            /**Price priceM2021 = new Price();
             if (id == -1)
             {
                 priceM2021.computing_multimonde();
                 prixMultimonde = priceM2021.get_prix();
             }
-            ViewData.Add("prixMultimonde", prixMultimonde);
+            ViewData.Add("prixMultimonde", prixMultimonde);**/
             return View();
         }
 
@@ -131,7 +194,7 @@ namespace MvcApplication1.Controllers
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
-            for (ligne = 1; ligne < 450; ligne++)
+            for (ligne = 385; ligne < 835; ligne++)
             {
                 string[] data = allLines[ligne].Split(',');
                 string[] date = data[0].Split('/');
