@@ -95,7 +95,7 @@
             Entrez les paramètres pour le test simulé pour un Multimonde d'échéance 2017
         </label>
     </div>
-    @using (Html.BeginForm("HandleFormBackTest", "Home"))
+    @using (Html.BeginForm("HandleFormBackTest", "Home", FormMethod.Get, new { @class = "row well"}))
     {
         <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
         string nbSample = "50000";

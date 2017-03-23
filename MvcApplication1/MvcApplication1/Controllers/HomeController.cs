@@ -139,7 +139,7 @@ namespace MvcApplication1.Controllers
                 DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
                 DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
                 int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin);
-                priceM2021.computing_multimonde(nbJourOuvre);
+                priceM2021.computing_multimonde(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
                 prixMultimonde = priceM2021.get_prix();
                 ICMultimonde= priceM2021.get_ic();
                 
