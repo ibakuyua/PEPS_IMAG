@@ -1,11 +1,11 @@
 ﻿@{
-    ViewBag.Title = "forward";
+    ViewBag.Title = "Forwardtest";
 }
 
 
 <script type="text/javascript">
     $(document).ready(function () {
-        chartInitialize("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
+        chartInitialize("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
     });
 
     function MAJChart() {
@@ -59,21 +59,17 @@
 
             if (nom == "PrixPrdt") {
                 chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
-                alert("Prix Prdt");
             }
             if (nom == "PrixPf") {
                 chartUpdate("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
-                alert("PrixPf");
             }
 
             if (nom == "PnL") {
                 chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
-                alert("PnL");
             }
 
             if (nom == "PnLCummule") {
                 chartUpdate("PnLCummule", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ');
-                alert("PnL Cummulé");
             }
         };
 </script>
@@ -81,71 +77,68 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Test Simulé
+                Test simulé
             </h1>
             <ol class="breadcrumb">
                 <li>
                     @Html.ActionLink("Multimonde 2021", "Index", "Home")
                 </li>
-                <li class="active">Test Simulé</li>
+                <li class="active">Test simulé</li>
             </ol>
         </div>
     </div>
 
-    <form method="post">
-        <fieldset>
-            <legend>Entrez les paramètres pour le backtest</legend>
-            <div>
-                <label>
-                    Entrez les paramètres pour le test simulé pour un Multimonde d'échéance 2017
-                </label>
-            </div>
-            @using (Html.BeginForm("HandleFormBackTest", "Home"))
-{
-    <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
-    string nbSample = "50000";
-    @Html.TextBox("Nombre de Tirage de Monte Carlo", nbSample)
-    <label for="nbRebalancements">Nombre de rebalancements:</label>
-    string nbReb = "80";
-    @Html.TextBox("Relancements", nbReb)
-    <label for="nbRebalancements">Pas de Discretisation:</label>
-    string pas = "0.1";
-    @Html.TextBox("Relancements", pas)
-    <br />
-    <label>&nbsp;</label>
-    @Html.ActionLink("Lancer le Backtest", "HandleFormForwardTest", new { nbSample = nbSample, nbReb = nbReb, pas = pas }, new { @class = "btn btn-primary" })
-}
+
+    <legend>Entrez les paramètres pour le test simulé</legend>
+    <div>
+        <label>
+            Entrez les paramètres pour le test simulé pour un Multimonde d'échéance 2017
+        </label>
+    </div>
+    @using (Html.BeginForm("HandleFormBackTest", "Home"))
+    {
+        <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+        string nbSample = "50000";
+        @Html.TextBox("Nombre de Tirage de Monte Carlo", nbSample)
+        <label for="nbRebalancements">Nombre de rebalancements:</label>
+        string nbReb = "80";
+        @Html.TextBox("Relancements", nbReb)
+        <label for="nbRebalancements">Pas de Discretisation:</label>
+        string pas = "0.1";
+        @Html.TextBox("Relancements", pas)
+        <br />
+        <label>&nbsp;</label>
+
+        @Html.ActionLink("Lancer le Backtest", "HandleFormForwardTest", new { nbSample = nbSample, nbReb = nbReb, pas = pas }, new { @class = "btn btn-primary" })
+    }
 
 
-            <div>
-                <select id="affichage">
-                    <option value="PnL">PnL</option>
-                    <option value="PnLCummule">PnL cummulé</option>
-                    <option value="PrixPrdt">Prix du produit</option>
-                    <option value="PrixPf" selected>Prix du portefeuille</option>
-                    <option value="HKDEUR">Delta HKD/EUR</option>
-                    <option value="JPYEUR">Delta JPY/EUR</option>
-                    <option value="AUDEUR">Delta AUD/EUR</option>
-                    <option value="GBPEUR">Delta GBP/EUR</option>
-                    <option value="USDEUR">Delta USD/EUR</option>
-                    <option value="HKDEUR">Delta HKD/EUR</option>
-                    <option value="JPYEUR">Delta JPY/EUR</option>
-                    <option value="AUDEUR">Delta AUD/EUR</option>
-                    <option value="HangSeng">Delta HangSeng</option>
-                    <option value="Nikkei225">Delta Nikkei225</option>
-                    <option value="SPASX200">Delta SPASX200</option>
-                    <option value="EuroStoxx500">Delta EuroStoxx500</option>
-                    <option value="FTSE100">Delta FTSE100</option>
-                    <option value="SP500">Delta S&P500</option>
-                </select>
+    <div>
+        <select id="affichage">
+            <option value="PnL">PnL</option>
+            <option value="PnLCummule">PnL cummulé</option>
+            <option value="PrixPrdt">Prix du produit</option>
+            <option value="PrixPf" selected>Prix du portefeuille</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="USDEUR">Delta USD/EUR</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="HangSeng">Delta HangSeng</option>
+            <option value="Nikkei225">Delta Nikkei225</option>
+            <option value="SPASX200">Delta SPASX200</option>
+            <option value="EuroStoxx500">Delta EuroStoxx500</option>
+            <option value="FTSE100">Delta FTSE100</option>
+            <option value="SP500">Delta S&P500</option>
+        </select>
 
-            </div>
-            <div>
-                <button class="btn btn-primary" onclick="MAJChart()">Choisir l'affichage</button>
-            </div>
-        </fieldset>
-    </form>
-
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="MAJChart()">Choisir l'affichage</button>
+    </div>
 
     <div id="backtestChart" style="height: 550px"></div>
 </div>

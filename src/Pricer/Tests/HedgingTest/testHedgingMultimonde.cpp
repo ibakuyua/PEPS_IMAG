@@ -18,7 +18,7 @@ void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
 int main(int argc, char** argv){
-    int hedgingNb(80);
+    int hedgingNb(5);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -54,12 +54,12 @@ void computePnl(int hedgingNb){
     string path = "../data/dataPEPS.csv";
     //Import of stats
 
-    int year = 2011;
-    int month = 4;
-    int day = 6;
+    int year = 2010;
+    int month = 11;
+    int day = 15;
     double totalDays = ((year + (month/12.0))*365 + day);
 
-    ParseCSV *parser = new ParseCSV(path,year,month,day,120);
+    ParseCSV *parser = new ParseCSV(path,year,month,day,80);
     std::cout << "Je vaux : " << MGET(parser->outputData,0,0) << std::endl;
     //ParseCSV *parser = new ParseCSV(path);
     assert(parser != NULL);
@@ -90,7 +90,7 @@ void computePnl(int hedgingNb){
 
 
     //Backward test
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,12,01,path);
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,03,17,path);
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";

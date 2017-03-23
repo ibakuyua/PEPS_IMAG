@@ -5,7 +5,7 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        chartInitialize("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
+        chartInitialize("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
     });
 
     function MAJChart() {
@@ -59,21 +59,17 @@
 
             if (nom == "PrixPrdt") {
                 chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
-                alert("Prix Prdt");
             }
             if (nom == "PrixPf") {
                 chartUpdate("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
-                alert("PrixPf");
             }
 
             if (nom == "PnL") {
                 chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
-                alert("PnL");
             }
 
             if (nom == "PnLCummule") {
                 chartUpdate("PnLCummule", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ');
-                alert("PnL Cummulé");
             }
         };
     </script>
@@ -92,8 +88,7 @@
         </div>
     </div>
 
-    <form method="post">
-        <fieldset>
+    
             <legend>Entrez les paramètres pour le backtest</legend>
             <div>
                 <label>
@@ -113,38 +108,37 @@
                 @Html.TextBox("Relancements", pas)
                 <br />
                 <label>&nbsp;</label>
+
                 @Html.ActionLink("Lancer le Backtest", "HandleFormBackTest", new { nbSample = nbSample, nbReb = nbReb, pas = pas }, new { @class = "btn btn-primary" })
 }
 
-            <div>
-                <select id="affichage">
-                    <option value="PnL">PnL</option>
-                    <option value="PnLCummule">PnL cummulé</option>
-                    <option value="PrixPrdt">Prix du produit</option>
-                    <option value="PrixPf" selected>Prix du portefeuille</option>
-                    <option value="HKDEUR">Delta HKD/EUR</option>
-                    <option value="JPYEUR">Delta JPY/EUR</option>
-                    <option value="AUDEUR">Delta AUD/EUR</option>
-                    <option value="GBPEUR">Delta GBP/EUR</option>
-                    <option value="USDEUR">Delta USD/EUR</option>
-                    <option value="HKDEUR">Delta HKD/EUR</option>
-                    <option value="JPYEUR">Delta JPY/EUR</option>
-                    <option value="AUDEUR">Delta AUD/EUR</option>
-                    <option value="HangSeng">Delta HangSeng</option>
-                    <option value="Nikkei225">Delta Nikkei225</option>
-                    <option value="SPASX200">Delta SPASX200</option>
-                    <option value="EuroStoxx500">Delta EuroStoxx500</option>
-                    <option value="FTSE100">Delta FTSE100</option>
-                    <option value="SP500">Delta S&P500</option>
-                </select>
 
-            </div>
-            <div>
-                <button class="btn btn-primary" onclick="MAJChart()">Choisir l'affichage</button>
-            </div>
-        </fieldset>
-    </form>
+    <div>
+        <select id="affichage">
+            <option value="PnL">PnL</option>
+            <option value="PnLCummule">PnL cummulé</option>
+            <option value="PrixPrdt">Prix du produit</option>
+            <option value="PrixPf" selected>Prix du portefeuille</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="USDEUR">Delta USD/EUR</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="HangSeng">Delta HangSeng</option>
+            <option value="Nikkei225">Delta Nikkei225</option>
+            <option value="SPASX200">Delta SPASX200</option>
+            <option value="EuroStoxx500">Delta EuroStoxx500</option>
+            <option value="FTSE100">Delta FTSE100</option>
+            <option value="SP500">Delta S&P500</option>
+        </select>
 
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="MAJChart()">Choisir l'affichage</button>
+    </div>
 
     <div id="backtestChart" style="height: 550px"></div>
 </div>
