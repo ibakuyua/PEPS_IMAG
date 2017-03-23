@@ -24,12 +24,10 @@
     <div class="row well">
    
         <div class="col-lg-8 col-md-8">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("HandleFormPrice", "Home", FormMethod.Post))
         {
         <p>Date de début de Calcul entre 01.10.2015 et 12.11.2021 (au format jj.mm.aaaa):</p>
-                string date = "01.10.2015";
-                @Html.TextBox("Date", date)
-                ViewData.Add("Date", date);
+                @Html.TextBox("date")
                 object prixMultimonde, ICMultimonde;
                 <p>Prix obtenu : </p>
                 if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
@@ -49,16 +47,10 @@
                 {
                     <div>0.00</div>
                 }
+            <input type="submit" value="Pricer" class="btn btn-primary" />
             
             }
-        </div>
-        <div class="col-lg-4 col-md-4">
-        @using (Html.BeginForm())
-        {
-            object date;
-            ViewData.TryGetValue("Date", out date);
-            @Html.ActionLink("Pricer", "Index", new { id = -1, date = date }, new { @class = "btn btn-primary" })
-        }
+
         </div>
     
 
