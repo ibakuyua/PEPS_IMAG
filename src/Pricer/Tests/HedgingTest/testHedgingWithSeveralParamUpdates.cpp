@@ -113,7 +113,6 @@ void computePnl(int hedgingNb){
             month = (totalDaysNew - year*365)/30;
             day = totalDaysNew - year*365 - month*30;
 
-
             parser->Update(path,year,month,day,120);
             assert(parser != NULL);
             //update of stats
