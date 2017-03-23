@@ -26,11 +26,11 @@
         <div class="col-lg-8 col-md-8">
         @using (Html.BeginForm())
         {
-        <p>Date de début de Calcul (au format jj/mm/aaaa):</p>
-                string date = "01/01/2001";
+        <p>Date de début de Calcul entre 01.10.2015 et 12.11.2021 (au format jj.mm.aaaa):</p>
+                string date = "01.10.2015";
                 @Html.TextBox("Date", date)
                 ViewData.Add("Date", date);
-                object prixMultimonde;
+                object prixMultimonde, ICMultimonde;
                 <p>Prix obtenu : </p>
                 if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
                 {
@@ -40,13 +40,27 @@
                 {
                     <div>0.00</div>
                 }
+                <p>Intervalle de confiance : </p>
+                 if (@ViewData.TryGetValue("ICMultimonde", out ICMultimonde))
+                {
+                    <div>@ICMultimonde.ToString()</div>
+                }
+                else
+                {
+                    <div>0.00</div>
+                }
             
             }
         </div>
         <div class="col-lg-4 col-md-4">
-            @Html.ActionLink("Pricer", "Index", new { id = -1, date = "01/01/2001" }, new { @class = "btn btn-primary" })
+        @using (Html.BeginForm())
+        {
+            object date;
+            ViewData.TryGetValue("Date", out date);
+            @Html.ActionLink("Pricer", "Index", new { id = -1, date = date }, new { @class = "btn btn-primary" })
+        }
         </div>
-    }
+    
 
     </div>
 
