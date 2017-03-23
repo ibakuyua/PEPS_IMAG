@@ -55,11 +55,11 @@ void computePnl(int hedgingNb){
     //Import of stats
 
     int year = 2011;
-    int month = 4;
-    int day = 6;
+    int month = 1;
+    int day = 30;
     double totalDays = ((year + (month/12.0))*365 + day);
 
-    ParseCSV *parser = new ParseCSV(path,year,month,day,120);
+    ParseCSV *parser = new ParseCSV(path,year,month,day,80);
     std::cout << "Je vaux : " << MGET(parser->outputData,0,0) << std::endl;
     //ParseCSV *parser = new ParseCSV(path);
     assert(parser != NULL);
