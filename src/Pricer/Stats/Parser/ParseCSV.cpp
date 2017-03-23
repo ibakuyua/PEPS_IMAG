@@ -123,7 +123,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         }
 
         for(int i = 1; i < numberToParse; i++){
-            std::cout << "Itération : " << i << std::endl;
+            //std::cout << "Itération : " << i << std::endl;
            // std::cout << MGET(inputData,i-1,1)
             while(FILE.get()!=delimiter){}
             for(int j = 0; j < n; j++){
