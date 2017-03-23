@@ -15,78 +15,62 @@
 
             if (nom == "GBPEUR") {
                 chartUpdate("GBPEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "GBPEUR" }) ');
-                alert(nom);
             }
 
             if (nom == "USDEUR") {
                 chartUpdate("USDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "USDEUR" }) ');
-                alert(nom);
             }
 
             if (nom == "HKDEUR") {
                 chartUpdate("HKDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HKDEUR" }) ');
-                alert(nom);
             }
 
             if (nom == "JPYEUR") {
                 chartUpdate("JPYEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "JPYEUR" }) ');
-                alert(nom);
             }
 
             if (nom == "AUDEUR") {
                 chartUpdate("AUDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "AUDEUR" }) ');
-                alert(nom);
             }
 
             if (nom == "SP500") {
                 chartUpdate("SP500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SP500" }) ');
-                alert(nom);
             }
 
             if (nom == "EuroStoxx500") {
                 chartUpdate("EuroStoxx500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "EuroStoxx500" }) ');
-                alert(nom);
             }
 
             if (nom == "FTSE100") {
                 chartUpdate("FTSE100", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "FTSE100" }) ');
-                alert(nom);
             }
 
             if (nom == "HangSeng") {
                 chartUpdate("HangSeng", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HangSeng" }) ');
-                alert(nom);
             }
 
             if (nom == "Nikkei225") {
                 chartUpdate("Nikkei225", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "Nikkei225" }) ');
-                alert(nom);
             }
 
             if (nom == "SPASX200") {
                 chartUpdate("SPASX200", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SPASX200" }) ');
-                alert(nom);
             }
 
             if (nom == "PrixPrdt") {
                 chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
-                alert(nom);
             }
             if (nom == "PrixPf") {
                 chartUpdate("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
-                alert(nom);
             }
 
             if (nom == "PnL") {
                 chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
-                alert(nom);
             }
 
             if (nom == "PnLCummule") {
                 chartUpdate("PnLCummule", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ');
-                alert(nom);
             }
-
         };
     </script>
 <div class="container">
@@ -124,37 +108,36 @@
                 <label>&nbsp;</label>
                 <input type="submit" value="Lancer le backtest" class="submit" />
             </div>
-
-
-            <div>
-                <select id="affichage">
-                    <option value="PnL">PnL</option>
-                    <option value="PnLCummule">PnL cummulé</option>
-                    <option value="PrixPrdt">Prix du produit</option>
-                    <option value="PrixPf" selected>Prix du portefeuille</option>
-                    <option value="HKDEUR">Delta HKD/EUR</option>
-                    <option value="JPYEUR">Delta JPY/EUR</option>
-                    <option value="AUDEUR">Delta AUD/EUR</option>
-                    <option value="GBPEUR">Delta GBP/EUR</option>
-                    <option value="USDEUR">Delta USD/EUR</option>
-                    <option value="HKDEUR">Delta HKD/EUR</option>
-                    <option value="JPYEUR">Delta JPY/EUR</option>
-                    <option value="AUDEUR">Delta AUD/EUR</option>
-                    <option value="HangSeng">Delta HangSeng</option>
-                    <option value="Nikkei225">Delta Nikkei225</option>
-                    <option value="SPASX200">Delta SPASX200</option>
-                    <option value="EuroStoxx500">Delta EuroStoxx500</option>
-                    <option value="FTSE100">Delta FTSE100</option>
-                    <option value="SP500">Delta S&P500</option>
-                </select>
-
-            </div>
-            <div>
-                <button onclick="MAJChart()">Choisir l'affichage</button>
-            </div>
         </fieldset>
     </form>
 
+
+    <div>
+        <select id="affichage">
+            <option value="PnL">PnL</option>
+            <option value="PnLCummule">PnL cummulé</option>
+            <option value="PrixPrdt">Prix du produit</option>
+            <option value="PrixPf" selected>Prix du portefeuille</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="USDEUR">Delta USD/EUR</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="HangSeng">Delta HangSeng</option>
+            <option value="Nikkei225">Delta Nikkei225</option>
+            <option value="SPASX200">Delta SPASX200</option>
+            <option value="EuroStoxx500">Delta EuroStoxx500</option>
+            <option value="FTSE100">Delta FTSE100</option>
+            <option value="SP500">Delta S&P500</option>
+        </select>
+
+    </div>
+    <div>
+        <button onclick="MAJChart()">Choisir l'affichage</button>
+    </div>
 
     <div id="backtestChart" style="height: 550px"></div>
 </div>
