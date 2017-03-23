@@ -15,6 +15,69 @@ namespace MvcApplication1.Controllers
     public class HomeController : Controller
     {
 
+        DateTime[] holidays = new DateTime[]{
+           /*******2015******/
+            new DateTime(2015,11,11),
+            new DateTime(2015,12,25),
+           /*******2016******/
+           new DateTime(2016,1,1),
+           new DateTime(2016,3,28),
+           new DateTime(2016,5,16),
+           new DateTime(2016,7,14),
+           new DateTime(2016,8,15),
+           new DateTime(2016,11,1),
+           new DateTime(2016,11,11),
+           /*******2017******/
+           new DateTime(2017,4,17),
+           new DateTime(2017,5,1),
+           new DateTime(2017,5,8),
+           new DateTime(2017,5,25),
+           new DateTime(2017,6,5),
+           new DateTime(2017,7,14),
+           new DateTime(2017,8,15),
+           new DateTime(2017,11,1),
+           new DateTime(2017,12,25),
+           /*******2018******/
+           new DateTime(2018,1,1),
+           new DateTime(2018,4,2),
+           new DateTime(2018,5,1),
+           new DateTime(2018,5,8),
+           new DateTime(2018,5,10),
+           new DateTime(2018,5,21),
+           new DateTime(2018,8,15),
+           new DateTime(2018,11,1),
+           new DateTime(2018,12,25),
+           /*******2019******/
+           new DateTime(2019,1,1),
+           new DateTime(2019,4,22),
+           new DateTime(2019,5,1),
+           new DateTime(2019,5,8),
+           new DateTime(2019,5,30),
+           new DateTime(2019,6,10),
+           new DateTime(2019,8,15),
+           new DateTime(2019,11,1),
+           new DateTime(2019,11,11),
+           new DateTime(2019,12,25),
+           /*******2020******/
+           new DateTime(2020,1,1),
+           new DateTime(2020,4,13),
+           new DateTime(2020,5,1),
+           new DateTime(2020,5,8),
+           new DateTime(2020,5,21),
+           new DateTime(2020,6,1),
+           new DateTime(2020,7,14),
+           new DateTime(2020,11,11),
+           new DateTime(2020,12,25),
+           /*******2021******/
+           new DateTime(2021,1,1),
+           new DateTime(2021,4,5),
+           new DateTime(2021,5,13),
+           new DateTime(2021,5,24),
+           new DateTime(2021,7,14),
+           new DateTime(2021,11,1),
+           new DateTime(2021,11,11),
+        };
+
 
         Dictionary<string, int> stocks = new Dictionary<string, int>()
         {
@@ -50,18 +113,40 @@ namespace MvcApplication1.Controllers
             {"PnLCummule",15}
         };
 
-        public ActionResult Index(int id = 0)
+        private static int GetNumberOfWorkingDays(DateTime start, DateTime stop)
         {
-            ViewBag.Message = "Pricer Multimonde.";
+            int days = 0;
+            while (start <= stop)
+            {
+                if (start.DayOfWeek != DayOfWeek.Saturday && start.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    ++days;
+                }
+                start = start.AddDays(1);
+            }
+            return days;
+        }
+
+        public ActionResult Index(int id = 0, string date = "01.01.2001")
+        {
+            ViewBag.Message = "Pricer Multimonde";
             double prixMultimonde = 0;
-            
+            double ICMultimonde = 0;
+
             Price priceM2021 = new Price();
             if (id == -1)
             {
-                priceM2021.computing_multimonde();
+                DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
+                DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
+                int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin);
+                priceM2021.computing_multimonde(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
                 prixMultimonde = priceM2021.get_prix();
+                ICMultimonde= priceM2021.get_ic();
+                
             }
+
             ViewData.Add("prixMultimonde", prixMultimonde);
+            ViewData.Add("ICMultimonde", ICMultimonde);
             return View();
         }
 
@@ -94,11 +179,26 @@ namespace MvcApplication1.Controllers
             return View();
         }
 
+        public ActionResult Forward()
+        {
+            ViewBag.Message = "Forward";
+
+            return View();
+        }
+        public ActionResult HandleFormForwardTest(int nbSample, int nbReb, double pas)
+        {
+            return View("Backtest");
+        }
+
         public ActionResult Backtest()
         {
             ViewBag.Message = "Backtesting";
 
             return View();
+        }
+        public ActionResult HandleFormBackTest(int nbSample, int nbReb, double pas)
+        {
+            return View("Backtest");
         }
 
         /// <summary>
@@ -127,11 +227,11 @@ namespace MvcApplication1.Controllers
         string[] CSVtoJSON(int underlyer)
         {
             //METTRE le chemin absolu du fichier
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
-            for (ligne = 1; ligne < 450; ligne++)
+            for (ligne = 385; ligne < 835; ligne++)
             {
                 string[] data = allLines[ligne].Split(',');
                 string[] date = data[0].Split('/');
@@ -144,7 +244,7 @@ namespace MvcApplication1.Controllers
 
         string[] backtestToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\test1.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\test1.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
