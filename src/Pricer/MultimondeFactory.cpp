@@ -122,11 +122,11 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     cout << "########################################\n\n";
 }
 
-void MultimondeFactory::BackTest(int hedgingNb, int MCnb, double discrStep, char *path) {
+void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, double discrStep) {
 
 }
 
-void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, double discrStep, char *path) {
+void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, double discrStep) {
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE (SIMULATION MARKET) ######\n\n";
     cout << "** Instance : ";
     RateModelGen **rateModels;

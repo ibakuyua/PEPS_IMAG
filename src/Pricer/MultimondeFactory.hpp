@@ -41,7 +41,7 @@ public:
      * @param discrStep : Discretisation step for the delta method (default 0.1)
      * @param path : The path for the CSV results
      */
-    static void BackTest(int hedgingNb, int MCnb, double discrStep = 0.1, char* path);
+    static void BackTest(int hedgingNb, int MCnb, char *path, double discrStep = 0.1);
     /**
      * ForwardTest : permit to laucnh a forward test
      *
@@ -50,7 +50,7 @@ public:
      * @param discrStep : Discretisation step for the delta method (default 0.1)
      * @param path : The path for the CSV results
      */
-    static void ForwardTest(int hedgingNb, int MCnb, double discrStep = 0.1, char* path);
+    static void ForwardTest(int hedgingNb, int MCnb, char *path, double discrStep = 0.1);
 };
 
 
