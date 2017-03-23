@@ -1,6 +1,7 @@
 #include "Marche.hpp"
 #include "Stats/Parser/ParseCSV.h"
 #include <cstdlib>
+
 Marche *Marche::instance = NULL;
 
 Marche *Marche::Instance(Change domesticChange, ProductGen *product, int dateNb) {
@@ -136,3 +137,5 @@ void Marche::ImportHistoricalCotationsForMultimonde(int startYear, int startMont
 
     delete(parser);
 }
+
+

@@ -37,7 +37,7 @@ target_link_libraries(test_constantRateModel.te ${LIBS})
 #Test for model
 add_executable(test_blackScholes.te src/Pricer/Tests/SimulationModels/BlackScholesTest.cpp
         ${SIMULATION_SOURCE_FILES} ${ASSET_SOURCE_FILES} ${STATS_SOURCE_FILES} src/Pricer/FinancialProducts/Multimonde.cpp
-        ${PRODUIT_SOURCE_FILES} src/Pricer/Tests/Unitaires/creationChangeZC.cpp src/Pricer/Tests/Unitaires/creationRateModel.cpp src/Pricer/Tests/Unitaires/creationSimuModel.cpp src/Pricer/Tests/Unitaires/creationPricer.cpp)
+        ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_blackScholes.te ${LIBS})
 #Test for pricer
 add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp

@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Change";
+}
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            chartInitialize("GBPEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "GBPEUR" }) ');
+        });
+
+        function MAJChart() {
+
+            var select = document.getElementById("change");
+            var nom = select.options[select.selectedIndex].value;
+
+            if (nom == "GBPEUR") {
+                chartUpdate("GBPEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "GBPEUR" }) ');
+            }
+
+            if (nom == "USDEUR") {
+                chartUpdate("USDEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "USDEUR" }) ');
+            }
+
+            if (nom == "HKDEUR") {
+                chartUpdate("HKDEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "HKDEUR" }) ');
+            }
+
+            if (nom == "JPYEUR") {
+                chartUpdate("JPYEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "JPYEUR" }) ');
+            }
+
+            if (nom == "AUDEUR") {
+                chartUpdate("AUDEUR", "changeChart", '@Url.Action("GetSerie", "Home", new { name = "AUDEUR" }) ');
+            }
+
+        };
+    </script>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Change
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        @Html.ActionLink("Multimonde 2021", "Index", "Home")
+                    </li>
+                    <li>Change</li>
+                </ol>
+            </div>
+        </div>
+        @*<hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+            <h2>@ViewBag.Message</h2>
+        </hgroup>*@
+
+        <select id="change">
+            <option value="GBPEUR" selected>GBP/EUR</option>
+            <option value="USDEUR">USD/EUR</option>
+            <option value="HKDEUR">HKD/EUR</option>
+            <option value="JPYEUR">JPY/EUR</option>
+            <option value="AUDEUR">AUD/EUR</option>
+        </select>
+        <button onclick="MAJChart()">Mettre à jour</button>
+        <div id="changeChart" style="height: 550px"></div>
+
+</div>

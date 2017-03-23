@@ -16,6 +16,9 @@ namespace MvcApplication1
     {
         protected void Application_Start()
         {
+            String _path = String.Concat(System.Environment.GetEnvironmentVariable("PATH"), ";", System.AppDomain.CurrentDomain.RelativeSearchPath);
+            System.Environment.SetEnvironmentVariable("PATH", _path, EnvironmentVariableTarget.Process);
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
