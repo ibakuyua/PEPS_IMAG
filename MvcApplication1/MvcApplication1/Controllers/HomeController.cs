@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Wrapper;
-using MvcApplication1.Models;
 using System.IO;
 using System.Globalization;
 using System.Net;
@@ -113,41 +112,56 @@ namespace MvcApplication1.Controllers
             {"PnLCummule",15}
         };
 
-        private static int GetNumberOfWorkingDays(DateTime start, DateTime stop)
+        private static int GetNumberOfWorkingDays(DateTime start, DateTime stop, DateTime[] jourFeries)
         {
+            DateTime tmp = start;
             int days = 0;
-            while (start <= stop)
+            while (tmp <= stop)
             {
-                if (start.DayOfWeek != DayOfWeek.Saturday && start.DayOfWeek != DayOfWeek.Sunday)
+                if (tmp.DayOfWeek != DayOfWeek.Saturday && tmp.DayOfWeek != DayOfWeek.Sunday)
                 {
-                    ++days;
+                    bool est_ferie = false;
+                    for (int i = 0; i < jourFeries.Length; i++)
+                    {
+                        if (tmp.Equals(jourFeries[i]))
+                        {
+                            est_ferie = true;
+                        }
+                    }
+                    if (!est_ferie)
+                    {
+                        ++days;
+                    }
                 }
-                start = start.AddDays(1);
+                tmp = tmp.AddDays(1);
             }
             return days;
         }
 
-        public ActionResult Index(int id = 0, string date = "01.01.2001")
+        public ActionResult Index()
         {
             ViewBag.Message = "Pricer Multimonde";
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult HandleFormPrice(string date)
+        {
             double prixMultimonde = 0;
             double ICMultimonde = 0;
 
             Price priceM2021 = new Price();
-            if (id == -1)
-            {
-                DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
-                DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
-                int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin);
-                priceM2021.computing_multimonde(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
-                prixMultimonde = priceM2021.get_prix();
-                ICMultimonde= priceM2021.get_ic();
-                
-            }
+            DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
+            DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
+            int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin, holidays);
+            priceM2021.computing_multimonde(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
+            prixMultimonde = priceM2021.get_prix();
+            ICMultimonde = priceM2021.get_ic();
 
             ViewData.Add("prixMultimonde", prixMultimonde);
             ViewData.Add("ICMultimonde", ICMultimonde);
-            return View();
+            return View("Index");
         }
 
 
@@ -185,8 +199,12 @@ namespace MvcApplication1.Controllers
 
             return View();
         }
+
+        [HttpPost]
         public ActionResult HandleFormForwardTest(int nbSample, int nbReb, double pas)
         {
+            Price wrapper = new Price();
+            wrapper.computing_forward(nbReb, nbSample, pas);
             return View("Backtest");
         }
 
@@ -196,8 +214,13 @@ namespace MvcApplication1.Controllers
 
             return View();
         }
+
+        [HttpPost]
         public ActionResult HandleFormBackTest(int nbSample, int nbReb, double pas)
         {
+
+            Price wrapper = new Price();
+            wrapper.computing_back(nbReb, nbSample, pas);
             return View("Backtest");
         }
 
@@ -244,7 +267,7 @@ namespace MvcApplication1.Controllers
 
         string[] backtestToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\test1.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\forwardtest.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;

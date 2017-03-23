@@ -95,22 +95,18 @@
             Entrez les paramètres pour le test simulé pour un Multimonde d'échéance 2017
         </label>
     </div>
-    @using (Html.BeginForm("HandleFormBackTest", "Home", FormMethod.Get, new { @class = "row well"}))
-    {
-        <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
-        string nbSample = "50000";
-        @Html.TextBox("Nombre de Tirage de Monte Carlo", nbSample)
-        <label for="nbRebalancements">Nombre de rebalancements:</label>
-        string nbReb = "80";
-        @Html.TextBox("Relancements", nbReb)
-        <label for="nbRebalancements">Pas de Discretisation:</label>
-        string pas = "0.1";
-        @Html.TextBox("Relancements", pas)
-        <br />
-        <label>&nbsp;</label>
-
-        @Html.ActionLink("Lancer le Backtest", "HandleFormForwardTest", new { nbSample = nbSample, nbReb = nbReb, pas = pas }, new { @class = "btn btn-primary" })
-    }
+@using (Html.BeginForm("HandleFormForwardTest", "Home", FormMethod.Post, new { @class = "row well" }))
+{
+    <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+    @Html.TextBox("nbSample")
+    <label for="nbRebalancements">Nombre de rebalancements:</label>
+    @Html.TextBox("nbReb")
+    <label for="nbRebalancements">Pas de Discretisation:</label>
+    @Html.TextBox("pas")
+    <br />
+    <label>&nbsp;</label>
+    <input type="submit" value="Lancer le test" class="btn btn-primary" />
+}
 
 
     <div>
