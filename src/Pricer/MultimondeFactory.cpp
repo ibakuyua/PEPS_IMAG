@@ -334,9 +334,16 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, double 
 
 void setParameters(RateModelGen ***rateModels){
     *rateModels = (RateModelGen**) malloc(6 * sizeof(RateModelGen*));
-    for (int d = 0; d < 6; ++d)
-        (*rateModels)[d] = new ConstantRateModel((Change)d, 0.03/365.);
+
+    (*rateModels) [0] = new ConstantRateModel((Change) 0, RFF_FRANCE/365.);
+    (*rateModels) [1] = new ConstantRateModel((Change) 1, RFF_UK/365.);
+    (*rateModels) [2] = new ConstantRateModel((Change) 2, RFF_US/365.);
+    (*rateModels) [3] = new ConstantRateModel((Change) 3, RFF_CHINA/365.);
+    (*rateModels) [4] = new ConstantRateModel((Change) 4, RFF_JAPAN/365.);
+    (*rateModels) [5] = new ConstantRateModel((Change) 5, RFF_AUSTRALIA/365.);
+
 }
+
 void freeParameters(RateModelGen ***rateModels){
     for (int i = 0; i < 6; ++i) {
         delete (*rateModels)[i];
