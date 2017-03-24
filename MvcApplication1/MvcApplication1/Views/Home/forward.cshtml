@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        chartInitialize("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
+        chartInitialize("PrixPf", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ');
     });
 
     function MAJChart() {
@@ -14,62 +14,62 @@
         var nom = select.options[select.selectedIndex].value;
 
             if (nom == "GBPEUR") {
-                chartUpdate("GBPEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "GBPEUR" }) ');
+                chartUpdate("GBPEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "GBPEUR" }) ');
             }
 
             if (nom == "USDEUR") {
-                chartUpdate("USDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "USDEUR" }) ');
+                chartUpdate("USDEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "USDEUR" }) ');
             }
 
             if (nom == "HKDEUR") {
-                chartUpdate("HKDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HKDEUR" }) ');
+                chartUpdate("HKDEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "HKDEUR" }) ');
             }
 
             if (nom == "JPYEUR") {
-                chartUpdate("JPYEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "JPYEUR" }) ');
+                chartUpdate("JPYEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "JPYEUR" }) ');
             }
 
             if (nom == "AUDEUR") {
-                chartUpdate("AUDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "AUDEUR" }) ');
+                chartUpdate("AUDEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "AUDEUR" }) ');
             }
 
             if (nom == "SP500") {
-                chartUpdate("SP500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SP500" }) ');
+                chartUpdate("SP500", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "SP500" }) ');
             }
 
             if (nom == "EuroStoxx500") {
-                chartUpdate("EuroStoxx500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "EuroStoxx500" }) ');
+                chartUpdate("EuroStoxx500", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "EuroStoxx500" }) ');
             }
 
             if (nom == "FTSE100") {
-                chartUpdate("FTSE100", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "FTSE100" }) ');
+                chartUpdate("FTSE100", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "FTSE100" }) ');
             }
 
             if (nom == "HangSeng") {
-                chartUpdate("HangSeng", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HangSeng" }) ');
+                chartUpdate("HangSeng", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "HangSeng" }) ');
             }
 
             if (nom == "Nikkei225") {
-                chartUpdate("Nikkei225", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "Nikkei225" }) ');
+                chartUpdate("Nikkei225", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "Nikkei225" }) ');
             }
 
             if (nom == "SPASX200") {
-                chartUpdate("SPASX200", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SPASX200" }) ');
+                chartUpdate("SPASX200", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "SPASX200" }) ');
             }
 
             if (nom == "PrixPrdt") {
-                chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
+                chartUpdate("PrixPrdt", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPrdt" }) ');
             }
             if (nom == "PrixPf") {
-                chartUpdate("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
+                chartUpdate("PrixPf", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ');
             }
 
             if (nom == "PnL") {
-                chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
+                chartUpdate("PnL", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PnL" }) ');
             }
 
             if (nom == "PnLCummule") {
-                chartUpdate("PnLCummule", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ');
+                chartUpdate("PnLCummule", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PnLCummule" }) ');
             }
         };
 </script>
@@ -95,22 +95,18 @@
             Entrez les paramètres pour le test simulé pour un Multimonde d'échéance 2017
         </label>
     </div>
-    @using (Html.BeginForm("HandleFormBackTest", "Home", FormMethod.Get, new { @class = "row well"}))
-    {
-        <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
-        string nbSample = "50000";
-        @Html.TextBox("Nombre de Tirage de Monte Carlo", nbSample)
-        <label for="nbRebalancements">Nombre de rebalancements:</label>
-        string nbReb = "80";
-        @Html.TextBox("Relancements", nbReb)
-        <label for="nbRebalancements">Pas de Discretisation:</label>
-        string pas = "0.1";
-        @Html.TextBox("Relancements", pas)
-        <br />
-        <label>&nbsp;</label>
-
-        @Html.ActionLink("Lancer le Backtest", "HandleFormForwardTest", new { nbSample = nbSample, nbReb = nbReb, pas = pas }, new { @class = "btn btn-primary" })
-    }
+@using (Html.BeginForm("HandleFormForwardTest", "Home", FormMethod.Post, new { @class = "row well" }))
+{
+    <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+    @Html.TextBox("nbSample")
+    <label for="nbRebalancements">Nombre de rebalancements:</label>
+    @Html.TextBox("nbReb")
+    <label for="nbRebalancements">Pas de Discretisation:</label>
+    @Html.TextBox("pas")
+    <br />
+    <label>&nbsp;</label>
+    <input type="submit" value="Lancer le test" class="btn btn-primary" />
+}
 
 
     <div>
@@ -140,5 +136,5 @@
         <button class="btn btn-primary" onclick="MAJChart()">Choisir l'affichage</button>
     </div>
 
-    <div id="backtestChart" style="height: 550px"></div>
+    <div id="forwardtestChart" style="height: 550px"></div>
 </div>
