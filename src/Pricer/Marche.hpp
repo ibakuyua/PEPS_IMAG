@@ -1,6 +1,7 @@
 #ifndef PRICING_MARCHE_HPP
 #define PRICING_MARCHE_HPP
 
+
 #include "FinancialProducts/ProductGen.hpp"
 
 /*
@@ -34,7 +35,7 @@ public:
      * @param[in] product : the product
      * @return a market
      */
-    static Marche *Instance(Change domesticChange = Change::EUR, ProductGen *product = NULL, int dateNb = 0);
+	static Marche *Instance(Change domesticChange = Change::EUR, ProductGen *product = NULL, int dateNb = 0);
 
     /**
      * ImportCotations : permit to fill the cotation market
@@ -47,7 +48,7 @@ public:
      * @param[in] startDay : start day for the historical cotations
      * @param[in] path : the data path for the historical cotations
      */
-    void ImportCotations(CotationTypes type,int startYear = 0,int startMonth = 0,int startDay = 0, string path = "");
+	void ImportCotations(CotationTypes type, int startYear = 0, int startMonth = 0, int startDay = 0, string path = "");
 
     /**
      * Permit to obtain the cotations for the date t
@@ -57,7 +58,7 @@ public:
      * @param[in] t : the date to get the cotations
      * @param[out] cotations : the result
      */
-    void GetCotations(double t, PnlVect *cotations);
+	void GetCotations(double t, PnlVect *cotations);
 
     /**
      * Permit to obtain the past matrix (in model step in case of withStepModel=true)
@@ -70,7 +71,8 @@ public:
      * @param[in] withStepModel : determine if past is in model step or hedging step
      * @param[in] modelStepNb : the number of step in the model
      */
-    void GetPastCotations(double t, PnlMat *past, bool withStepModel = false, int modelStepNb = 1);
+	void GetPastCotations(double t, PnlMat *past, bool withStepModel = false, int modelStepNb = 1);
+
 
 private:
     static Marche *instance; /// The unique instance of market
@@ -81,13 +83,13 @@ private:
     /**
      * Constructor/Destructor
      */
-    Marche(ProductGen *product, Change domesticChange, int dateNb);
-    ~Marche();
+	Marche(ProductGen *product, Change domesticChange, int dateNb);
+	~Marche();
 
     /**
      * Permit to get the historical cotations for multimonde21
      */
-    void ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path);
+	void ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path);
 
 };
 

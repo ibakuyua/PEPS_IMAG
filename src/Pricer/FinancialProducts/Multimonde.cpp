@@ -1,7 +1,10 @@
 #include "Multimonde.hpp"
 #include "Asset/ChangeZC.hpp"
 
+
+
 double Multimonde::maturity = NB_DAYSWRK_TO_MATURITY;
+
 
 Multimonde::Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats)
     : ProductGen("Multimonde21", pricer, hedgingDateNb, payOffMultimonde21)
@@ -142,55 +145,40 @@ void Multimonde::UpdateAssetListFromStat(StatsFactory *stats, ModelGen *simuMode
             MLET(correlationMatrixEur,j,i) = rho_ij;
         }
     }
-    // Creation of the assets
-    Asset **myAssets = (Asset**) malloc(11 * sizeof(Asset*));
-
 
     //EUR50 Update
     assets->assets[0]->trend = GET(trendEur,0);
     assets->assets[0]->volatility = GET(volEur,0);
-
     //X_FTSE Update
     assets->assets[1]->trend = GET(trendEur,1);
     assets->assets[1]->volatility = GET(volEur,1);
-
-
     //X_P500 Update
     assets->assets[2]->trend = GET(trendEur,2);
     assets->assets[2]->volatility = GET(volEur,2);
-
     //X_HANGSENG Update
     assets->assets[3]->trend = GET(trendEur,3);
     assets->assets[3]->volatility = GET(volEur,3);
-
     //X_NIKKEI
     assets->assets[4]->trend = GET(trendEur,4);
     assets->assets[4]->volatility = GET(volEur,4);
-
     //X_SPASX200
     assets->assets[5]->trend = GET(trendEur,5);
     assets->assets[5]->volatility = GET(volEur,5);
-
     //EUR/GBP
     assets->assets[6]->trend = GET(trendEur,6);
     assets->assets[6]->volatility = GET(volEur,6);
-
     //EUR/USD
     assets->assets[7]->trend = GET(trendEur,7);
     assets->assets[7]->volatility = GET(volEur,7);
-
     //EUR/HKD
     assets->assets[8]->trend = GET(trendEur,8);
     assets->assets[8]->volatility = GET(volEur,8);
-
     //EUR/JPY
     assets->assets[9]->trend = GET(trendEur,9);
     assets->assets[9]->volatility = GET(volEur,9);
-
     //EUR/AUD
     assets->assets[10]->trend = GET(trendEur,10);
     assets->assets[10]->volatility = GET(volEur,10);
-
 
     // Delete
     pnl_vect_free(&trend);

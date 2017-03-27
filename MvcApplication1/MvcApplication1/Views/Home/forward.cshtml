@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Forwardtest";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        chartInitialize("PrixPf", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ');
+    });
+
+    function MAJChart() {
+
+        var select = document.getElementById("affichage");
+        var nom = select.options[select.selectedIndex].value;
+
+            if (nom == "GBPEUR") {
+                chartUpdate("GBPEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "GBPEUR" }) ');
+            }
+
+            if (nom == "USDEUR") {
+                chartUpdate("USDEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "USDEUR" }) ');
+            }
+
+            if (nom == "HKDEUR") {
+                chartUpdate("HKDEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "HKDEUR" }) ');
+            }
+
+            if (nom == "JPYEUR") {
+                chartUpdate("JPYEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "JPYEUR" }) ');
+            }
+
+            if (nom == "AUDEUR") {
+                chartUpdate("AUDEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "AUDEUR" }) ');
+            }
+
+            if (nom == "SP500") {
+                chartUpdate("SP500", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "SP500" }) ');
+            }
+
+            if (nom == "EuroStoxx500") {
+                chartUpdate("EuroStoxx500", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "EuroStoxx500" }) ');
+            }
+
+            if (nom == "FTSE100") {
+                chartUpdate("FTSE100", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "FTSE100" }) ');
+            }
+
+            if (nom == "HangSeng") {
+                chartUpdate("HangSeng", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "HangSeng" }) ');
+            }
+
+            if (nom == "Nikkei225") {
+                chartUpdate("Nikkei225", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "Nikkei225" }) ');
+            }
+
+            if (nom == "SPASX200") {
+                chartUpdate("SPASX200", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "SPASX200" }) ');
+            }
+
+            if (nom == "PrixPrdt") {
+                chartUpdate("PrixPrdt", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPrdt" }) ');
+            }
+            if (nom == "PrixPf") {
+                chartUpdate("PrixPf", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ');
+            }
+
+            if (nom == "PnL") {
+                chartUpdate("PnL", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PnL" }) ');
+            }
+
+            if (nom == "PnLCummule") {
+                chartUpdate("PnLCummule", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PnLCummule" }) ');
+            }
+        };
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Test simulé
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    @Html.ActionLink("Multimonde 2021", "Index", "Home")
+                </li>
+                <li class="active">Test simulé</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <legend>Entrez les paramètres pour le test simulé</legend>
+    <div>
+        <label>
+            Entrez les paramètres pour le test simulé pour un Multimonde d'échéance 2017
+        </label>
+    </div>
+@using (Html.BeginForm("HandleFormForwardTest", "Home", FormMethod.Post, new { @class = "row well" }))
+{
+    <label for="nbSamples">Nombre de tirages du Monte Carlo:</label>
+    @Html.TextBox("nbSample")
+    <label for="nbRebalancements">Nombre de rebalancements:</label>
+    @Html.TextBox("nbReb")
+    <label for="nbRebalancements">Pas de Discretisation:</label>
+    @Html.TextBox("pas")
+    <br />
+    <label>&nbsp;</label>
+    <input type="submit" value="Lancer le test" class="btn btn-primary" />
+}
+
+
+    <div>
+        <select id="affichage">
+            <option value="PnL">PnL</option>
+            <option value="PnLCummule">PnL cummulé</option>
+            <option value="PrixPrdt">Prix du produit</option>
+            <option value="PrixPf" selected>Prix du portefeuille</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="USDEUR">Delta USD/EUR</option>
+            <option value="HKDEUR">Delta HKD/EUR</option>
+            <option value="JPYEUR">Delta JPY/EUR</option>
+            <option value="AUDEUR">Delta AUD/EUR</option>
+            <option value="HangSeng">Delta HangSeng</option>
+            <option value="Nikkei225">Delta Nikkei225</option>
+            <option value="SPASX200">Delta SPASX200</option>
+            <option value="EuroStoxx500">Delta EuroStoxx500</option>
+            <option value="FTSE100">Delta FTSE100</option>
+            <option value="SP500">Delta S&P500</option>
+        </select>
+
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="MAJChart()">Choisir l'affichage</button>
+    </div>
+
+    <div id="forwardtestChart" style="height: 550px"></div>
+</div>

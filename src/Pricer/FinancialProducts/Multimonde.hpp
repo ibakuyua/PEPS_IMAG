@@ -1,6 +1,7 @@
 #ifndef PRICING_MULTIMONDE_HPP
 #define PRICING_MULTIMONDE_HPP
 
+
 #include "../ProductInfo/infoMultimonde.hpp"
 #include "ProductGen.hpp"
 #include "../Stats/StatsFactory.h"
@@ -15,7 +16,7 @@ public:
     /**
      * Members
      */
-    static double maturity;
+	static double maturity;
 
     /**
      * Constructor : all the underlying asset are in the domestic economy
@@ -28,11 +29,11 @@ public:
      *          4 : Xnikkei   | 5 : Xspasx200  | 6 : XRgbp | 7 : XRusd
      *          8 : XRcny     | 9 : XRjpy      | 10: XRaud
      */
-    Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats);
+	Multimonde(PricerGen *pricer, int hedgingDateNb, StatsFactory *stats);
     /**
      * Destructor
      */
-    ~Multimonde();
+	~Multimonde();
     /**
      * Static methods
      */
@@ -43,9 +44,11 @@ public:
       * @param simuModel the modele used to simulate
       * @return the asset list of multimonde product
       */
+
      static AssetList *GetAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
 
      void UpdateAssetListFromStat(StatsFactory *stats, ModelGen *simuModel);
+
 };
 
 

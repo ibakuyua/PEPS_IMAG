@@ -1,47 +1,61 @@
 ﻿@{
     ViewBag.Title = "Pricer";
 }
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Prix du Multimonde
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    @Html.ActionLink("Multimonde 2021", "Index", "Home")
+                </li>
+                <li>Prix du Multimonde</li>
+            </ol>
         </div>
-    </section>
-}
-<p>
-Pour pricer le produit, vous devez d'abord préciser la date du début du pricing puis appuyer sur le bouton Pricer.
-</p>
+    </div>
+
+    <h4>
+        Pour pricer le produit, vous devez d'abord préciser la date du début du pricing puis appuyer sur le bouton Pricer.
+    </h4>
 
 
-<div class="price">
-    @using (Html.BeginForm()) {
-        <form>Veuillez donner la date de début de pricing</form>
-        @Html.Label("Date")
-        @Html.TextBox("Date")
-        <br />
-        @Html.Label("Prix")
-        object prixMultimonde;
-        if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
+    <div class="row well">
+   
+        <div class="col-lg-8 col-md-8">
+        @using (Html.BeginForm("HandleFormPrice", "Home", FormMethod.Post))
         {
-            <form>@prixMultimonde.ToString()</form>
-        }
-        else
-        {
-            <form>0.00</form>
-        }
-        
-        
-        @Html.ActionLink("Calcul", "Index", new { id = 1 })
-        //<input type="submit" value="calculer" />
-        
-        @*<input type="date" name="PricingDate" max="2021-01-01"><br>*@
+        <p>Date de début de Calcul entre 01.10.2015 et 12.11.2021 (au format jj.mm.aaaa):</p>
+                @Html.TextBox("date")
+                object prixMultimonde, ICMultimonde;
+                <p>Prix obtenu : </p>
+                if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
+                {
+                    <div>@prixMultimonde.ToString()</div>
+                }
+                else
+                {
+                    <div>0.00</div>
+                }
+                <p>Intervalle de confiance : </p>
+                 if (@ViewData.TryGetValue("ICMultimonde", out ICMultimonde))
+                {
+                    <div>@ICMultimonde.ToString()</div>
+                }
+                else
+                {
+                    <div>0.00</div>
+                }
+            <input type="submit" value="Pricer" class="btn btn-primary" />
+            
+            }
 
-        @*<button id="boutonPrice" type="button" value="button">Pricer</button>
-        <label id="labelPrice" class="affiche" style="visibility: hidden" >86.56</label>*@
-    }
+        </div>
+    
+
+    </div>
+
 </div>
 <script type="text/javascript" charset="utf-8">
     /*function price() {

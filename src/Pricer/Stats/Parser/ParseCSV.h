@@ -1,10 +1,11 @@
 #ifndef PEPS_IMAG_PARSECSV_H
 #define PEPS_IMAG_PARSECSV_H
 
+
 #include "pnl/pnl_matrix.h"
 #include <fstream>
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <sstream>
 #include <cstdlib>
 
@@ -13,17 +14,17 @@ using namespace std;
 /**
  * Class which permit to parse a CSV of quotations
  */
-class ParseCSV {
+class ParseCSV{
 public:
 
-    PnlMat *outputData; /// The data contained in the CSV converted in PnlMat
+	PnlMat *outputData; /// The data contained in the CSV converted in PnlMat
 
     /**
      * Constructor
      *
      * @param path : path to the file
      */
-    ParseCSV(string path);
+	ParseCSV(string path);
     /**
      * Constructor 2 (convert only from a start date to an end date)
      *
@@ -33,7 +34,7 @@ public:
      * @param startDay : start day date
      * @param numberToParse : number of date to parse
      */
-    ParseCSV(string path, int startYearOfEstimation,int startMonth, int startDay, int numberToParse);
+	ParseCSV(string path, int startYearOfEstimation, int startMonth, int startDay, int numberToParse);
 
     /**
      * Update (convert only from a start date to an end date)
@@ -50,7 +51,7 @@ public:
     /**
      * Destructor
      */
-    ~ParseCSV();
+	~ParseCSV();
 };
 
 

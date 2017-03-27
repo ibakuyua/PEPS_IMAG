@@ -78,7 +78,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
 
         while(b){
             getline(FILE,line);
-            if (line.c_str()=="")
+            if (!strcmp(line.c_str(),""))
                 continue;
             tmpStartDayString = line.substr(0,2);
             tmpStartDay = atoi(tmpStartDayString.c_str());
@@ -136,12 +136,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         std::cout << "Fichier CSV inexistant  !!!!!!!!!!" << endl;
 
 
-
-
 }
-
-
-//Ajouté par Benji test
 
 void ParseCSV::Update(string path, int startYear, int startMonth, int startDay, int numberToParse){
 
@@ -234,11 +229,6 @@ void ParseCSV::Update(string path, int startYear, int startMonth, int startDay, 
 
 
 }
-
-//Fin de l'ajout
-
-
-
 
 ParseCSV::~ParseCSV() {
     pnl_mat_free(&outputData);

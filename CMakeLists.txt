@@ -40,8 +40,8 @@ add_executable(test_blackScholes.te src/Pricer/Tests/SimulationModels/BlackSchol
         ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_blackScholes.te ${LIBS})
 #Test for pricer
-add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp ${STATS_SOURCE_FILES}
-        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES})
+add_executable(test_pricerCall-MCBS.te src/Pricer/Tests/PricerTest/testCall-MCBS.cpp src/Pricer/FinancialProducts/Call.cpp
+        ${PRODUIT_SOURCE_FILES} ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES} ${STATS_SOURCE_FILES})
 target_link_libraries(test_pricerCall-MCBS.te ${LIBS})
 add_executable(test_DeltaCall.te src/Pricer/Tests/PricerTest/testDeltaCall.cpp src/Pricer/FinancialProducts/Call.cpp
         src/Pricer/Pricing/MonteCarloPricer.cpp ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
@@ -71,11 +71,10 @@ add_executable(test_HedgingMultimonde.te src/Pricer/Tests/HedgingTest/testHedgin
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_HedgingMultimonde.te ${LIBS})
 
-
-add_executable(test_HedgingWithStats.te src/Pricer/Tests/HedgingTest/testHedgingWithSeveralParamUpdates.cpp src/Pricer/FinancialProducts/Multimonde.cpp
+add_executable(test_HedgingSeveralParam.te src/Pricer/Tests/HedgingTest/testHedgingWithSeveralParamUpdates.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
-target_link_libraries(test_HedgingWithStats.te ${LIBS})
+target_link_libraries(test_HedgingSeveralParam.te ${LIBS})
 
 add_executable(test_HedgingCall.te src/Pricer/Tests/HedgingTest/testHedgingCall.cpp src/Pricer/FinancialProducts/Call.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
@@ -108,20 +107,20 @@ add_executable(test_unit_CreationRateModel.te src/Pricer/Tests/Unitaires/creatio
 target_link_libraries(test_unit_CreationRateModel.te ${LIBS})
 
 #SimuModelCreation
-add_executable(test_unit_CreationSimuModel.te src/Pricer/Tests/Unitaires/creationSimuModel.cpp src/Pricer/RateModels/ConstantRateModel.cpp
+add_executable(test_unit_CreationSimuModel.te src/Pricer/Tests/Unitaires/creationSimuModel.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp src/Pricer/RateModels/ConstantRateModel.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_unit_CreationSimuModel.te ${LIBS})
 
 #PricerCreation
 add_executable(test_unit_CreationPricer.te src/Pricer/Tests/Unitaires/creationPricer.cpp src/Pricer/Pricing/MonteCarloPricer.cpp src/Pricer/RateModels/ConstantRateModel.cpp src/Pricer/SimulationModels/BlackScholesModel.cpp
-       ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
-       ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+        ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
 target_link_libraries(test_unit_CreationPricer.te ${LIBS})
 
 
 # Global executable
 add_executable(test_pricer_multimonde.te src/Pricer/Tests/PricerTest/testPricerMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
-        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} src/Pricer/MultimondeFactory.cpp)
 target_link_libraries(test_pricer_multimonde.te ${LIBS})

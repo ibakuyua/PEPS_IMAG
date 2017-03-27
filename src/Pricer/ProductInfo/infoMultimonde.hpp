@@ -51,5 +51,12 @@
 
 #define BASE 360
 
+//Risk Free Rate for all countries in 2015
+#define RFF_FRANCE 0.015
+#define RFF_UK 0.021
+#define RFF_US 0.024
+#define RFF_CHINA 0.045
+#define RFF_JAPAN 0.007
+#define RFF_AUSTRALIA 0.031
 
 #endif //PEPS_IMAG_INFOMULTIMONDE_HPP
