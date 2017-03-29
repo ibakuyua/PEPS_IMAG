@@ -8,12 +8,16 @@ using Wrapper;
 using System.IO;
 using System.Globalization;
 using System.Net;
+using System.Windows;
 
 
 namespace MvcApplication1.Controllers
 {
     public class HomeController : Controller
     {
+
+        String cheminAbsolu = System.Web.HttpContext.Current.Server.MapPath(@"~") + @"\..\..\data\";
+
 
         DateTime[] holidays = new DateTime[]{
            /*******2015******/
@@ -233,7 +237,7 @@ namespace MvcApplication1.Controllers
             ViewData.Add("I_ZC_AUD", intervalles[10]);
             ViewData.Add("I_ZC_EUR", intervalles[11]);
 
-            //ViewData.Add("intervalles", intervalles);
+            ViewData.Add("intervalles", intervalles);
             return View("Couverture");
         }
 
@@ -301,7 +305,7 @@ namespace MvcApplication1.Controllers
         string[] CSVtoJSON(int underlyer)
         {
             //METTRE le chemin absolu du fichier
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
+            string[] allLines = System.IO.File.ReadAllLines(cheminAbsolu + "dataPEPS.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
@@ -318,7 +322,7 @@ namespace MvcApplication1.Controllers
 
         string[] backtestToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\test1.csv");
+            string[] allLines = System.IO.File.ReadAllLines(cheminAbsolu + "test1.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
@@ -335,7 +339,7 @@ namespace MvcApplication1.Controllers
 
         string[] forwardToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\forwardtest.csv");
+            string[] allLines = System.IO.File.ReadAllLines(cheminAbsolu + "forwardtest.csv");
 
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
