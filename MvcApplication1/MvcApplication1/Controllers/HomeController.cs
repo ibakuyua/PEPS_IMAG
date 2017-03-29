@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MvcApplication1.Models;
 using Wrapper;
 
 using System.IO;
@@ -195,6 +194,48 @@ namespace MvcApplication1.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult HandleFormCouverture(string date)
+        {
+            double[] deltas = new double[12];
+            double[] intervalles = new double[12];
+
+            DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
+            DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
+            int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin, holidays);
+            Price wrapper = new Price();
+            wrapper.computing_deltas(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
+            deltas = wrapper.get_deltas();
+            intervalles = wrapper.get_intervalles();
+            ViewData.Add("D_Eur_Stoxx 50", deltas[0]);
+            ViewData.Add("D_SP_500", deltas[2]);
+            ViewData.Add("D_Nikkei_225", deltas[4]);
+            ViewData.Add("D_Hang_Seng", deltas[3]);
+            ViewData.Add("D_FTSE_100", deltas[1]);
+            ViewData.Add("D_SP_ASX_200", deltas[5]);
+            ViewData.Add("D_ZC_USD", deltas[7]);
+            ViewData.Add("D_ZC_GBP", deltas[6]);
+            ViewData.Add("D_ZC_JPY", deltas[9]);
+            ViewData.Add("D_ZC_HKD", deltas[8]);
+            ViewData.Add("D_ZC_AUD", deltas[10]);
+            ViewData.Add("D_ZC_EUR", deltas[11]);
+            ViewData.Add("I_Eur_Stoxx 50", intervalles[0]);
+            ViewData.Add("I_SP_500", intervalles[2]);
+            ViewData.Add("I_Nikkei_225", intervalles[4]);
+            ViewData.Add("I_Hang_Seng", intervalles[3]);
+            ViewData.Add("I_FTSE_100", intervalles[1]);
+            ViewData.Add("I_SP_ASX_200", intervalles[5]);
+            ViewData.Add("I_ZC_USD", intervalles[7]);
+            ViewData.Add("I_ZC_GBP", intervalles[6]);
+            ViewData.Add("I_ZC_JPY", intervalles[9]);
+            ViewData.Add("I_ZC_HKD", intervalles[8]);
+            ViewData.Add("I_ZC_AUD", intervalles[10]);
+            ViewData.Add("I_ZC_EUR", intervalles[11]);
+
+            //ViewData.Add("intervalles", intervalles);
+            return View("Couverture");
+        }
+
         public ActionResult Forward()
         {
             ViewBag.Message = "Forward";
@@ -207,7 +248,7 @@ namespace MvcApplication1.Controllers
         {
             Price wrapper = new Price();
             wrapper.computing_forward(nbReb, nbSample, pas);
-            return View("Backtest");
+            return View("Forward");
         }
 
         public ActionResult Backtest()

@@ -31,7 +31,7 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
 
     PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
-    ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",year,month,day,180);
+    ParseCSV *parser = new ParseCSV("C:\\Users\\Paul\\Documents\\Visual Studio 2013\\Projects\\ProjetEvaluationProduitStructure21\\data\\dataPEPS.csv",year,month,day,180);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     Multimonde *multimonde = new Multimonde(pricer,hedgingNb,stats);
     assert(multimonde != NULL);
@@ -42,7 +42,7 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
     Marche *marche = Marche::Instance(Change::EUR,multimonde,(int)Multimonde::maturity);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,"../data/dataPEPS.csv");
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,"C:\\Users\\Paul\\Documents\\Visual Studio 2013\\Projects\\ProjetEvaluationProduitStructure21\\data\\dataPEPS.csv");
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
@@ -84,7 +84,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
 
     PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
-    ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",year,month,day,180);
+    ParseCSV *parser = new ParseCSV("C:\\Users\\Paul\\Documents\\Visual Studio 2013\\Projects\\ProjetEvaluationProduitStructure21\\data\\dataPEPS.csv",year,month,day,180);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     Multimonde *multimonde = new Multimonde(pricer,hedgingNb,stats);
     assert(multimonde != NULL);
@@ -95,7 +95,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     Marche *marche = Marche::Instance(Change::EUR,multimonde,(int)Multimonde::maturity);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,"../data/dataPEPS.csv");
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,"C:\\Users\\Paul\\Documents\\Visual Studio 2013\\Projects\\ProjetEvaluationProduitStructure21\\data\\dataPEPS.csv");
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
@@ -155,7 +155,7 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, double 
     int month = 11;
     int day = 15;
 
-    ParseCSV *parser = new ParseCSV("../data/dataPEPS.csv",year,month,day,80);
+    ParseCSV *parser = new ParseCSV("C:\\Users\\Paul\\Documents\\Visual Studio 2013\\Projects\\ProjetEvaluationProduitStructure21\\data\\dataPEPS.csv",year,month,day,80);
     assert(parser != NULL);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     assert(stats != NULL);
@@ -269,66 +269,64 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, double 
     multimonde->PricePortfolio(maturity,prixP);
     pnlAtDate = prixP - prixC;
     pnl += pnlAtDate;
-    if(fichier)
-    {
-        totalDays += hedgingStep*365./252.;
-        year = (int)totalDays/365;
-        month = ((int)totalDays - year*365)/30;
-        day = (int)totalDays - year*365 - month*30;
-        if(month == 0){
-            year = year - 1;
-            month = 12;
-            day = (int)totalDays - year*365 - month*30;
-            day = (day > 30) ? 30 : day;
-        }
-        if(day == 0){
-            if(month == 2){
-                day = 28;
-            }else if(month > 1){
-                day = 30;
-                month -= 1;
-            }else{
-                day = 30;
-                month = 12;
-                year = year - 1;
-            }
-        }else if(day > 28){
-            if (month == 2){
-                day = 28;
-            }
-        }
-        fichier << year << "-" << month << "-" << day  << delimiter<< prixC << delimiter << prixP;
+	if (fichier)
+	{
+		totalDays += hedgingStep*365. / 252.;
+		year = (int)totalDays / 365;
+		month = ((int)totalDays - year * 365) / 30;
+		day = (int)totalDays - year * 365 - month * 30;
+		if (month == 0){
+			year = year - 1;
+			month = 12;
+			day = (int)totalDays - year * 365 - month * 30;
+			day = (day > 30) ? 30 : day;
+		}
+		if (day == 0){
+			if (month == 2){
+				day = 28;
+			}
+			else if (month > 1){
+				day = 30;
+				month -= 1;
+			}
+			else{
+				day = 30;
+				month = 12;
+				year = year - 1;
+			}
+		}
+		else if (day > 28){
+			if (month == 2){
+				day = 28;
+			}
+		}
+		fichier << year << "-" << month << "-" << day << delimiter << prixC << delimiter << prixP;
 
-        for (int i = 0; i < 11; ++i){
-            fichier << delimiter << "0.";
-        }
+		for (int i = 0; i < 11; ++i){
+			fichier << delimiter << "0.0";
+		}
 
-        fichier << delimiter << prixP - prixC << delimiter << pnl;
-        fichier << '\n';
-
-    }
+		fichier << delimiter << prixP - prixC << delimiter << pnl;
+		fichier << '\n';
+	}
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
 
 
-    if(fichier)
-    {
-        fichier.close();
-    }
-    else
-        cerr << "Impossible d'ouvrir le fichier !" << endl;
+ //   if(fichier)
+ //   {
+ //       fichier.close();
+ //   }
+ //   else
+ //       cerr << "Impossible d'ouvrir le fichier !" << endl;
 
+	//
+ //   pnl_vect_free(&spotV);
+ //   delete multimonde;
+	//delete pricer;
+ //   delete simuIndex;
+ //   freeParameters(&rateModels);
 
-    cout << "\n\n** Delete : ";
-    pnl_vect_free(&spotV);
-    delete multimonde;
-    delete pricer;
-    delete simuIndex;
-    freeParameters(&rateModels);
-
-    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-
-    cout << "########################################\n\n";
 
 }
 

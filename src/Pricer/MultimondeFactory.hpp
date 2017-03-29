@@ -1,6 +1,6 @@
 #ifndef PEPS_IMAG_MULTIMONDEFACTORY_HPP
 #define PEPS_IMAG_MULTIMONDEFACTORY_HPP
-
+#define DLLEXP   __declspec( dllexport )
 
 /**
  * Class which is used as an interface between the MWV application and the pricer
@@ -18,7 +18,7 @@ public:
      * @param[out] price : price of the product
      * @param[out] std : standard deviation of monte carlo method
      */
-    static void Price(double t, int year, int month, int day ,double &price, double &std);
+	DLLEXP static void Price(double t, int year, int month, int day, double &price, double &std);
     /**
      * Hedge : permit to give the composition at t of the hedging portfolio
      *
@@ -32,7 +32,7 @@ public:
      * @param[out] std : standard deviation for each delta in the previous order
      *                     Must be allocated with a length of 12
      */
-    static void Hedge(double t, int year, int month, int day, double *compo, double *std);
+	DLLEXP static void Hedge(double t, int year, int month, int day, double *compo, double *std);
     /**
      * BackTest : permit to launch a backtest
      *
@@ -41,7 +41,7 @@ public:
      * @param discrStep : Discretisation step for the delta method (default 0.1)
      * @param path : The path for the CSV results
      */
-    static void BackTest(int hedgingNb, int MCnb, char *path, double discrStep = 0.1);
+	DLLEXP static void BackTest(int hedgingNb, int MCnb, char *path, double discrStep = 0.1);
     /**
      * ForwardTest : permit to laucnh a forward test
      *
@@ -50,7 +50,7 @@ public:
      * @param discrStep : Discretisation step for the delta method (default 0.1)
      * @param path : The path for the CSV results
      */
-    static void ForwardTest(int hedgingNb, int MCnb, char *path, double discrStep = 0.1);
+	DLLEXP static void ForwardTest(int hedgingNb, int MCnb, char *path, double discrStep = 0.1);
 };
 
 
