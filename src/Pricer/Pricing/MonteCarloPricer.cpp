@@ -2,22 +2,25 @@
 #include "../FinancialProducts/PayOffs/PayOffFunctions.hpp"
 
 
-MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbTimeStep, int nbSample)
+MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, int nbTimeStep, int nbSample, double discr)
         : PricerGen(maturity, simuModel, "Monte Carlo", nbTimeStep)
 {
+
     this->nbSample = nbSample;
     this->simuModel = simuModel;
     this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
     this->pathShifted = pnl_mat_create(nbTimeStep+ 1, simuModel->assetNb);
+    this->h = discr;
 }
 
-MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect *scheduledStep, int nbSample)
+MonteCarloPricer::MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect *scheduledStep, int nbSample, double discr)
         : PricerGen(maturity, simuModel, "Monte Carlo", scheduledStep)
 {
     this->nbSample = nbSample;
     this->simuModel = simuModel;
     this->path = pnl_mat_create_from_zero(nbTimeStep+1,simuModel->assetNb);
     this->pathShifted = pnl_mat_create(nbTimeStep+ 1, simuModel->assetNb);
+    this->h = discr;
 }
 
 void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,

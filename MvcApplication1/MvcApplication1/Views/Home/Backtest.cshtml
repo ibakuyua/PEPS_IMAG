@@ -5,7 +5,7 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        chartInitialize("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
+        chartInitialize("GBPEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "GBPEUR" }) ');
     });
 
     function MAJChart() {
@@ -13,65 +13,71 @@
         var select = document.getElementById("affichage");
         var nom = select.options[select.selectedIndex].value;
 
-            if (nom == "GBPEUR") {
-                chartUpdate("GBPEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "GBPEUR" }) ');
+        if (nom == "GBPEUR") {
+            chartUpdate("GBPEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "GBPEUR" }) ');
+        }
+
+        if (nom == "USDEUR") {
+            chartUpdate("USDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "USDEUR" }) ');
+        }
+
+        if (nom == "HKDEUR") {
+            chartUpdate("HKDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HKDEUR" }) ');
+        }
+
+        if (nom == "JPYEUR") {
+            chartUpdate("JPYEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "JPYEUR" }) ');
+        }
+
+        if (nom == "AUDEUR") {
+            chartUpdate("AUDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "AUDEUR" }) ');
+        }
+
+        if (nom == "SP500") {
+            chartUpdate("SP500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SP500" }) ');
+        }
+
+        if (nom == "EuroStoxx500") {
+            chartUpdate("EuroStoxx500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "EuroStoxx500" }) ');
+        }
+
+        if (nom == "FTSE100") {
+            chartUpdate("FTSE100", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "FTSE100" }) ');
+        }
+
+        if (nom == "HangSeng") {
+            chartUpdate("HangSeng", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HangSeng" }) ');
+        }
+
+        if (nom == "Nikkei225") {
+            chartUpdate("Nikkei225", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "Nikkei225" }) ');
+        }
+
+        if (nom == "SPASX200") {
+            chartUpdate("SPASX200", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SPASX200" }) ');
+        }
+
+        if (nom == "PrixPrdt") {
+            chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
+            $.get('@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ',
+                   null,
+                   function (result) {
+                       chart_addSerie(Highcharts.charts[0], result, "PrixPf");
+                   },
+                   "json");
+        }
+
+        if (nom == "PnL") {
+            chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
+                $.get('@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ',
+                    null,
+                    function (result) {
+                        chart_addSerie(Highcharts.charts[0], result, "PnLCummule");
+                    },
+                    "json");
             }
 
-            if (nom == "USDEUR") {
-                chartUpdate("USDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "USDEUR" }) ');
-            }
-
-            if (nom == "HKDEUR") {
-                chartUpdate("HKDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HKDEUR" }) ');
-            }
-
-            if (nom == "JPYEUR") {
-                chartUpdate("JPYEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "JPYEUR" }) ');
-            }
-
-            if (nom == "AUDEUR") {
-                chartUpdate("AUDEUR", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "AUDEUR" }) ');
-            }
-
-            if (nom == "SP500") {
-                chartUpdate("SP500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SP500" }) ');
-            }
-
-            if (nom == "EuroStoxx500") {
-                chartUpdate("EuroStoxx500", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "EuroStoxx500" }) ');
-            }
-
-            if (nom == "FTSE100") {
-                chartUpdate("FTSE100", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "FTSE100" }) ');
-            }
-
-            if (nom == "HangSeng") {
-                chartUpdate("HangSeng", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "HangSeng" }) ');
-            }
-
-            if (nom == "Nikkei225") {
-                chartUpdate("Nikkei225", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "Nikkei225" }) ');
-            }
-
-            if (nom == "SPASX200") {
-                chartUpdate("SPASX200", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "SPASX200" }) ');
-            }
-
-            if (nom == "PrixPrdt") {
-                chartUpdate("PrixPrdt", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPrdt" }) ');
-            }
-            if (nom == "PrixPf") {
-                chartUpdate("PrixPf", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PrixPf" }) ');
-            }
-
-            if (nom == "PnL") {
-                chartUpdate("PnL", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnL" }) ');
-            }
-
-            if (nom == "PnLCummule") {
-                chartUpdate("PnLCummule", "backtestChart", '@Url.Action("GetSerieBackTest", "Home", new { name = "PnLCummule" }) ');
-            }
-        };
+    };
     </script>
 <div class="container">
     <div class="row">
@@ -112,14 +118,12 @@
 
     <div>
         <select id="affichage">
-            <option value="PnL">PnL</option>
-            <option value="PnLCummule">PnL cummulé</option>
-            <option value="PrixPrdt">Prix du produit</option>
-            <option value="PrixPf" selected>Prix du portefeuille</option>
+            <option value="PnL">PnL et PnL Cummulé</option>
+            <option value="PrixPrdt">Prix du produit et du portefeuille</option>
             <option value="HKDEUR">Delta HKD/EUR</option>
             <option value="JPYEUR">Delta JPY/EUR</option>
             <option value="AUDEUR">Delta AUD/EUR</option>
-            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="GBPEUR" selected>Delta GBP/EUR</option>
             <option value="USDEUR">Delta USD/EUR</option>
             <option value="HKDEUR">Delta HKD/EUR</option>
             <option value="JPYEUR">Delta JPY/EUR</option>

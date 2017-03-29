@@ -3,7 +3,8 @@
 
 #define DLLEXP   __declspec( dllexport )
 
-class MultimondeFactoryDLL {
+namespace MultimondeFactoryDLL {
+//public:
     /**
      * Price : permit to price at t the multimonde21 with a confidence interval
      *
@@ -15,7 +16,7 @@ class MultimondeFactoryDLL {
      * @param[out] std : standard deviation of monte carlo method
      * @param[in] pathDatas : the path for the datas.csv market
      */
-    DLLEXP static void PriceDLL(double t, int year, int month, int day, double &price, double &std, char* pathDatas);
+    DLLEXP void PriceDLL(double t, int year, int month, int day, double &price, double &std, char* pathDatas);
     /**
      * Hedge : permit to give the composition at t of the hedging portfolio
      *
@@ -30,7 +31,7 @@ class MultimondeFactoryDLL {
      *                     Must be allocated with a length of 12
      * @param[in] pathDatas : the path for the market datas csv file
      */
-    DLLEXP static void HedgeDLL(double t, int year, int month, int day, double *compo, double *std, char* pathDatas);
+    DLLEXP void HedgeDLL(double t, int year, int month, int day, double *compo, double *std, char* pathDatas);
     /**
      * BackTest : permit to launch a backtest
      *
@@ -40,7 +41,7 @@ class MultimondeFactoryDLL {
      * @param pathDatas : The path for the datas.csv
      * @param discrStep : Discretisation step for the delta method (default 0.1)
      */
-    DLLEXP static void BackTestDLL(int hedgingNb, int MCnb, char *path, char *pathDatas, double discrStep = 0.1);
+    DLLEXP void BackTestDLL(int hedgingNb, int MCnb, char *path, char *pathDatas, double discrStep = 0.1);
     /**
      * ForwardTest : permit to laucnh a forward test
      *
@@ -50,8 +51,8 @@ class MultimondeFactoryDLL {
      * @param pathDatas : The path for the datas.csv
      * @param discrStep : Discretisation step for the delta method (default 0.1)
      */
-    DLLEXP static void ForwardTestDLL(int hedgingNb, int MCnb, char *path, char *pathDatas, double discrStep = 0.1);
-};
+    DLLEXP void ForwardTestDLL(int hedgingNb, int MCnb, char *path, char *pathDatas, double discrStep = 0.1);
+}
 
 
 #endif //PEPS_IMAG_MULTIMONDEFACTORYDLL_HPP
