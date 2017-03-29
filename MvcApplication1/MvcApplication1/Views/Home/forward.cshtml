@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        chartInitialize("PrixPf", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ');
+        chartInitialize("GBPEUR", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "GBPEUR" }) ');
     });
 
     function MAJChart() {
@@ -59,18 +59,25 @@
 
             if (nom == "PrixPrdt") {
                 chartUpdate("PrixPrdt", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPrdt" }) ');
-            }
-            if (nom == "PrixPf") {
-                chartUpdate("PrixPf", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ');
+                $.get('@Url.Action("GetSerieForwardTest", "Home", new { name = "PrixPf" }) ',
+                       null,
+                       function (result) {
+                           chart_addSerie(Highcharts.charts[0], result, "PrixPf");
+                       },
+                       "json");
             }
 
             if (nom == "PnL") {
                 chartUpdate("PnL", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PnL" }) ');
+                $.get('@Url.Action("GetSerieForwardTest", "Home", new { name = "PnLCummule" }) ',
+                   null,
+                   function (result) {
+                       chart_addSerie(Highcharts.charts[0], result, "PnLCummule");
+                   },
+                   "json");
             }
 
-            if (nom == "PnLCummule") {
-                chartUpdate("PnLCummule", "forwardtestChart", '@Url.Action("GetSerieForwardTest", "Home", new { name = "PnLCummule" }) ');
-            }
+
         };
 </script>
 <div class="container">
@@ -111,14 +118,12 @@
 
     <div>
         <select id="affichage">
-            <option value="PnL">PnL</option>
-            <option value="PnLCummule">PnL cummulé</option>
-            <option value="PrixPrdt">Prix du produit</option>
-            <option value="PrixPf" selected>Prix du portefeuille</option>
+            <option value="PnL">PnL et PnL Cummulé</option>
+            <option value="PrixPrdt">Prix du produit et du portefeuille</option>
             <option value="HKDEUR">Delta HKD/EUR</option>
             <option value="JPYEUR">Delta JPY/EUR</option>
             <option value="AUDEUR">Delta AUD/EUR</option>
-            <option value="GBPEUR">Delta GBP/EUR</option>
+            <option value="GBPEUR" selected>Delta GBP/EUR</option>
             <option value="USDEUR">Delta USD/EUR</option>
             <option value="HKDEUR">Delta HKD/EUR</option>
             <option value="JPYEUR">Delta JPY/EUR</option>

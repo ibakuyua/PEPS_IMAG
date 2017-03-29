@@ -64,7 +64,10 @@ function chartInitialize(name,id, url) {
 }
 
 function chartUpdate(name, id, url) {
-    Highcharts.charts[0].series[0].remove(true);
+
+    while (Highcharts.charts[0].series.length > 0) {
+        Highcharts.charts[0].series[0].remove(true);
+    }
     $.get(url,
         null,
         function (result) {
@@ -73,3 +76,4 @@ function chartUpdate(name, id, url) {
         "json");
 
 }
+
