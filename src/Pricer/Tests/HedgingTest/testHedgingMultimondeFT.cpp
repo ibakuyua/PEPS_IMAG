@@ -10,7 +10,7 @@ using namespace std;
 void computePnl(int hedgingNb);
 
 int main(int argc, char** argv){
-    int hedgingNb(5);
+    int hedgingNb(50);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -23,8 +23,8 @@ void computePnl(int hedgingNb) {
     start = clock();
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE (FORWARD MARKET) ######\n\n";
     int monteCarloNb = 50000;
-    double discrStep = 0.1;
-    char *path = strdup(string("../data/forwardTest.csv").c_str());
+    double discrStep = 0.00001;
+    char *path = strdup(string("../data/ForwardTest.csv").c_str());
     char *pathDatas = strdup(string("../data/dataPEPS.csv").c_str());
     MultimondeFactory::ForwardTest(hedgingNb,monteCarloNb,path, pathDatas, discrStep);
     // Delete
