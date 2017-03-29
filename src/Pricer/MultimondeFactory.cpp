@@ -266,7 +266,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
 
     cout << "\n\n** Delete : ";
     delete multimonde;
-    delete pricer;
+    //delete pricer;
     delete simuIndex;
     freeParameters(&rateModels);
 
