@@ -44,8 +44,9 @@ ParseCSV::ParseCSV(string path) {
 
 
 
-ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int numberToParse){
-
+ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int numberToParse, int numberMax){
+    if (numberMax == 0)
+        numberMax = numberToParse;
     //Creation of the pnl_mat
     outputData = pnl_mat_new();
     //Delimiter used to parse
@@ -111,6 +112,7 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
         stringstream sss;
         ss << line;
         getline(ss,tmpString,delimiter);
+        /*
         for(int j = 0; j < n; j++){
 
             getline(ss,tmpString,delimiter);
@@ -120,14 +122,36 @@ ParseCSV::ParseCSV(string path, int startYear, int startMonth, int startDay, int
             sss.clear();
             MLET(outputData,0,j) = tmpDouble;
 
-        }
+        }*/
 
-        for(int i = 1; i < numberToParse; i++){
-            while(FILE.get()!=delimiter){}
-            for(int j = 0; j < n; j++){
-                FILE >> tmpDouble;
-                MLET(outputData,i,j) = tmpDouble;
-                FILE >> tmpChar;
+        /*for(int i = 1; i < numberToParse; i++){
+            if (i > numberMax){
+                for (int j = 0; j < n; j++) {
+                    MLET(outputData, i, j) = 0.;
+                }
+            }
+            else {
+                while (FILE.get() != delimiter) {}
+                for (int j = 0; j < n; j++) {
+                    FILE >> tmpDouble;
+                    MLET(outputData, i, j) = tmpDouble;
+                    FILE >> tmpChar;
+                }
+            }
+        }*/
+        // TODO : à faire avec i = 0 < (numberToParse-numberMax) mettre 0 puis mettre les bons trucs i = numberToParse-numberMax < numberToParse
+        for(int i = 0; i < numberToParse; i++) {
+            if (i > numberMax) {
+                for (int j = 0; j < n; j++) {
+                    MLET(outputData, i, j) = 0.;
+                }
+            } else {
+                while (FILE.get() != delimiter) {}
+                for (int j = 0; j < n; j++) {
+                    FILE >> tmpDouble;
+                    MLET(outputData, i, j) = tmpDouble;
+                    FILE >> tmpChar;
+                }
             }
         }
         FILE.close();
