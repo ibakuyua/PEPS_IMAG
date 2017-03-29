@@ -314,19 +314,19 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, double 
         cerr << "Impossible d'ouvrir le fichier !" << endl;
 
 
-    if(fichier)
-    {
-        fichier.close();
-    }
-    else
-        cerr << "Impossible d'ouvrir le fichier !" << endl;
+ //   if(fichier)
+ //   {
+ //       fichier.close();
+ //   }
+ //   else
+ //       cerr << "Impossible d'ouvrir le fichier !" << endl;
 
-	
-    pnl_vect_free(&spotV);
-   /* delete multimonde;
-	delete pricer;
-    delete simuIndex;
-    freeParameters(&rateModels);*/
+	//
+ //   pnl_vect_free(&spotV);
+ //   delete multimonde;
+	//delete pricer;
+ //   delete simuIndex;
+ //   freeParameters(&rateModels);
 
 
 }
