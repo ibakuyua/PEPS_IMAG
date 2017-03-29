@@ -122,7 +122,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
 }
 
 void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *pathDatas, double discrStep) {
-    cout << "\n\n###### TEST OF HEDGING MULTIMONDE (SIMULATION MARKET) ######\n\n";
+    cout << "\n\n###### HEDGING MULTIMONDE (BackTest MARKET) ######\n\n";
     cout << "** Instance : ";
     RateModelGen **rateModels;
     setParameters(&rateModels);
@@ -168,7 +168,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
     multimonde->Print();
 
     //Backward test
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,03,17,path);
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,2017,03,17,pathDatas);
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
@@ -199,6 +199,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
 
         fichier << delimiter <<pnlAtDate << delimiter << pnl;
         fichier << '\n';
+        cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
     }
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
@@ -228,6 +229,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
             }
             fichier << delimiter << prixP - prixC << delimiter << pnl;
             fichier << '\n';
+            cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
         }
         else
             cerr << "Impossible d'ouvrir le fichier !" << endl;
@@ -250,6 +252,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
 
         fichier << delimiter << prixP - prixC << delimiter << pnl;
         fichier << '\n';
+        cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
     }
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
@@ -353,6 +356,7 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, char* p
 
         fichier << delimiter <<pnlAtDate << delimiter << pnl;
         fichier << '\n';
+        cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
     }
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
@@ -382,6 +386,7 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, char* p
             }
             fichier << delimiter << prixP - prixC << delimiter << pnl;
             fichier << '\n';
+            cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
         }
         else
             cerr << "Impossible d'ouvrir le fichier !" << endl;
@@ -404,6 +409,7 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, char* p
 
 		fichier << delimiter << prixP - prixC << delimiter << pnl;
 		fichier << '\n';
+        cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
 	}
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
