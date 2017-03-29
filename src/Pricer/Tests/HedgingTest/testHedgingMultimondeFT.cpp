@@ -18,7 +18,9 @@ int main(int argc, char** argv){
 
 void computePnl(int hedgingNb) {
 
-    cout << "\n\n###### TEST OF HEDGING MULTIMONDE (BACKTEST MARKET) ######\n\n";
+    clock_t start, end;
+    start = clock();
+    cout << "\n\n###### TEST OF HEDGING MULTIMONDE (FORWARD MARKET) ######\n\n";
     int monteCarloNb = 50000;
     double discrStep = 0.1;
     char *path = strdup(string("../data/forwardTest.csv").c_str());
@@ -27,4 +29,6 @@ void computePnl(int hedgingNb) {
     // Delete
     free(path);
     free(pathDatas);
+    end = clock();
+    std::cout << "Time of calculation : " << (double)(end-start)/CLOCKS_PER_SEC << "sec" << std::endl;
 }
