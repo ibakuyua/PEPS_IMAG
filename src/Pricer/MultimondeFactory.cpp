@@ -181,6 +181,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
     multimonde->PriceProduct(0.,prixC,ic);
 
     double pnlAtDate = prixP - prixC;
+    double maxPnlAtDate = pnlAtDate;
     double pnl = pnlAtDate;
 
     ofstream fichier(path, ios::out | ios::trunc);  // ouverture en écriture avec effacement du fichier ouvert
@@ -227,6 +228,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
                     fichier << delimiter << "0.0";
                 }
             }
+            maxPnlAtDate = (maxPnlAtDate < pnlAtDate)? pnlAtDate:maxPnlAtDate;
             fichier << delimiter << prixP - prixC << delimiter << pnl;
             fichier << '\n';
             cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
@@ -250,6 +252,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
             fichier << delimiter << "0.0";
         }
 
+        maxPnlAtDate = (maxPnlAtDate < pnlAtDate)? pnlAtDate:maxPnlAtDate;
         fichier << delimiter << prixP - prixC << delimiter << pnl;
         fichier << '\n';
         cout << year << "-" << month << "-" << day << "  *PnL at date : " << pnlAtDate << "  *PnL : " << pnl << "\n";
@@ -257,6 +260,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
 
+    std::cout << "MaxPnlAtDate : " << maxPnlAtDate << std::endl;
     if(fichier)
     {
         fichier.close();
