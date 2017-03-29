@@ -154,15 +154,37 @@ namespace MvcApplication1.Controllers
             double ICMultimonde = 0;
 
             Price priceM2021 = new Price();
-            DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
-            DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
-            int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin, holidays);
-            priceM2021.computing_multimonde(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
-            prixMultimonde = priceM2021.get_prix();
-            ICMultimonde = priceM2021.get_ic();
+            try { 
+                DateTime dateCouv = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
+                DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
+                DateTime dateFin = DateTime.Parse("12.11.2021", CultureInfo.CreateSpecificCulture("fr-FR"));
+                if (dateTimeDebut.CompareTo(dateCouv) > 0)
+                {
+                    return View("Index");
+                }
+                else if (dateCouv.CompareTo(dateFin) > 0)
+                {
+                    return View("Index");
+                }
+                int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateCouv, holidays);
+                priceM2021.computing_multimonde(dateCouv.Day, dateCouv.Month, dateCouv.Year, nbJourOuvre);
+                prixMultimonde = priceM2021.get_prix();
+                ICMultimonde = priceM2021.get_ic();
 
-            ViewData.Add("prixMultimonde", prixMultimonde);
-            ViewData.Add("ICMultimonde", ICMultimonde);
+                ViewData.Add("prixMultimonde", prixMultimonde);
+                ViewData.Add("ICMultimonde1", prixMultimonde + 1.96 * ICMultimonde);
+                ViewData.Add("ICMultimonde2", prixMultimonde - 1.96 * ICMultimonde);
+            }
+            catch
+            {
+                ViewData.Add("prixMultimonde", "C'est pas une date valide !");
+                ViewData.Add("ICMultimonde1", 0);
+                ViewData.Add("ICMultimonde2", 0);
+                return View("Index");
+            }
+            
+            
+            
             return View("Index");
         }
 
@@ -201,38 +223,65 @@ namespace MvcApplication1.Controllers
             double[] deltas = new double[12];
             double[] intervalles = new double[12];
 
-            DateTime dateTimeFin = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
-            DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
-            int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateTimeFin, holidays);
-            Price wrapper = new Price();
-            wrapper.computing_deltas(dateTimeFin.Day, dateTimeFin.Month, dateTimeFin.Year, nbJourOuvre);
-            deltas = wrapper.get_deltas();
-            intervalles = wrapper.get_intervalles();
-            ViewData.Add("D_Eur_Stoxx 50", deltas[0]);
-            ViewData.Add("D_SP_500", deltas[2]);
-            ViewData.Add("D_Nikkei_225", deltas[4]);
-            ViewData.Add("D_Hang_Seng", deltas[3]);
-            ViewData.Add("D_FTSE_100", deltas[1]);
-            ViewData.Add("D_SP_ASX_200", deltas[5]);
-            ViewData.Add("D_ZC_USD", deltas[7]);
-            ViewData.Add("D_ZC_GBP", deltas[6]);
-            ViewData.Add("D_ZC_JPY", deltas[9]);
-            ViewData.Add("D_ZC_HKD", deltas[8]);
-            ViewData.Add("D_ZC_AUD", deltas[10]);
-            ViewData.Add("D_ZC_EUR", deltas[11]);
-            ViewData.Add("I_Eur_Stoxx 50", intervalles[0]);
-            ViewData.Add("I_SP_500", intervalles[2]);
-            ViewData.Add("I_Nikkei_225", intervalles[4]);
-            ViewData.Add("I_Hang_Seng", intervalles[3]);
-            ViewData.Add("I_FTSE_100", intervalles[1]);
-            ViewData.Add("I_SP_ASX_200", intervalles[5]);
-            ViewData.Add("I_ZC_USD", intervalles[7]);
-            ViewData.Add("I_ZC_GBP", intervalles[6]);
-            ViewData.Add("I_ZC_JPY", intervalles[9]);
-            ViewData.Add("I_ZC_HKD", intervalles[8]);
-            ViewData.Add("I_ZC_AUD", intervalles[10]);
-            ViewData.Add("I_ZC_EUR", intervalles[11]);
-
+            try
+            {
+                DateTime dateCouv = DateTime.Parse(date, CultureInfo.CreateSpecificCulture("fr-FR"));
+                DateTime dateTimeDebut = DateTime.Parse("01.10.2015", CultureInfo.CreateSpecificCulture("fr-FR"));
+                DateTime dateFin = DateTime.Parse("12.11.2021", CultureInfo.CreateSpecificCulture("fr-FR"));
+                if (dateTimeDebut.CompareTo(dateCouv) > 0)
+                {
+                    return View("Couverture");
+                }
+                else if (dateCouv.CompareTo(dateFin) > 0)
+                {
+                    return View("Couverture");
+                }
+                int nbJourOuvre = GetNumberOfWorkingDays(dateTimeDebut, dateCouv, holidays);
+                Price wrapper = new Price();
+                wrapper.computing_deltas(dateCouv.Day, dateCouv.Month, dateCouv.Year, nbJourOuvre);
+                deltas = wrapper.get_deltas();
+                intervalles = wrapper.get_intervalles();
+                ViewData.Add("D_Eur_Stoxx 50", deltas[0]);
+                ViewData.Add("D_SP_500", deltas[2]);
+                ViewData.Add("D_Nikkei_225", deltas[4]);
+                ViewData.Add("D_Hang_Seng", deltas[3]);
+                ViewData.Add("D_FTSE_100", deltas[1]);
+                ViewData.Add("D_SP_ASX_200", deltas[5]);
+                ViewData.Add("D_ZC_USD", deltas[7]);
+                ViewData.Add("D_ZC_GBP", deltas[6]);
+                ViewData.Add("D_ZC_JPY", deltas[9]);
+                ViewData.Add("D_ZC_HKD", deltas[8]);
+                ViewData.Add("D_ZC_AUD", deltas[10]);
+                ViewData.Add("D_ZC_EUR", deltas[11]);
+                ViewData.Add("I_Eur_Stoxx 50", deltas[0] + 1.96 * intervalles[0]);
+                ViewData.Add("I_SP_500", deltas[2] + 1.96 * intervalles[2]);
+                ViewData.Add("I_Nikkei_225", deltas[4] + 1.96 * intervalles[4]);
+                ViewData.Add("I_Hang_Seng", deltas[3] + 1.96 * intervalles[3]);
+                ViewData.Add("I_FTSE_100", deltas[1] + 1.96 * intervalles[1]);
+                ViewData.Add("I_SP_ASX_200", deltas[5] + 1.96 * intervalles[5]);
+                ViewData.Add("I_ZC_USD", deltas[7] + 1.96 * intervalles[7]);
+                ViewData.Add("I_ZC_GBP", deltas[6] + 1.96 * intervalles[6]);
+                ViewData.Add("I_ZC_JPY", deltas[9] + 1.96 * intervalles[9]);
+                ViewData.Add("I_ZC_HKD", deltas[8] + 1.96 * intervalles[8]);
+                ViewData.Add("I_ZC_AUD", deltas[10] + 1.96 * intervalles[10]);
+                ViewData.Add("I_ZC_EUR", deltas[11] + 1.96 * intervalles[11]);
+                ViewData.Add("I_Eur_Stoxx 502", deltas[0] - 1.96 * intervalles[0]);
+                ViewData.Add("I_SP_5002", deltas[2] - 1.96 * intervalles[2]);
+                ViewData.Add("I_Nikkei_2252", deltas[4] - 1.96 * intervalles[4]);
+                ViewData.Add("I_Hang_Seng2", deltas[3] - 1.96 * intervalles[3]);
+                ViewData.Add("I_FTSE_1002", deltas[1] - 1.96 * intervalles[1]);
+                ViewData.Add("I_SP_ASX_2002", deltas[5] - 1.96 * intervalles[5]);
+                ViewData.Add("I_ZC_USD2", deltas[7] - 1.96 * intervalles[7]);
+                ViewData.Add("I_ZC_GBP2", deltas[6] - 1.96 * intervalles[6]);
+                ViewData.Add("I_ZC_JPY2", deltas[9] - 1.96 * intervalles[9]);
+                ViewData.Add("I_ZC_HKD2", deltas[8] - 1.96 * intervalles[8]);
+                ViewData.Add("I_ZC_AUD2", deltas[10] - 1.96 * intervalles[10]);
+                ViewData.Add("I_ZC_EUR2", deltas[11] - 1.96 * intervalles[11]);
+            }
+            catch
+            {
+                return View("Couverture");
+            }
             //ViewData.Add("intervalles", intervalles);
             return View("Couverture");
         }
@@ -301,7 +350,7 @@ namespace MvcApplication1.Controllers
         string[] CSVtoJSON(int underlyer)
         {
             //METTRE le chemin absolu du fichier
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\ayuta\Desktop\Cours_3A_Imag\Peps\ProjetEvaluationProduitStructure21\data\dataPEPS.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"~\..\data\dataPEPS.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
@@ -318,7 +367,7 @@ namespace MvcApplication1.Controllers
 
         string[] backtestToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\test1.csv");
+            string[] allLines = System.IO.File.ReadAllLines(@"C:\Users\Paul\Documents\Visual Studio 2013\Projects\ProjetEvaluationProduitStructure21\data\backtest.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
