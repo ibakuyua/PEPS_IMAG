@@ -42,7 +42,7 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
     Marche *marche = Marche::Instance(Change::EUR,multimonde,(int)multimonde->maturity);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,pathDatas, (int)t);
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,pathDatas, (int)t+1);
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
@@ -95,7 +95,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     Marche *marche = Marche::Instance(Change::EUR,multimonde,(int)Multimonde::maturity);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,pathDatas);
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,pathDatas,t);
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
