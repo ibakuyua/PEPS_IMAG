@@ -37,7 +37,6 @@ void MonteCarloPricer::Price(double t, PnlMat *past, double &price, double &ic,
     espEstimation /= (double)nbSample;
     varEstimation /= (double)nbSample;
     varEstimation = fabs(varEstimation - espEstimation * espEstimation);
-
     price = discountFactor * espEstimation;
     ic = 3.92 * discountFactor * sqrt(varEstimation / (double)nbSample);
 }

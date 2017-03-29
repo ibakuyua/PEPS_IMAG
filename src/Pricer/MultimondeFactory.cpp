@@ -31,7 +31,7 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
 
     PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
-    ParseCSV *parser = new ParseCSV(pathDatas,year,month,day,180);
+    ParseCSV *parser = new ParseCSV(pathDatas,year,month,day,80);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     Multimonde *multimonde = new Multimonde(pricer,hedgingNb,stats);
     assert(multimonde != NULL);
@@ -84,7 +84,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
 
     PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
     assert(pricer != NULL);
-    ParseCSV *parser = new ParseCSV(pathDatas,year,month,day,180);
+    ParseCSV *parser = new ParseCSV(pathDatas,year,month,day,80);
     StatsFactory *stats = new StatsFactory(parser->outputData);
     Multimonde *multimonde = new Multimonde(pricer,hedgingNb,stats);
     assert(multimonde != NULL);
@@ -95,7 +95,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     Marche *marche = Marche::Instance(Change::EUR,multimonde,(int)Multimonde::maturity);
     assert(marche != NULL);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
-    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,pathDatas,t);
+    marche->ImportCotations(CotationTypes::HistoricalMultimonde,year,month,day,pathDatas,t+1);
     cout << " \n\nHistorical market : " << marche->cours->m << " quotes : ";
     cout << "--> \033[1;34m [CHECK]\033[0m\n\n";
     cout << "Market : \n\n";
@@ -103,9 +103,9 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
 
     cout << "Computing Portfolio ...\n";
     multimonde->UpdatePortfolio(t);
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i < 11; ++i) {
         compo[i] = GET(multimonde->composition,i);
-        std[i] = GET(multimonde->icComposition, i) / 3.96;
+        std[i] = GET(multimonde->icComposition, i) / 3.92;
     }
     cout << "\n--> Composition :  \n";
     pnl_vect_print(multimonde->composition);
@@ -264,6 +264,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
 
+    cout << "\n\n StdDev : " << ic/1.96*sqrt(nbSample);
     cout << "\n\n** Delete : ";
     delete multimonde;
     //delete pricer;
