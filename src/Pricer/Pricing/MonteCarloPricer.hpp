@@ -27,9 +27,11 @@ public:
      * @param[in] simuModel : the simulation model
      * @param[in] nbSample : the number of sample to estimate the expectation
      * @param[in] nbTimeStep : the number of time step
+     * @param[in] discr : the step of discretization
      */
 	MonteCarloPricer(double maturity, ModelGen *simuModel,
-                     int nbTimeStep = NB_TIME_STEP_DEFAULT, int nbSample = NB_SAMPLE_DEFAULT);
+                     int nbTimeStep = NB_TIME_STEP_DEFAULT, int nbSample = NB_SAMPLE_DEFAULT,
+					 double discr = DISCRETISATION_STEP);
     /**
       * Constructor 2
       *
@@ -37,8 +39,10 @@ public:
       * @param[in] simuModel : the simulation model
       * @param[in] nbSample : the number of sample to estimate the expectation
       * @param[in] scheduledStep : in the case of different steps
+      * @param[in] discr : the step discretization
       */
-	MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect* scheduledStep, int nbSample = NB_SAMPLE_DEFAULT);
+	MonteCarloPricer(double maturity, ModelGen *simuModel, PnlVect* scheduledStep,
+					 int nbSample = NB_SAMPLE_DEFAULT, double discr = DISCRETISATION_STEP);
 	virtual ~MonteCarloPricer();
 
     /**
@@ -58,7 +62,7 @@ private:
      */
     PnlMat *path; /**< path for simulation : allocated just one time */
     PnlMat *pathShifted; /*! pathShifted for delta simulation : initialized one times only*/
-    double h = DISCRETISATION_STEP; /**< h : step for derivation*/
+    double h; /**< h : step for derivation*/
 };
 
 

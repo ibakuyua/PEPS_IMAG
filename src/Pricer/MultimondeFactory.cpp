@@ -13,12 +13,12 @@ void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 void getDate(int &year, int&month, int&day, double &totalDays);
 
-void MultimondeFactory::Price(double t, int year, int month, int day ,double &price, double &std, char* pathDatas) {
+void MultimondeFactory::Price(double t, int year, int month, int day ,double &price, double &std, char* pathDatas, int mcNb) {
     cout << "#### Pricing at t = " << t << " at date " << year << "/" << month << "/" << day;
     RateModelGen **rateModels;
     setParameters(&rateModels);
     ModelGen *simuIndex = new BlackScholesModel(11, 6, rateModels);
-    int nbSample = 50000;
+    int nbSample = mcNb;
     int hedgingNb = 0;
 
     PnlVect *scheduleSimulation = pnl_vect_create(6);
@@ -64,12 +64,12 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
     cout << "########################################\n\n";*/
 }
 
-void MultimondeFactory::Hedge(double t, int year, int month, int day, double *compo, double *std, char* pathDatas) {
+void MultimondeFactory::Hedge(double t, int year, int month, int day, double *compo, double *std, char* pathDatas, int mcNb, double discr) {
     cout << "#### Hedging at t = " << t << " at date " << year << "/" << month << "/" << day;
     RateModelGen **rateModels;
     setParameters(&rateModels);
     ModelGen *simuIndex = new BlackScholesModel(11, 6, rateModels);
-    int nbSample = 50000;
+    int nbSample = mcNb;
     int hedgingNb = 0;
 
     PnlVect *scheduleSimulation = pnl_vect_create(6);
@@ -80,7 +80,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     LET(scheduleSimulation,4) = NB_DAYSWRK_TO_CONSTATATION_5 -  NB_DAYSWRK_TO_CONSTATATION_4;
     LET(scheduleSimulation,5) = NB_DAYSWRK_TO_CONSTATATION_6 -  NB_DAYSWRK_TO_CONSTATATION_5;
 
-    PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
+    PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample, discr);
     assert(pricer != NULL);
     ParseCSV *parser = new ParseCSV(pathDatas,year,month,day,180);
     StatsFactory *stats = new StatsFactory(parser->outputData);
@@ -141,7 +141,7 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
     //Initialisation du Pricer MonteCarlo
     int nbSample = MCnb;
     double maturity = Multimonde::maturity;
-    PricerGen *pricer = new MonteCarloPricer(maturity, simuIndex, scheduleSimulation, nbSample);
+    PricerGen *pricer = new MonteCarloPricer(maturity, simuIndex, scheduleSimulation, nbSample,discrStep);
     assert(pricer != NULL);
 
     //Import of stats
@@ -296,7 +296,7 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, char* p
     //Initialisation du Pricer MonteCarlo
     int nbSample = MCnb;
     double maturity = Multimonde::maturity;
-    PricerGen *pricer = new MonteCarloPricer(maturity, simuIndex, scheduleSimulation, nbSample);
+    PricerGen *pricer = new MonteCarloPricer(maturity, simuIndex, scheduleSimulation, nbSample, discrStep);
     assert(pricer != NULL);
 
     //Import of stats
