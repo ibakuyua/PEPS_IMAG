@@ -16,7 +16,7 @@ void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
 int main(int argc, char** argv){
-    int hedgingNb(1500);
+    int hedgingNb(300);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -201,7 +201,9 @@ void computePnl(int hedgingNb){
     //DELETE
     cout << "\n\n** Delete : ";
     delete multimonde;
-    delete pricer;
+    delete stats;
+    delete parser; 
+    // delete pricer;
     delete simuIndex;
     freeParameters(&rateModels);
 
