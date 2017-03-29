@@ -11,21 +11,22 @@ void computePnl(int hedgingNb);
 
 int main(int argc, char** argv){
 
-    int hedgingNb(50);
+    int hedgingNb(300);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
-
+/*
     int year = 2015;
     int month = 10;
     int day = 1;
-    int t = 1;
+    int t = 0;
     double prix = 0;
     double std = 0;
 
     char *pathDatas = strdup(string("../data/dataPEPS.csv").c_str());
-    //MultimondeFactory::Price(t,year,month,day,prix, std, pathDatas);
-    MultimondeFactory::Hedge(t,year,month,day,&prix, &std, pathDatas);
-    //computePnl(hedgingNb);
+    MultimondeFactory::Price(t,year,month,day,prix, std, pathDatas);
+    std::cout << "Ic = " << std * 3.92 << std::endl;
+    */
+    computePnl(hedgingNb);
     return EXIT_SUCCESS;
 }
 
