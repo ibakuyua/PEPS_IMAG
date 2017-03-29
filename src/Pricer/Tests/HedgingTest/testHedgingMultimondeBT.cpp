@@ -10,10 +10,11 @@ using namespace std;
 void computePnl(int hedgingNb);
 
 int main(int argc, char** argv){
+
     int hedgingNb(30);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
-
+/*
     int year = 2015;
     int month = 10;
     int day = 1;
@@ -23,7 +24,8 @@ int main(int argc, char** argv){
 
     char *pathDatas = strdup(string("../data/dataPEPS.csv").c_str());
     MultimondeFactory::Price(t,year,month,day,prix, std, pathDatas);
-    //computePnl(hedgingNb);
+*/
+    computePnl(hedgingNb);
     return EXIT_SUCCESS;
 }
 
