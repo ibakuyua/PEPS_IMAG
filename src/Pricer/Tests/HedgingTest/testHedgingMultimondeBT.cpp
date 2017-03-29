@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <assert.h>
+#include <cstring>
 #include <fstream>
 #include "../../MultimondeFactory.hpp"
 
@@ -17,7 +18,8 @@ int main(int argc, char** argv){
 }
 
 void computePnl(int hedgingNb) {
-
+    clock_t start, end;
+    start = clock();
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE (BACKTEST MARKET) ######\n\n";
     int monteCarloNb = 50000;
     double discrStep = 0.1;
@@ -27,5 +29,7 @@ void computePnl(int hedgingNb) {
     // Delete
     free(path);
     free(pathDatas);
+    end = clock();
+    std::cout << "Time of calculation : " << (double)(end-start)/CLOCKS_PER_SEC << "sec" << std::endl;
 }
 
