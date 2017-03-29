@@ -71,6 +71,12 @@ add_executable(test_HedgingMultimondeBT.te src/Pricer/Tests/HedgingTest/testHedg
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} src/Pricer/MultimondeFactory.cpp)
 target_link_libraries(test_HedgingMultimondeBT.te ${LIBS})
 
+add_executable(test_HedgingMultimondeFT.te src/Pricer/Tests/HedgingTest/testHedgingMultimondeFT.cpp src/Pricer/FinancialProducts/Multimonde.cpp
+        ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} src/Pricer/MultimondeFactory.cpp)
+target_link_libraries(test_HedgingMultimondeFT.te ${LIBS})
+
+
 add_executable(test_HedgingSeveralParam.te src/Pricer/Tests/HedgingTest/testHedgingWithSeveralParamUpdates.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})

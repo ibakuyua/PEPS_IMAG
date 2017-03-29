@@ -18,13 +18,17 @@ int main(int argc, char** argv){
 
 void computePnl(int hedgingNb) {
 
-    cout << "\n\n###### TEST OF HEDGING MULTIMONDE (BACKTEST MARKET) ######\n\n";
+    clock_t start, end;
+    start = clock();
+    cout << "\n\n###### TEST OF HEDGING MULTIMONDE (FORWARD MARKET) ######\n\n";
     int monteCarloNb = 50000;
     double discrStep = 0.1;
-    char *path = strdup(string("../data/backTest.csv").c_str());
+    char *path = strdup(string("../data/forwardTest.csv").c_str());
     char *pathDatas = strdup(string("../data/dataPEPS.csv").c_str());
     MultimondeFactory::ForwardTest(hedgingNb,monteCarloNb,path, pathDatas, discrStep);
     // Delete
     free(path);
     free(pathDatas);
+    end = clock();
+    std::cout << "Time of calculation : " << (double)(end-start)/CLOCKS_PER_SEC << "sec" << std::endl;
 }
