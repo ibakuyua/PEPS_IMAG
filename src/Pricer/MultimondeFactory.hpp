@@ -33,8 +33,10 @@ namespace MultimondeFactory {
      * @param[out] std : standard deviation for each delta in the previous order
      *                     Must be allocated with a length of 12
      * @param[in] pathDatas : the path for the market datas csv file
+     * @param[in] mcNb : the number of monte carlo sample
+     * @param[in] discr : the discretization step
      */
-	 void Hedge(double t, int year, int month, int day, double *compo, double *std, char* pathDatas);
+	 void Hedge(double t, int year, int month, int day, double *compo, double *std, char* pathDatas, int mcNb = 50000, double discr = 0.1);
     /**
      * BackTest : permit to launch a backtest
      *
