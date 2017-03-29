@@ -40,6 +40,10 @@
                 chartUpdate("SPASX200", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "SPASX200" }) ');
             }
 
+            if (nom == "ZCEURO") {
+                chartUpdate("ZCEURO", "stockChart", '@Url.Action("GetSerie", "Home", new { name = "ZCEURO" }) ');
+            }
+
     };
     </script>
 
@@ -70,6 +74,7 @@
         <option value="EuroStoxx500">EuroStoxx500</option>
         <option value="FTSE100">FTSE100</option>
         <option value="SP500" selected>S&P500</option>
+        <option value="ZCEURO" selected>Zéro Coupon Européen</option>
     </select>
     <button onclick="MAJChart()">Mettre à jour</button>
 <div id="stockChart" style="height: 550px"></div>
