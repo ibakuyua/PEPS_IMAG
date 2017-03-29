@@ -9,28 +9,8 @@ Marche *Marche::Instance(Change domesticChange, ProductGen *product, int dateNb)
         instance = new Marche(product, domesticChange, dateNb);
     return instance;
 }
-void fill(PnlMat **cours , PnlMat *data);
 
-void fill(PnlMat **cours , PnlMat *data){
-
-    int m = (*cours)->m;
-    int n = (*cours)->n;
-    int i1 = 0;
-    int z = data->m;
-    int step = data->m/m;
-
-    for(int i = 0; i < m;i++){
-
-        for(int j = 0; j < n;j++){
-            MLET(*cours,i,j) = MGET(data,i1,j);
-        }
-        std::cout << "i1 = " << i1 << std::endl;
-        i1 = i1 + step;
-    }
-
-}
-
-void Marche::ImportCotations(CotationTypes type,int startYear,int startMonth,int startDay, string path) {
+void Marche::ImportCotations(CotationTypes type,int startYear,int startMonth,int startDay, string path, int t){
     this->type = type;
     switch (type)
     {
@@ -38,7 +18,7 @@ void Marche::ImportCotations(CotationTypes type,int startYear,int startMonth,int
             product->pricer->simuModel->SimulateMarket(product->pricer->maturity, cours, this->dateNb, domesticChange);
             break;
         case CotationTypes::HistoricalMultimonde :
-            ImportHistoricalCotationsForMultimonde(startYear, startMonth, startDay, path);
+            ImportHistoricalCotationsForMultimonde(startYear, startMonth, startDay, path, t);
             break;
         default:
             break;
@@ -98,7 +78,7 @@ Marche::~Marche() {
     pnl_mat_free(&cours);
 }
 
-void Marche::ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path) {
+void Marche::ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path, int t) {
     // Resize
     pnl_mat_resize(cours,this->dateNb + 1,product->assets->size + 1);
     // Step initialization
@@ -109,7 +89,7 @@ void Marche::ImportHistoricalCotationsForMultimonde(int startYear, int startMont
 
 
     // Parse the CSV
-    ParseCSV *parser = new ParseCSV(path,startYear,startMonth,startDay,this->dateNb + 1);
+    ParseCSV *parser = new ParseCSV(path,startYear,startMonth,startDay,this->dateNb + 1, t);
     // Fill the datas
     // For each time (/!\ be carreful of the order in the CSV file) //
     for (int i = 0; i < cours->m; ++i) {

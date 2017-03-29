@@ -1,0 +1,2 @@
+Variation du nombre de MC : 
+Avec 30 rebalancements et un pas de discrétisation de 0.1
