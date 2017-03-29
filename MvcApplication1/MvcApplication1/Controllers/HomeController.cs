@@ -187,7 +187,7 @@ namespace MvcApplication1.Controllers
                 return View("Index");
             }
             
-            
+         
             
             return View("Index");
         }
@@ -371,7 +371,7 @@ namespace MvcApplication1.Controllers
 
         string[] backtestToJson(int underlyer)
         {
-            string[] allLines = System.IO.File.ReadAllLines(cheminAbsolu + "test1.csv");
+            string[] allLines = System.IO.File.ReadAllLines(cheminAbsolu + "backtest.csv");
             var initial = new DateTime(1970, 1, 1);
             List<string> listData = new List<string>();
             int ligne;
