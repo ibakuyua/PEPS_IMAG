@@ -10,7 +10,7 @@ using namespace std;
 void computePnl(int hedgingNb);
 
 int main(int argc, char** argv){
-    int hedgingNb(5);
+    int hedgingNb(30);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -21,7 +21,7 @@ void computePnl(int hedgingNb) {
     clock_t start, end;
     start = clock();
     cout << "\n\n###### TEST OF HEDGING MULTIMONDE (BACKTEST MARKET) ######\n\n";
-    int monteCarloNb = 50000;
+    int monteCarloNb = 5000;
     double discrStep = 0.1;
     char *path = strdup(string("../data/backTest.csv").c_str());
     char *pathDatas = strdup(string("../data/dataPEPS.csv").c_str());
