@@ -30,8 +30,6 @@ void ProductGen::PricePortfolio(double t, double &price) const {
 void ProductGen::PriceProduct(double t, double &price, double &ic) const {
     Marche *market = Marche::Instance();
     market->GetPastCotations(t,pastQuotes,true,pricer->nbTimeStep);
-    cout << "*********** \n";
-    pnl_mat_print(pastQuotes);
     pricer->Price(t, pastQuotes, price, ic, payOff, parameters);
 }
 
