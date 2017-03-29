@@ -33,8 +33,9 @@ public:
      * @param startMonth : start month date
      * @param startDay : start day date
      * @param numberToParse : number of date to parse
+     * @param numberMax : number max of parsing, the other are set to 0
      */
-	ParseCSV(string path, int startYearOfEstimation, int startMonth, int startDay, int numberToParse);
+	ParseCSV(string path, int startYearOfEstimation, int startMonth, int startDay, int numberToParse, int numberMax = 0);
 
     /**
      * Update (convert only from a start date to an end date)

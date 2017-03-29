@@ -7,7 +7,7 @@
 //################ PayOff Multimonde21 avec actifs en euros #########################
 
 double payOffMultimonde21(PnlMat *path, PnlVect *parameters, map<Change, RateModelGen *> &rateModels) {
-    int nbStep = path->m; // TODO : bien mettre à jour la taille de path !
+    int nbStep = path->m; 
     bool isConstated[6] = {false, false, false, false,false,false};
     int constatationIndexes[6] =
             {
@@ -85,7 +85,6 @@ double payOffCall(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &
 double payOffMultimonde21_simple(PnlMat *path, PnlVect *parameters, map<Change,RateModelGen*> &rateModels) {
     int nbTimeStep = path->m;
     bool isConstated[6] = {false, false, false, false,false,false};
-    // TODO ici à changer
     int constatationIndexes[6] =
             {
                     (int)(nbTimeStep * NB_DAYS_TO_CONSTATATION_1/(double)NB_DAYS_TO_MATURITY),
