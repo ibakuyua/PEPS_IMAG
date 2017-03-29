@@ -47,8 +47,9 @@ public:
      * @param[in] startMonth : start month for the historical cotations
      * @param[in] startDay : start day for the historical cotations
      * @param[in] path : the data path for the historical cotations
+     * @param[in] t : number of working days needed
      */
-	void ImportCotations(CotationTypes type, int startYear = 0, int startMonth = 0, int startDay = 0, string path = "");
+	void ImportCotations(CotationTypes type, int startYear = 0, int startMonth = 0, int startDay = 0, string path = "", int t=0);
 
     /**
      * Permit to obtain the cotations for the date t
@@ -89,7 +90,7 @@ private:
     /**
      * Permit to get the historical cotations for multimonde21
      */
-	void ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path);
+	void ImportHistoricalCotationsForMultimonde(int startYear, int startMonth, int startDay, string path, int t=0);
 
 };
 

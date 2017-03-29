@@ -56,6 +56,9 @@ target_link_libraries(test_parseCSV.te ${LIBS})
 #Test for parsingCSV2
 add_executable(test_parseCSV2.te ${STATS_SOURCE_FILES} src/Pricer/Tests/Parser/testParseCSV2.cpp)
 target_link_libraries(test_parseCSV2.te ${LIBS})
+#Test for parsingCSVNumberMax
+add_executable(test_parseCSVNumberMax.te src/Pricer/Tests/Parser/testParserNumberMax.cpp ${STATS_SOURCE_FILES})
+target_link_libraries(test_parseCSVNumberMax.te ${LIBS})
 #Test for payOff
 add_executable(test_payOffMultimonde.te src/Pricer/Tests/PayOffs/testPayOffMultimonde21.cpp
         src/Pricer/FinancialProducts/PayOffs/PayOffFunctions.cpp ${RATE_SOURCE_FILES})
@@ -128,5 +131,5 @@ target_link_libraries(test_unit_CreationPricer.te ${LIBS})
 # Global executable
 add_executable(test_pricer_multimonde.te src/Pricer/Tests/PricerTest/testPricerMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
-        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES})
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} src/Pricer/MultimondeFactory.cpp)
 target_link_libraries(test_pricer_multimonde.te ${LIBS})
