@@ -13,12 +13,12 @@ void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 void getDate(int &year, int&month, int&day, double &totalDays);
 
-void MultimondeFactory::Price(double t, int year, int month, int day ,double &price, double &std, char* pathDatas) {
+void MultimondeFactory::Price(double t, int year, int month, int day ,double &price, double &std, char* pathDatas, int mcNb) {
     cout << "#### Pricing at t = " << t << " at date " << year << "/" << month << "/" << day;
     RateModelGen **rateModels;
     setParameters(&rateModels);
     ModelGen *simuIndex = new BlackScholesModel(11, 6, rateModels);
-    int nbSample = 50000;
+    int nbSample = mcNb;
     int hedgingNb = 0;
 
     PnlVect *scheduleSimulation = pnl_vect_create(6);

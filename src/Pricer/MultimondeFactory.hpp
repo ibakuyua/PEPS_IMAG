@@ -17,8 +17,9 @@ namespace MultimondeFactory {
      * @param[out] price : price of the product
      * @param[out] std : standard deviation of monte carlo method
      * @param[in] pathDatas : the path for the datas.csv market
+     * @param[in] mcNb : the number of monteCarlo (default 50k)
      */
-	void Price(double t, int year, int month, int day, double &price, double &std, char* pathDatas);
+	void Price(double t, int year, int month, int day, double &price, double &std, char* pathDatas, int mcNb = 50000);
     /**
      * Hedge : permit to give the composition at t of the hedging portfolio
      *
