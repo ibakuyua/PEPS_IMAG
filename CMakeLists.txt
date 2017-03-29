@@ -133,3 +133,8 @@ add_executable(test_pricer_multimonde.te src/Pricer/Tests/PricerTest/testPricerM
         ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
         ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} src/Pricer/MultimondeFactory.cpp)
 target_link_libraries(test_pricer_multimonde.te ${LIBS})
+
+add_executable(test_delta_multimonde.te src/Pricer/Tests/PricerTest/testDeltaMultimonde.cpp src/Pricer/FinancialProducts/Multimonde.cpp
+        ${PRICING_SOURCE_FILES} ${SIMULATION_SOURCE_FILES} ${BASE_SOURCE_FILES}
+        ${STATS_SOURCE_FILES} ${PRODUIT_SOURCE_FILES} src/Pricer/MultimondeFactory.cpp)
+target_link_libraries(test_delta_multimonde.te ${LIBS})

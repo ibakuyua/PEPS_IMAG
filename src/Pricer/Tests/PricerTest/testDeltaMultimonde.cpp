@@ -7,13 +7,15 @@
 using namespace std;
 
 int main(){
-
+    int mcNb = 50000;
+    double discr = 0.1;
+    double *compo = (double*)malloc(12* sizeof(double));
+    double *std = (double*)malloc(12* sizeof(double));
     clock_t start, end;
     start = clock();
     cout << "\n\n###### TEST OF THE MULTIMONDE DELTA ######\n\n";
-    double prix, std;
     char *path = strdup(string("../data/dataPEPS.csv").c_str());
-    MultimondeFactory::Price(0,2015,10,1,prix,std,path);
+    MultimondeFactory::Hedge(0,2015,10,1,compo, std, path,mcNb, discr);
 
     cout << "########################################\n\n";
     end = clock();

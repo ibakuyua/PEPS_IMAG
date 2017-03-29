@@ -80,7 +80,7 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     LET(scheduleSimulation,4) = NB_DAYSWRK_TO_CONSTATATION_5 -  NB_DAYSWRK_TO_CONSTATATION_4;
     LET(scheduleSimulation,5) = NB_DAYSWRK_TO_CONSTATATION_6 -  NB_DAYSWRK_TO_CONSTATATION_5;
 
-    PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample);
+    PricerGen * pricer = new MonteCarloPricer(Multimonde::maturity, simuIndex, scheduleSimulation, nbSample, discr);
     assert(pricer != NULL);
     ParseCSV *parser = new ParseCSV(pathDatas,year,month,day,180);
     StatsFactory *stats = new StatsFactory(parser->outputData);
