@@ -91,7 +91,8 @@ namespace MvcApplication1.Controllers
             {"USDEUR",8},
             {"HKDEUR",9},
             {"JPYEUR",10},
-            {"AUDEUR",11}
+            {"AUDEUR",11},
+            {"ZCEURO",12}
         };
 
         Dictionary<string, int> backtest = new Dictionary<string, int>()
