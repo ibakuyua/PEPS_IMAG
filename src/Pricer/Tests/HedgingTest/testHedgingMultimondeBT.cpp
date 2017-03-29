@@ -11,7 +11,7 @@ void computePnl(int hedgingNb);
 
 int main(int argc, char** argv){
 
-    int hedgingNb(300);
+    int hedgingNb(1500);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
 /*
