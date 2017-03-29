@@ -67,7 +67,6 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
 }
 
 void MultimondeFactory::Hedge(double t, int year, int month, int day, double *compo, double *std) {
-    // TODO : mettre les bons taux d'intérêts
     cout << "#### Hedging at t = " << t << " at date " << year << "/" << month << "/" << day;
     RateModelGen **rateModels;
     setParameters(&rateModels);

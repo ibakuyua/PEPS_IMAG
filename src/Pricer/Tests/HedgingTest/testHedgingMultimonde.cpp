@@ -18,7 +18,7 @@ void setParameters(RateModelGen ***rateModels);
 void freeParameters(RateModelGen ***rateModels);
 
 int main(int argc, char** argv){
-    int hedgingNb(80);
+    int hedgingNb(5);
     if (argc > 1)
         hedgingNb = atoi(argv[1]);
     computePnl(hedgingNb);
@@ -85,8 +85,6 @@ void computePnl(int hedgingNb){
     cout << "Market : \n\n";
     pnl_mat_print(marche->cours);
     */
-
-
 
 
     //Backward test
