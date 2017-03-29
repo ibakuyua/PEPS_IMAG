@@ -56,14 +56,12 @@ void MultimondeFactory::Price(double t, int year, int month, int day ,double &pr
     cout << "\n\n--> Forward price " << price * exp(rateModels[0]->GetIntegralRate(t,Multimonde::maturity));
     // Free
     cout << "\n\n** Delete : ";
-    delete multimonde;
+   /* delete multimonde;
     delete pricer;
     freeParameters(&rateModels);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
-    cout << "########################################\n\n";
-
-
+    cout << "########################################\n\n";*/
 }
 
 void MultimondeFactory::Hedge(double t, int year, int month, int day, double *compo, double *std, char* pathDatas) {
@@ -113,12 +111,12 @@ void MultimondeFactory::Hedge(double t, int year, int month, int day, double *co
     pnl_vect_print(multimonde->icComposition);
     // Free
     cout << "\n\n** Delete : ";
-    delete multimonde;
+   /* delete multimonde;
     delete pricer;
     freeParameters(&rateModels);
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
-    cout << "########################################\n\n";
+    cout << "########################################\n\n";*/
 }
 
 void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *pathDatas, double discrStep) {
@@ -264,15 +262,15 @@ void MultimondeFactory::BackTest(int hedgingNb, int MCnb, char *path, char *path
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
 
-    cout << "\n\n** Delete : ";
-    delete multimonde;
-    //delete pricer;
-    delete simuIndex;
-    freeParameters(&rateModels);
+    //cout << "\n\n** Delete : ";
+    //delete multimonde;
+    ////delete pricer;
+    //delete simuIndex;
+    //freeParameters(&rateModels);
 
-    cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
+    //cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
-    cout << "########################################\n\n";
+    //cout << "########################################\n\n";
 
 }
 
@@ -414,23 +412,23 @@ void MultimondeFactory::ForwardTest(int hedgingNb, int MCnb, char *path, char* p
     else
         cerr << "Impossible d'ouvrir le fichier !" << endl;
 
-    if(fichier)
-    {
-        fichier.close();
-    }
-    else
-        cerr << "Impossible d'ouvrir le fichier !" << endl;
+    
 
     cout << "\n\n** Delete : ";
-    delete multimonde;
-    delete pricer;
-    delete simuIndex;
-    freeParameters(&rateModels);
+    //delete multimonde;
+    ////delete pricer;
+    //delete simuIndex;
+    //freeParameters(&rateModels);
 
     cout << " --> \033[1;34m [CHECK]\033[0m\n\n";
 
     cout << "########################################\n\n";
-
+	if (fichier)
+	{
+		fichier.close();
+	}
+	else
+		cerr << "Impossible d'ouvrir le fichier !" << endl;
 
 }
 

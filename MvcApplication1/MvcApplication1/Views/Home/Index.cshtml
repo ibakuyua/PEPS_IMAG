@@ -28,7 +28,7 @@
         {
         <p>Date de début de Calcul entre 01.10.2015 et 12.11.2021 (au format jj.mm.aaaa):</p>
                 @Html.TextBox("date")
-                object prixMultimonde, ICMultimonde;
+                object prixMultimonde, ICMultimonde1, ICMultimonde2;
                 <p>Prix obtenu : </p>
                 if (@ViewData.TryGetValue("prixMultimonde", out prixMultimonde))
                 {
@@ -39,9 +39,10 @@
                     <div>0.00</div>
                 }
                 <p>Intervalle de confiance : </p>
-                 if (@ViewData.TryGetValue("ICMultimonde", out ICMultimonde))
+            if (@ViewData.TryGetValue("ICMultimonde1", out ICMultimonde1) 
+                && @ViewData.TryGetValue("ICMultimonde2", out ICMultimonde2))
                 {
-                    <div>@ICMultimonde.ToString()</div>
+                    <div>[@ICMultimonde2.ToString(),@ICMultimonde1.ToString()]</div>
                 }
                 else
                 {
@@ -57,14 +58,3 @@
     </div>
 
 </div>
-<script type="text/javascript" charset="utf-8">
-    /*function price() {
-        $(document).find("div.price").children()[1].style.visibility = "visible"
-    }
-
-    function initialize() {
-        document.getElementById("boutonPrice").addEventListener("click", price, false);
-    }
-
-    window.addEventListener("load", initialize, false);*/
-</script>

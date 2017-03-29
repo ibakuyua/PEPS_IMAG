@@ -27,6 +27,7 @@
         {
             object deltas;
             object intervalles;
+            object intervalles2;
 
             @*@ViewData.TryGetValue("intervalles", out intervalles);*@
             <tr>
@@ -35,12 +36,14 @@
                 <th>Intervalle de confiance</th>
             </tr>
 
-            if (@ViewData.TryGetValue("D_Eur_Stoxx 50", out deltas) && @ViewData.TryGetValue("I_Eur_Stoxx 50", out intervalles))
+            if (@ViewData.TryGetValue("D_Eur_Stoxx 50", out deltas) 
+                && @ViewData.TryGetValue("I_Eur_Stoxx 50", out intervalles)
+                && @ViewData.TryGetValue("I_Eur_Stoxx 502", out intervalles2))
             {
                 <tr>
                     <td>Euro Stoxx 50(EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -51,12 +54,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_SP_500", out deltas) && @ViewData.TryGetValue("I_SP_500", out intervalles))
+            if (@ViewData.TryGetValue("D_SP_500", out deltas) 
+                && @ViewData.TryGetValue("I_SP_500", out intervalles)
+                && @ViewData.TryGetValue("I_SP_5002", out intervalles2))
             {
                 <tr>
                     <td>S&P 500(USD)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -67,12 +72,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_Nikkei_225", out deltas) && @ViewData.TryGetValue("I_Nikkei_225", out intervalles))
+            if (@ViewData.TryGetValue("D_Nikkei_225", out deltas) 
+                && @ViewData.TryGetValue("I_Nikkei_225", out intervalles)
+                && @ViewData.TryGetValue("I_Nikkei_2252", out intervalles2))
             {
                 <tr>
                     <td>Nikkei 225(JPY)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -83,12 +90,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_Hang_Seng", out deltas) && @ViewData.TryGetValue("I_Hang_Seng", out intervalles))
+            if (@ViewData.TryGetValue("D_Hang_Seng", out deltas) 
+                && @ViewData.TryGetValue("I_Hang_Seng", out intervalles)
+                && @ViewData.TryGetValue("I_Hang_Seng2", out intervalles2))
             {
                 <tr>
                     <td>Hang Seng(HKD)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -99,12 +108,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_FTSE_100", out deltas) && @ViewData.TryGetValue("I_FTSE_100", out intervalles))
+            if (@ViewData.TryGetValue("D_FTSE_100", out deltas) 
+                && @ViewData.TryGetValue("I_FTSE_100", out intervalles)
+                && @ViewData.TryGetValue("I_FTSE_1002", out intervalles2))
             {
                 <tr>
                     <td>FTSE 100(GBP)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -115,12 +126,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_SP_ASX_200", out deltas) && @ViewData.TryGetValue("I_SP_ASX_200", out intervalles))
+            if (@ViewData.TryGetValue("D_SP_ASX_200", out deltas) 
+                && @ViewData.TryGetValue("I_SP_ASX_200", out intervalles)
+                && @ViewData.TryGetValue("I_SP_ASX_2002", out intervalles2))
             {
                 <tr>
                     <td>SP ASX 200(AUD)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -131,12 +144,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_ZC_USD", out deltas) && @ViewData.TryGetValue("I_ZC_USD", out intervalles))
+            if (@ViewData.TryGetValue("D_ZC_USD", out deltas) 
+                && @ViewData.TryGetValue("I_ZC_USD", out intervalles)
+                && @ViewData.TryGetValue("I_ZC_USD2", out intervalles2))
             {
                 <tr>
                     <td>ZC(USD -> EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -147,12 +162,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_ZC_GBP", out deltas) && @ViewData.TryGetValue("I_ZC_GBP", out intervalles))
+            if (@ViewData.TryGetValue("D_ZC_GBP", out deltas) 
+                && @ViewData.TryGetValue("I_ZC_GBP", out intervalles)
+                && @ViewData.TryGetValue("I_ZC_GBP2", out intervalles2))
             {
                 <tr>
                     <td>ZC(GBP -> EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -163,12 +180,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_ZC_JPY", out deltas) && @ViewData.TryGetValue("I_ZC_JPY", out intervalles))
+            if (@ViewData.TryGetValue("D_ZC_JPY", out deltas) 
+                && @ViewData.TryGetValue("I_ZC_JPY", out intervalles)
+                && @ViewData.TryGetValue("I_ZC_JPY2", out intervalles2))
             {
                 <tr>
                     <td>ZC(JPY -> EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -179,12 +198,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_ZC_HKD", out deltas) && @ViewData.TryGetValue("I_ZC_HKD", out intervalles))
+            if (@ViewData.TryGetValue("D_ZC_HKD", out deltas) 
+                && @ViewData.TryGetValue("I_ZC_HKD", out intervalles)
+                && @ViewData.TryGetValue("I_ZC_HKD2", out intervalles2))
             {
                 <tr>
                     <td>ZC(HKD -> EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -195,12 +216,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_ZC_AUD", out deltas) && @ViewData.TryGetValue("I_ZC_AUD", out intervalles))
+            if (@ViewData.TryGetValue("D_ZC_AUD", out deltas) 
+                && @ViewData.TryGetValue("I_ZC_AUD", out intervalles)
+                && @ViewData.TryGetValue("I_ZC_AUD2", out intervalles2))
             {
                 <tr>
                     <td>ZC(AUD -> EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
@@ -211,12 +234,14 @@
                     <td>0</td>
                 </tr>
             }
-            if (@ViewData.TryGetValue("D_ZC_EUR", out deltas) && @ViewData.TryGetValue("I_ZC_EUR", out intervalles))
+            if (@ViewData.TryGetValue("D_ZC_EUR", out deltas) 
+                && @ViewData.TryGetValue("I_ZC_EUR", out intervalles)
+                && @ViewData.TryGetValue("I_ZC_EUR2", out intervalles2))
             {
                 <tr>
                     <td>ZC(EUR)</td>
                     <td>@deltas.ToString()</td>
-                    <td>@intervalles.ToString()</td>
+                    <td>[@intervalles2.ToString(); @intervalles.ToString()]</td>
                 </tr>
             }
             else
