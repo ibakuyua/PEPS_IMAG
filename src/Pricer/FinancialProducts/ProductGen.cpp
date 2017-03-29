@@ -39,10 +39,12 @@ void ProductGen::UpdatePortfolio(double t) {
     market->GetCotations(t,spotQuotes);
     pricer->Delta(t,pastQuotes,composition,icComposition,payOff,parameters);
     pnl_vect_resize(composition,composition->size+1);
+    pnl_vect_resize(icComposition,icComposition->size+1);
     PNL_SET(composition,composition->size-1,0.); // For the scalar prod (0 * R1(t))
     double prix, ic;
     pricer->Price(t,pastQuotes,prix,ic,payOff,parameters);
     double compoFreeRiskAsset = prix - pnl_vect_scalar_prod(composition,spotQuotes);
+    PNL_SET(icComposition,icComposition->size - 1, ic);
     compoFreeRiskAsset /= GET(spotQuotes,spotQuotes->size-1); // R1(t)
     PNL_SET(composition,composition->size-1,compoFreeRiskAsset);
 }
